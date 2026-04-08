@@ -1,46 +1,44 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
 
 # production
 /build
 /dist
 /.react-router
+/.output
+/.vinxi
 
-# misc
-.DS_Store
-*.pem
+# env files
+.env*
 
-# debug
+# typescript
+*.tsbuildinfo
+
+# debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# OS
+.DS_Store
+Thumbs.db
 
-# vercel
-.vercel
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# secrets / certs
+*.pem
+*.key
 
-# clerk configuration (can include secrets)
-/.clerk/
+# testing
+/coverage
+
+# docker
+docker-compose.override.yml
+
+# claude code
+.claude/
