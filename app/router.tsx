@@ -1,11 +1,12 @@
 import { createRouter } from "@tanstack/react-router";
+import { Trans } from "@lingui/react/macro";
 import { routeTree } from "./routeTree.gen";
 import { NotFound } from "@/components/ui/NotFound";
 
 function DefaultPending() {
   return (
     <div className="min-h-screen bg-[#f0f0e8] flex items-center justify-center">
-      <div className="text-[#888]">Loading...</div>
+      <div className="text-[#888]"><Trans comment="Global loading indicator">Loading...</Trans></div>
     </div>
   );
 }

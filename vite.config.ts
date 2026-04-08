@@ -1,5 +1,6 @@
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
+import { lingui } from "@lingui/vite-plugin";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
@@ -32,6 +33,9 @@ export default defineConfig({
         { path: "/pricing" },
       ],
     }),
-    viteReact(),
+    viteReact({
+      babel: { plugins: ["@lingui/babel-plugin-lingui-macro"] },
+    }),
+    lingui(),
   ],
 });

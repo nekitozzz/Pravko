@@ -1,29 +1,21 @@
-import { useQuery, type ConvexReactClient } from "convex/react";
-import { api } from "@convex/_generated/api";
-import {
-  makeRouteQuerySpec,
-  prewarmSpecs,
-} from "@/lib/convexRouteData";
-
-export function getInviteEssentialSpecs(params: { token: string }) {
-  return [
-    makeRouteQuerySpec(api.teams.getInviteByToken, {
-      token: params.token,
-    }),
-  ];
-}
+import { useQuery } from "@tanstack/react-query";
+import api from "@/lib/api";
+import { makePrefetchSpec, prewarmSpecs } from "@/lib/convexRouteData";
 
 export function useInviteData(params: { token: string }) {
-  const invite = useQuery(api.teams.getInviteByToken, {
-    token: params.token,
+  const invite = useQuery({
+    queryKey: ["invite", params.token],
+    queryFn: () => api.teams.getInviteByToken(params.token),
   });
 
-  return { invite };
+  return { invite: invite.data };
 }
 
-export async function prewarmInvite(
-  convex: ConvexReactClient,
-  params: { token: string },
-) {
-  prewarmSpecs(convex, getInviteEssentialSpecs(params));
+export function prewarmInvite(params: { token: string }) {
+  prewarmSpecs([
+    makePrefetchSpec(
+      ["invite", params.token],
+      () => api.teams.getInviteByToken(params.token),
+    ),
+  ]);
 }

@@ -1,11 +1,22 @@
 import { Link } from "@tanstack/react-router";
-import { UserButton } from "@clerk/tanstack-react-start";
-import { Moon, Sun } from "lucide-react";
+import { useLogto } from "@logto/react";
+import { Moon, Sun, LogOut, Settings } from "lucide-react";
 import { useTheme } from "@/components/theme/ThemeToggle";
 import React from "react";
-import { useConvex } from "convex/react";
+import { t } from "@lingui/core/macro";
+import { Trans } from "@lingui/react/macro";
 import { useRoutePrewarmIntent } from "@/lib/useRoutePrewarmIntent";
 import { prewarmDashboardIndex } from "../../app/routes/dashboard/-index.data";
+import { PRODUCT_NAME } from "@/lib/product";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getInitials } from "@/lib/utils";
 
 function ThemeToggleButton() {
   const { theme, toggleTheme, mounted } = useTheme();
@@ -15,9 +26,13 @@ function ThemeToggleButton() {
   return (
     <button
       onClick={toggleTheme}
-      className="w-8 h-8 flex items-center justify-center text-[#888] hover:text-[#1a1a1a] hover:bg-[#e8e8e0] transition-colors"
-      title={`Switch to ${theme === "dark" ? "light" : "dark"} mode (⌘⇧L)`}
-      aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+      className="w-8 h-8 flex items-center justify-center border-2 border-transparent text-[#888] hover:text-[#1a1a1a] hover:border-[#1a1a1a] hover:bg-[#e8e8e0] transition-colors cursor-pointer"
+      title={theme === "dark"
+        ? t({message: "Switch to light mode (⌘⇧L)", comment: "Theme toggle button tooltip"})
+        : t({message: "Switch to dark mode (⌘⇧L)", comment: "Theme toggle button tooltip"})}
+      aria-label={theme === "dark"
+        ? t({message: "Switch to light mode", comment: "Accessibility label for theme toggle"})
+        : t({message: "Switch to dark mode", comment: "Accessibility label for theme toggle"})}
     >
       {theme === "dark" ? (
         <Sun className="h-4 w-4" />
@@ -25,6 +40,50 @@ function ThemeToggleButton() {
         <Moon className="h-4 w-4" />
       )}
     </button>
+  );
+}
+
+function UserMenu() {
+  const { signOut, getIdTokenClaims } = useLogto();
+  const [claims, setClaims] = React.useState<{ name?: string; email?: string; picture?: string } | null>(null);
+  React.useEffect(() => {
+    getIdTokenClaims().then((c) => setClaims(c ?? null));
+  }, [getIdTokenClaims]);
+  const name = claims?.name ?? claims?.email ?? "User";
+  const avatarUrl = claims?.picture;
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          className="focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2d5a2d] cursor-pointer hover:opacity-80 transition-opacity"
+          title={t({message: "Account menu", comment: "Tooltip for user avatar menu button"})}
+          aria-label={t({message: "Account menu", comment: "Aria label for user avatar menu button"})}
+        >
+          <Avatar className="h-8 w-8 rounded-none border-2 border-[#1a1a1a]">
+            <AvatarImage src={avatarUrl} />
+            <AvatarFallback className="rounded-none text-xs font-bold">
+              {getInitials(name)}
+            </AvatarFallback>
+          </Avatar>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem asChild>
+          <Link to="/dashboard/profile">
+            <Settings className="mr-2 h-4 w-4" />
+            <Trans comment="Menu action to open profile settings">Profile settings</Trans>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          onClick={() => void signOut(window.location.origin)}
+        >
+          <LogOut className="mr-2 h-4 w-4" />
+          <Trans comment="Menu action to sign out of account">Sign out</Trans>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
@@ -41,9 +100,8 @@ export function DashboardHeader({
   children?: React.ReactNode;
   paths?: PathSegment[];
 }) {
-  const convex = useConvex();
   const prewarmHomeIntentHandlers = useRoutePrewarmIntent(() =>
-    prewarmDashboardIndex(convex),
+    prewarmDashboardIndex(),
   );
 
   return (
@@ -56,24 +114,25 @@ export function DashboardHeader({
           className="hover:text-[#2d5a2d] transition-colors mr-2 flex-shrink-0"
           {...prewarmHomeIntentHandlers}
         >
-          lawn.
+          {PRODUCT_NAME}
         </Link>
         {paths.map((path, index) => {
-          const isIntermediate = paths.length >= 2 && index < paths.length - 1;
+          const isLast = index === paths.length - 1;
+          const isIntermediate = paths.length >= 2 && !isLast;
           return (
-          <div key={index} className={`${isIntermediate ? 'hidden sm:flex' : 'flex'} items-center min-w-0 flex-shrink`}>
+          <div key={index} className={`${isIntermediate ? 'hidden sm:flex' : 'flex'} items-center min-w-0 ${isLast ? 'flex-1' : 'flex-shrink-0'}`}>
             <span className="text-[#888] mr-2 flex-shrink-0">/</span>
             {path.href ? (
               <Link
                 to={path.href}
                 preload="intent"
-                className="hover:text-[#2d5a2d] transition-colors truncate mr-2"
+                className={`hover:text-[#2d5a2d] transition-colors mr-2 ${isLast ? 'truncate' : 'whitespace-nowrap'}`}
                 {...path.prewarmIntentHandlers}
               >
                 {path.label}
               </Link>
             ) : (
-              <div className="truncate flex items-center gap-3">
+              <div className={`flex items-center gap-3 ${isLast ? 'truncate' : 'whitespace-nowrap'}`}>
                 {path.label}
               </div>
             )}
@@ -85,23 +144,7 @@ export function DashboardHeader({
       {/* User controls — pinned top-right */}
       <div className="row-start-1 col-start-2 sm:col-start-3 flex items-center gap-4 pl-4 border-l-2 border-[#1a1a1a]/10 h-8">
         <ThemeToggleButton />
-        <UserButton
-          appearance={{
-            variables: {
-              colorText: "#1a1a1a",
-              colorTextSecondary: "#888",
-              colorBackground: "#f0f0e8",
-            },
-            elements: {
-              avatarBox: "w-8 h-8 rounded-none border-2 border-[#1a1a1a]",
-              userButtonPopoverCard: "bg-[#f0f0e8] border-2 border-[#1a1a1a] rounded-none shadow-[8px_8px_0px_0px_var(--shadow-color)]",
-              userButtonPopoverActionButton: "!text-[#1a1a1a] hover:!bg-[#e8e8e0] rounded-none",
-              userButtonPopoverActionButtonText: "!text-[#1a1a1a] hover:!text-[#1a1a1a] font-mono font-bold",
-              userButtonPopoverActionButtonIcon: "!text-[#1a1a1a] hover:!text-[#1a1a1a]",
-              userButtonPopoverFooter: "hidden",
-            },
-          }}
-        />
+        <UserMenu />
       </div>
 
       {/* Children — second row on mobile, middle column on desktop */}

@@ -1,0 +1,4468 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-02-28 18:18+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ru\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#. Attribution for the testimonial quote
+#: app/routes/-home.tsx:242
+msgid "— Theo"
+msgstr "— Тео"
+
+#. Nav: signup
+#: app/routes/4.tsx:43
+msgid "./signup"
+msgstr ""
+
+#. Testimonial quote from Theo about building the product. {PRODUCT_NAME} is the product name. Frame.io is a competitor name
+#. Testimonial quote from the founder. {PRODUCT_NAME} is the product name, keep untranslated. Frame.io is a competitor name
+#: app/routes/-home.tsx:239
+#: app/routes/mono.tsx:183
+msgid "\"I built {PRODUCT_NAME} because I got tired of waiting for Frame.io to load. Video review should be instant.\""
+msgstr "\"Я создал {PRODUCT_NAME}, потому что устал ждать загрузки Frame.io. Видеоревью должно быть мгновенным.\""
+
+#. Create team
+#: app/routes/4.tsx:285
+msgid "[ENTER] Create Your Team"
+msgstr ""
+
+#. CTA: start
+#: app/routes/4.tsx:93
+msgid "[ENTER] Start Free Trial"
+msgstr ""
+
+#. Comment count label
+#. Number of comments in discussion sidebar
+#. placeholder {0}: comments.length
+#: app/routes/-watch.tsx:208
+#: app/routes/dashboard/-video.tsx:509
+msgid "{0, plural, one {# comment} other {# comments}}"
+msgstr "{0, plural, one {# комментарий} few {# комментария} other {# комментариев}}"
+
+#. Share link expiration duration in days
+#. placeholder {0}: newLinkOptions.expiresInDays
+#: src/components/ShareDialog.tsx:227
+msgid "{0, plural, one {# day} other {# days}}"
+msgstr "{0, plural, one {# день} few {# дня} other {# дней}}"
+
+#. Number of comment threads on shared video
+#. placeholder {0}: comments.length
+#: app/routes/-share.tsx:342
+msgid "{0, plural, one {# thread} other {# threads}}"
+msgstr "{0, plural, one {# обсуждение} few {# обсуждения} other {# обсуждений}}"
+
+#. Number of videos in a project
+#. Video count in project card
+#. placeholder {0}: project.videoCount
+#. placeholder {0}: project.videoCount ?? 0
+#: app/routes/dashboard/-team.tsx:76
+#: app/routes/dashboard/index.tsx:64
+msgid "{0, plural, one {# video} other {# videos}}"
+msgstr "{0, plural, one {# видео} few {# видео} other {# видео}}"
+
+#. Number of views on a share link
+#. placeholder {0}: link.viewCount
+#: src/components/ShareDialog.tsx:331
+msgid "{0, plural, one {# view} other {# views}}"
+msgstr "{0, plural, one {# просмотр} few {# просмотра} other {# просмотров}}"
+
+#. Upload project picker dialog description
+#. placeholder {0}: pendingFiles.length
+#: app/routes/dashboard/-layout.tsx:345
+msgid "{0, plural, one {Upload # video to:} other {Upload # videos to:}}"
+msgstr "{0, plural, one {Загрузить # видео в:} few {Загрузить # видео в:} other {Загрузить # видео в:}}"
+
+#. Trial days remaining display
+#. placeholder {0}: Math.max(0, Math.ceil((billing.currentPeriodEnd * 1000 - Date.now()) / (1000 * 60 * 60 * 24)))
+#: app/routes/dashboard/-settings.tsx:376
+msgid "{0} days remaining"
+msgstr "{0} дн. осталось"
+
+#. Invite description with inviter name and role
+#. placeholder {0}: invite.invitedByName
+#. placeholder {1}: invite.role
+#: app/routes/-invite.tsx:92
+msgid "{0} has invited you to join as a {1}."
+msgstr "{0} приглашает вас присоединиться в роли {1}."
+
+#. Invite description with inviter name and role badge
+#. placeholder {0}: invite.invitedByName
+#. placeholder {1}: invite.role
+#: app/routes/-invite.tsx:154
+msgid "{0} has invited you to join as a <0>{1}</0>"
+msgstr "{0} приглашает вас присоединиться в роли <0>{1}</0>"
+
+#. Pending invite banner text with team name and role
+#. placeholder {0}: invite.invitedByName ?? <Trans comment="Fallback for unknown inviter">Someone</Trans>
+#. placeholder {1}: invite.teamName
+#. placeholder {2}: invite.role
+#: app/routes/dashboard/index.tsx:142
+msgid "{0} invited you to <0>{1}</0> as {2}"
+msgstr "{0} пригласил вас в <0>{1}</0> как {2}"
+
+#. Plan seats count
+#. placeholder {0}: getPlanSeats(planId)
+#: app/routes/dashboard/-settings.tsx:450
+msgid "{0} seats"
+msgstr "{0} мест"
+
+#. Plan storage limit
+#. placeholder {0}: formatBytes(config.storageLimitBytes)
+#: app/routes/dashboard/-settings.tsx:451
+msgid "{0} storage"
+msgstr "{0} хранилища"
+
+#. Time remaining: N hours
+#. placeholder {0}: Math.ceil(seconds / 3600)
+#: src/components/upload/UploadProgress.tsx:21
+msgid "{0}h"
+msgstr "{0}ч"
+
+#. Time remaining: N minutes
+#. placeholder {0}: Math.ceil(seconds / 60)
+#: src/components/upload/UploadProgress.tsx:20
+msgid "{0}m"
+msgstr "{0}м"
+
+#. Relative time: N days ago
+#: src/lib/utils.ts:48
+msgid "{days}d ago"
+msgstr "{days} дн. назад"
+
+#. Relative time: N hours ago
+#: src/lib/utils.ts:51
+msgid "{hours}h ago"
+msgstr "{hours} ч. назад"
+
+#. Relative time: N minutes ago
+#: src/lib/utils.ts:54
+msgid "{minutes}m ago"
+msgstr "{minutes} мин. назад"
+
+#. Label — {PRODUCT_NAME} is the product name, keep untranslated
+#. Label — {PRODUCT_NAME} is the product name, keep untranslated
+#. Product comparison card heading. {PRODUCT_NAME} is the product name
+#. Product name label in comparison. {PRODUCT_NAME} is the product name
+#. Product name label. {PRODUCT_NAME} is the product name
+#. Table column header — {PRODUCT_NAME} is the product name, keep untranslated
+#. Table column header — {PRODUCT_NAME} is the product name, keep untranslated
+#: app/routes/-compare-frameio.tsx:126
+#: app/routes/-compare-frameio.tsx:209
+#: app/routes/-compare-wipster.tsx:125
+#: app/routes/-compare-wipster.tsx:207
+#: app/routes/-for-agencies.tsx:203
+#: app/routes/mono.tsx:112
+#: app/routes/mono.tsx:134
+msgid "{PRODUCT_NAME}"
+msgstr "{PRODUCT_NAME}"
+
+#. Final CTA
+#: app/routes/4.tsx:273
+msgid "{PRODUCT_NAME} --start"
+msgstr ""
+
+#. Open source callout description — {PRODUCT_NAME} is the product name, keep untranslated
+#: app/routes/-compare-wipster.tsx:239
+#~ msgid "{PRODUCT_NAME} is fully open source. Every line. The elegant parts and the parts where we left a TODO from three months ago. No black box. No trust required. Just code you can read, fork, and judge silently."
+#~ msgstr "{PRODUCT_NAME} полностью open source. Каждая строчка. И красивые места, и те, где мы оставили TODO три месяца назад. Никакого чёрного ящика. Не нужно доверять на слово. Просто код, который можно прочитать, форкнуть и молча осудить."
+
+#. Hero subtext: product is video review with unlimited seats. {PRODUCT_NAME} is the product name
+#: app/routes/-for-agencies.tsx:84
+msgid "{PRODUCT_NAME} is video review for creative teams. Unlimited seats. $5/month. The whole agency, not per editor."
+msgstr "{PRODUCT_NAME} — видеоревью для креативных команд. Безлимит мест. $5/мес. Всё агентство, а не за каждого монтажёра."
+
+#. Solution paragraph
+#: app/routes/3.tsx:175
+msgid "{PRODUCT_NAME} strips video review down to what matters. Upload your video. Share a link. Click on any frame to leave a comment. Export your notes to Premiere, Resolve, or Final Cut. That's it."
+msgstr ""
+
+#. Pain point description: product uses Mux for instant playback. {PRODUCT_NAME} is the product name
+#: app/routes/-for-video-editors.tsx:122
+msgid "{PRODUCT_NAME} uses Mux-powered playback — upload your file, get a link, share it. Seconds, not minutes. No more waiting 20 minutes for a 12GB ProRes to process."
+msgstr "{PRODUCT_NAME} использует воспроизведение на базе Mux — загрузите файл, получите ссылку, отправьте. Секунды, не минуты. Больше не нужно ждать 20 минут, пока обработается 12 ГБ ProRes."
+
+#. Comparison heading
+#. Footer link to compare our product with Frame.io. {PRODUCT_NAME} is the product name, keep untranslated. Frame.io is a competitor name, keep untranslated
+#: app/routes/2.tsx:141
+#: src/components/MarketingFooter.tsx:51
+msgid "{PRODUCT_NAME} vs Frame.io"
+msgstr "{PRODUCT_NAME} vs Frame.io"
+
+#. Footer link to compare our product with Wipster. {PRODUCT_NAME} is the product name, keep untranslated. Wipster is a competitor name, keep untranslated
+#: src/components/MarketingFooter.tsx:59
+msgid "{PRODUCT_NAME} vs Wipster"
+msgstr "{PRODUCT_NAME} vs Wipster"
+
+#. Hero heading — {PRODUCT_NAME} is the product name, keep untranslated. Frame.io is a competitor name, keep untranslated
+#: app/routes/-compare-frameio.tsx:75
+msgid "{PRODUCT_NAME} vs<0/>Frame.io"
+msgstr "{PRODUCT_NAME} vs<0/>Frame.io"
+
+#. Hero heading — {PRODUCT_NAME} is the product name, keep untranslated. Wipster is a competitor name, keep untranslated
+#: app/routes/-compare-wipster.tsx:75
+msgid "{PRODUCT_NAME} vs<0/>Wipster"
+msgstr "{PRODUCT_NAME} vs<0/>Wipster"
+
+#. Time remaining: N seconds
+#: src/components/upload/UploadProgress.tsx:19
+msgid "{seconds}s"
+msgstr "{seconds}с"
+
+#. Pricing disclaimer — Frame.io is a competitor name, keep untranslated. Currency values are translatable
+#: app/routes/-compare-frameio.tsx:155
+msgid "* Frame.io pricing based on their Team plan at $19/user/month."
+msgstr "* Цены Frame.io основаны на тарифе Team — $19/пользователь/месяц."
+
+#. Pricing disclaimer — Wipster is a competitor name, keep untranslated
+#: app/routes/-compare-wipster.tsx:154
+msgid "* Wipster pricing based on their per-user model. Actual pricing may vary by plan."
+msgstr "* Цены Wipster основаны на модели оплаты за пользователя. Фактическая стоимость может отличаться."
+
+#. Page label for agencies landing page
+#: app/routes/-for-agencies.tsx:65
+msgid "/FOR AGENCIES"
+msgstr "/ДЛЯ АГЕНТСТВ"
+
+#. Monthly price suffix
+#. Per month abbreviation
+#. Per month abbreviation
+#. Per month abbreviation
+#. Per month abbreviation
+#. Per month abbreviation
+#. Per month abbreviation
+#: app/routes/-for-agencies.tsx:198
+#: app/routes/-for-agencies.tsx:209
+#: app/routes/-home.tsx:258
+#: app/routes/-home.tsx:277
+#: app/routes/-pricing.tsx:32
+#: app/routes/-pricing.tsx:76
+#: app/routes/dashboard/-settings.tsx:444
+msgid "/mo"
+msgstr "/мес"
+
+#. Frame.io advantage: deep Adobe integration
+#: app/routes/mono.tsx:128
+msgid "• Deep Adobe integration"
+msgstr "• Глубокая интеграция с Adobe"
+
+#. Frame.io advantage: larger ecosystem
+#: app/routes/mono.tsx:130
+msgid "• Larger ecosystem"
+msgstr "• Более широкая экосистема"
+
+#. Frame.io advantage: more enterprise features
+#: app/routes/mono.tsx:129
+msgid "• More enterprise features"
+msgstr "• Больше корпоративных функций"
+
+#. Product advantage: no per-seat pricing
+#: app/routes/mono.tsx:138
+msgid "• No per-seat pricing"
+msgstr "• Без оплаты за каждого пользователя"
+
+#. Product advantage: simpler faster interface
+#: app/routes/mono.tsx:137
+msgid "• Simpler, faster interface"
+msgstr "• Простой и быстрый интерфейс"
+
+#. Product advantage: works with any software
+#: app/routes/mono.tsx:136
+msgid "• Works with any software"
+msgstr "• Работает с любым ПО"
+
+#. Invite team member button
+#: app/routes/dashboard/-settings.tsx:538
+msgid "+ Invite"
+msgstr "+ Пригласить"
+
+#. Show more team members link
+#. placeholder {0}: members.length - 8
+#: app/routes/dashboard/-settings.tsx:567
+msgid "+{0} more"
+msgstr "ещё +{0}"
+
+#. Install basic
+#: app/routes/4.tsx:238
+msgid "$ install basic"
+msgstr ""
+
+#. Install pro
+#: app/routes/4.tsx:261
+msgid "$ install pro"
+msgstr ""
+
+#. Total annual savings amount — currency string
+#. Total annual savings amount — currency string
+#. placeholder {0}: savings.toLocaleString()
+#: app/routes/-compare-frameio.tsx:217
+#: app/routes/-compare-wipster.tsx:215
+msgid "${0}"
+msgstr "${0}"
+
+#. Annual cost for Frame.io — currency string
+#. Annual cost for Wipster — currency string
+#. placeholder {0}: frameioAnnual.toLocaleString()
+#. placeholder {0}: wipsterAnnual.toLocaleString()
+#: app/routes/-compare-frameio.tsx:204
+#: app/routes/-compare-wipster.tsx:202
+msgid "${0}/yr"
+msgstr "${0}/год"
+
+#. Annual cost for product — currency string
+#. Annual cost for product — currency string
+#: app/routes/-compare-frameio.tsx:212
+#: app/routes/-compare-wipster.tsx:210
+msgid "${productAnnual}/yr"
+msgstr "${productAnnual}/год"
+
+#. Annual savings amount: $1,080
+#. Annual savings for 5-person team
+#. Dollar amount saved per year compared to competitor
+#: app/routes/-for-agencies.tsx:217
+#: app/routes/-home.tsx:226
+#: app/routes/mono.tsx:119
+msgid "$1,080"
+msgstr "$1 080"
+
+#. Competitor price per user
+#: app/routes/-home.tsx:171
+msgid "$19"
+msgstr "$19"
+
+#. Frame.io pricing: $19 per editor per month
+#: app/routes/mono.tsx:108
+msgid "$19/editor/mo"
+msgstr "$19/монтажёр/мес"
+
+#. Frame.io pricing — currency string
+#: app/routes/-compare-frameio.tsx:13
+msgid "$19/user/month"
+msgstr "$19/пользователь/месяц"
+
+#. Frame.io monthly price for 10-person team
+#: app/routes/-for-agencies.tsx:194
+msgid "$190"
+msgstr "$190"
+
+#. Annual savings for 10-person team
+#: app/routes/-for-agencies.tsx:218
+msgid "$2,220"
+msgstr "$2 220"
+
+#. Pro plan price
+#. Pro plan price
+#: app/routes/-home.tsx:277
+#: app/routes/-pricing.tsx:76
+msgid "$25"
+msgstr "$25"
+
+#. Frame.io monthly price for 15+ team
+#: app/routes/-for-agencies.tsx:195
+msgid "$285+"
+msgstr "$285+"
+
+#. Annual savings for 15+ team
+#: app/routes/-for-agencies.tsx:219
+msgid "$3,360+"
+msgstr "$3 360+"
+
+#. Basic plan price
+#. Basic plan price
+#. Product monthly price: always $5
+#. Product price
+#: app/routes/-for-agencies.tsx:206
+#: app/routes/-home.tsx:201
+#: app/routes/-home.tsx:258
+#: app/routes/-pricing.tsx:32
+msgid "$5"
+msgstr "$5"
+
+#. Value prop description: pricing details
+#: app/routes/-home.tsx:110
+msgid "$5 covers the whole agency. Stop counting seats."
+msgstr "$5 покрывают всё агентство. Перестаньте считать места."
+
+#. Price display: $5 per month
+#. Price display: $5 per month
+#. Price display: $5 per month
+#. Pricing highlight in hero section
+#: app/routes/-for-agencies.tsx:97
+#: app/routes/-for-video-editors.tsx:80
+#: app/routes/-home.tsx:91
+#: app/routes/mono.tsx:56
+msgid "$5/mo"
+msgstr "$5/мес"
+
+#. Product pricing: $5/month total
+#: app/routes/mono.tsx:113
+msgid "$5/mo total"
+msgstr "$5/мес за всё"
+
+#. Pricing headline: $5/month total, not per user
+#: app/routes/-for-video-editors.tsx:180
+msgid "$5/MONTH."
+msgstr "$5/МЕСЯЦ."
+
+#. Pricing page subheading emphasizing flat pricing model
+#: app/routes/-pricing.tsx:16
+msgid "$5/month. Not per user. Not per project. <0>Total.</0>"
+msgstr "$5/месяц. Не за пользователя. Не за проект. <0>За всё.</0>"
+
+#. Product comparison value
+#. Product comparison value — currency string
+#: app/routes/-compare-frameio.tsx:14
+#: app/routes/-compare-wipster.tsx:14
+msgid "$5/month. Total."
+msgstr "$5/месяц. За всё."
+
+#. CTA subtext — currency values are translatable
+#: app/routes/-compare-frameio.tsx:392
+msgid "$5/month. Unlimited seats. No sales call required. No credit card to start."
+msgstr "$5/месяц. Безлимит мест. Без звонков в отдел продаж. Без карты для старта."
+
+#. CTA subtext — currency values are translatable
+#: app/routes/-compare-wipster.tsx:416
+#~ msgid "$5/month. Unlimited seats. Open source. No per-user nonsense."
+#~ msgstr "$5/месяц. Безлимит мест. Open source. Никакой оплаты за каждого."
+
+#. CTA subtext — currency values are translatable
+#: app/routes/-compare-wipster.tsx:392
+msgid "$5/month. Unlimited seats. Self-hostable. No per-user nonsense."
+msgstr "От 800 ₽/мес. Безлимитные места. Самостоятельный хостинг. Никакой оплаты за пользователя."
+
+#. Final CTA pricing summary: $5/month unlimited everything
+#: app/routes/-for-agencies.tsx:254
+msgid "$5/month. Unlimited seats. Unlimited projects. No per-user pricing. Ever."
+msgstr "$5/месяц. Безлимит мест. Безлимит проектов. Без оплаты за каждого. Навсегда."
+
+#. Frame.io monthly price for 5-person team
+#: app/routes/-for-agencies.tsx:193
+msgid "$95"
+msgstr "$95"
+
+#. Feature title: 0.3 second response time
+#: app/routes/mono.tsx:81
+msgid "0.3s response"
+msgstr "0.3с отклик"
+
+#. Share link expiration: 1 day
+#: src/components/ShareDialog.tsx:244
+msgid "1 day"
+msgstr "1 день"
+
+#. Pain point title: per-seat pricing is expensive
+#: app/routes/-for-video-editors.tsx:118
+msgid "10 REVIEWERS = 10 SEATS = $$$"
+msgstr "10 РЕВЬЮЕРОВ = 10 МЕСТ = $$$"
+
+#. Team size: 10 person team
+#: app/routes/-for-agencies.tsx:181
+msgid "10-PERSON TEAM"
+msgstr "КОМАНДА ИЗ 10"
+
+#. Basic plan feature: storage amount
+#. Basic plan feature: storage amount
+#: app/routes/-home.tsx:265
+#: app/routes/-pricing.tsx:53
+msgid "100GB Storage"
+msgstr "100 ГБ хранилища"
+
+#. Basic desc
+#. Basic desc
+#: app/routes/3.tsx:282
+#: app/routes/5.tsx:323
+msgid "100GB storage. Everything unlimited."
+msgstr ""
+
+#. Basic desc
+#: app/routes/1.tsx:234
+msgid "100GB storage. Unlimited everything else."
+msgstr ""
+
+#. Team size: 15 plus freelancers
+#: app/routes/-for-agencies.tsx:182
+msgid "15 + FREELANCERS"
+msgstr "15 + ФРИЛАНСЕРЫ"
+
+#. Pro plan feature: storage amount
+#: app/routes/-pricing.tsx:97
+msgid "1TB Storage"
+msgstr "1 ТБ хранилища"
+
+#. Pro plan feature: storage amount
+#: app/routes/-home.tsx:284
+msgid "1TB Storage (Whoa)"
+msgstr "1 ТБ хранилища (ого)"
+
+#. Pro desc
+#: app/routes/1.tsx:262
+msgid "1TB storage. Same features, more space."
+msgstr ""
+
+#. Pro desc
+#. Pro desc
+#: app/routes/3.tsx:305
+#: app/routes/5.tsx:352
+msgid "1TB storage. Same simplicity, more space."
+msgstr ""
+
+#. Share link expiration: 30 days
+#: src/components/ShareDialog.tsx:258
+msgid "30 days"
+msgstr "30 дней"
+
+#. Team size: 5 person team
+#: app/routes/-for-agencies.tsx:180
+msgid "5-PERSON TEAM"
+msgstr "КОМАНДА ИЗ 5"
+
+#. Share link expiration: 7 days
+#: src/components/ShareDialog.tsx:251
+msgid "7 days"
+msgstr "7 дней"
+
+#. Savings commentary: humorous note about camera lens
+#: app/routes/-for-agencies.tsx:223
+msgid "A nice camera lens, actually."
+msgstr "На хороший объектив хватит, кстати."
+
+#. Savings commentary for 5-person team
+#: app/routes/-compare-frameio.tsx:59
+msgid "A nice weekend trip for the team."
+msgstr "Хватит на хороший уикенд для команды."
+
+#. Solution heading
+#: app/routes/3.tsx:171
+msgid "A simpler approach"
+msgstr ""
+
+#. Humorous savings commentary for 10-person team
+#: app/routes/-compare-frameio.tsx:60
+msgid "A used car. A really used car."
+msgstr "На подержанную машину. Очень подержанную."
+
+#. Savings commentary for 3-person team
+#: app/routes/-compare-wipster.tsx:58
+msgid "A very nice dinner for the team."
+msgstr "Хватит на шикарный ужин для команды."
+
+#. Savings commentary for 10-person team
+#: app/routes/-compare-wipster.tsx:60
+msgid "A weekend at a cabin to celebrate shipping."
+msgstr "Уикенд в загородном доме — отметить релиз."
+
+#. Button to accept team invitation
+#: app/routes/-invite.tsx:173
+msgid "Accept invitation"
+msgstr "Принять приглашение"
+
+#. SEO: team invite page meta description prefix
+#: app/routes/invite.$token.tsx:11
+msgid "Accept your team invitation on"
+msgstr "Примите приглашение в команду на"
+
+#. Aria label for user avatar menu button
+#. Tooltip for user avatar menu button
+#: src/components/DashboardHeader.tsx:60
+#: src/components/DashboardHeader.tsx:61
+msgid "Account menu"
+msgstr "Меню аккаунта"
+
+#. Frame.io requires account to view shared content
+#: app/routes/-compare-frameio.tsx:37
+msgid "Account required"
+msgstr "Нужен аккаунт"
+
+#. SEO: sign-in page meta description suffix
+#: app/routes/sign-in.tsx:12
+msgid "account."
+msgstr "аккаунт."
+
+#. Empty state description when billing is not active
+#: app/routes/dashboard/-team.tsx:262
+msgid "Activate billing first, then create your first project."
+msgstr "Сначала подключите оплату, затем создайте первый проект."
+
+#. Subscription active badge
+#. Subscription status: active
+#: app/routes/dashboard/-settings.tsx:79
+#: app/routes/dashboard/-settings.tsx:345
+msgid "Active"
+msgstr "Активна"
+
+#. Subscription valid until date after cancellation
+#. placeholder {0}: formatUtcDateFromUnixSeconds(billing.currentPeriodEnd)
+#: app/routes/dashboard/-settings.tsx:359
+msgid "Active until {0}"
+msgstr "Действует до {0}"
+
+#. Product comparison value
+#: app/routes/-compare-frameio.tsx:26
+msgid "Actually fast"
+msgstr "Реально быстрый"
+
+#. Value prop: product is fast
+#: app/routes/-home.tsx:109
+msgid "ACTUALLY FAST"
+msgstr "РЕАЛЬНО БЫСТРЫЙ"
+
+#. Placeholder for comment input
+#: src/components/comments/CommentInput.tsx:47
+msgid "Add a comment..."
+msgstr "Добавить комментарий..."
+
+#. Pain point title: freelancer seat fees are too expensive
+#: app/routes/-for-agencies.tsx:133
+msgid "ADDING A FREELANCER SHOULDN'T COST $19/MO"
+msgstr "ДОБАВЛЕНИЕ ФРИЛАНСЕРА НЕ ДОЛЖНО СТОИТЬ $19/МЕС"
+
+#. Admin role option in dropdown
+#. Admin role option in member role dropdown
+#. Team role: administrator
+#: src/components/teams/MemberInvite.tsx:39
+#: src/components/teams/MemberInvite.tsx:150
+#: src/components/teams/MemberInvite.tsx:226
+msgid "Admin"
+msgstr "Администратор"
+
+#. Pain points section heading: agency life is hard
+#: app/routes/-for-agencies.tsx:111
+msgid "AGENCY LIFE"
+msgstr "ЖИЗНЬ АГЕНТСТВА"
+
+#. Savings commentary: humorous note about hiring another freelancer
+#: app/routes/-for-agencies.tsx:224
+msgid "Almost enough for one more freelancer."
+msgstr "Почти хватит ещё на одного фрилансера."
+
+#. Subscription required dialog description
+#: src/components/SubscriptionRequiredDialog.tsx:37
+msgid "An active subscription is required for this action."
+msgstr "Для выполнения этого действия необходима активная подписка."
+
+#. Subscription required info message
+#: app/routes/dashboard/-settings.tsx:506
+msgid "An active subscription is required to create projects and upload videos. Eligible teams receive a {TEAM_TRIAL_DAYS}-day trial before billing starts."
+msgstr "Для создания проектов и загрузки видео нужна активная подписка. Подходящие команды получают {TEAM_TRIAL_DAYS}-дневный пробный период."
+
+#. Banner when subscription is inactive on project page
+#: app/routes/dashboard/-project.tsx:403
+msgid "An active subscription is required to upload videos."
+msgstr "Для загрузки видео необходима активная подписка."
+
+#. Generic error boundary fallback message
+#: app/routes/__root.tsx:43
+msgid "An unexpected error occurred."
+msgstr "Произошла непредвиденная ошибка."
+
+#. SEO: Frame.io comparison page meta description
+#: app/routes/compare.frameio.tsx:11
+#~ msgid "and Frame.io. Flat $5/month pricing vs per-seat billing. Unlimited seats, instant playback, open source. See why teams are switching."
+#~ msgstr "и Frame.io. Фиксированная цена $5/мес vs оплата за каждое место. Безлимит мест, мгновенное воспроизведение, open source. Узнайте, почему команды переходят."
+
+#. SEO: Frame.io comparison page meta description
+#: app/routes/compare.frameio.tsx:11
+msgid "and Frame.io. Flat $5/month pricing vs per-seat billing. Unlimited seats, instant playback, self-hostable. See why teams are switching."
+msgstr "и Frame.io. Фиксированная цена от 800 ₽/мес. вместо оплаты за пользователя. Безлимитные места, мгновенное воспроизведение, самостоятельный хостинг. Узнайте, почему команды переходят к нам."
+
+#. SEO: Wipster comparison page meta description
+#: app/routes/compare.wipster.tsx:11
+#~ msgid "and Wipster. Flat $5/month vs per-user pricing. Open source, instant playback, unlimited seats. The simpler alternative."
+#~ msgstr "и Wipster. Фиксированная цена $5/мес vs оплата за пользователя. Open source, мгновенное воспроизведение, безлимит мест. Простая альтернатива."
+
+#. SEO: Wipster comparison page meta description
+#: app/routes/compare.wipster.tsx:11
+msgid "and Wipster. Flat $5/month vs per-user pricing. Self-hostable, instant playback, unlimited seats. The simpler alternative."
+msgstr "и Wipster. Фиксированная цена от 800 ₽/мес. вместо оплаты за пользователя. Самостоятельный хостинг, мгновенное воспроизведение, безлимитные места. Простая альтернатива."
+
+#. Savings
+#. Savings label
+#: app/routes/2.tsx:177
+#: app/routes/3.tsx:250
+msgid "Annual savings (5 users)"
+msgstr ""
+
+#. Annual savings label with 5 users
+#: app/routes/mono.tsx:118
+msgid "Annual savings with 5 users: "
+msgstr "Годовая экономия при 5 пользователях: "
+
+#. Feature title: works with any NLE (non-linear editor)
+#: app/routes/mono.tsx:82
+msgid "Any NLE"
+msgstr "Любая NLE"
+
+#. FAQ answer: seats include all team members, no extra charge
+#: app/routes/-pricing.tsx:142
+msgid "Anyone on your team. Invite everyone — editors, producers, clients. No extra charge."
+msgstr "Любой в вашей команде. Приглашайте всех — монтажёров, продюсеров, клиентов. Без доплат."
+
+#. Comparison table row label — approval workflows
+#: app/routes/-compare-wipster.tsx:42
+msgid "Approvals"
+msgstr "Согласования"
+
+#. Confirm dialog for subscription cancellation
+#: app/routes/dashboard/-settings.tsx:218
+msgid "Are you sure you want to cancel your subscription?"
+msgstr "Вы уверены, что хотите отменить подписку?"
+
+#. Confirm dialog for subscription cancellation with period end
+#: app/routes/dashboard/-settings.tsx:217
+msgid "Are you sure you want to cancel your subscription? You will keep access until {periodEndStr}."
+msgstr "Вы уверены, что хотите отменить подписку? Доступ сохранится до {periodEndStr}."
+
+#. Confirmation dialog when deleting a comment
+#: src/components/comments/CommentItem.tsx:65
+msgid "Are you sure you want to delete this comment?"
+msgstr "Вы уверены, что хотите удалить этот комментарий?"
+
+#. Confirmation dialog when deleting a project
+#: app/routes/dashboard/-team.tsx:186
+msgid "Are you sure you want to delete this project?"
+msgstr "Вы уверены, что хотите удалить этот проект?"
+
+#. Confirmation dialog when deleting a share link
+#: src/components/ShareDialog.tsx:136
+msgid "Are you sure you want to delete this share link?"
+msgstr "Вы уверены, что хотите удалить эту ссылку для доступа?"
+
+#. Confirm dialog for team deletion
+#: app/routes/dashboard/-settings.tsx:196
+msgid "Are you sure you want to delete this team? This action cannot be undone and will delete all projects and videos."
+msgstr "Вы уверены, что хотите удалить эту команду? Действие нельзя отменить — все проекты и видео будут удалены."
+
+#. Confirmation dialog when deleting a video
+#: app/routes/dashboard/-project.tsx:253
+msgid "Are you sure you want to delete this video?"
+msgstr "Вы уверены, что хотите удалить это видео?"
+
+#. Video quality: automatic selection
+#. Video quality: automatic selection
+#. Video quality: automatic selection
+#: src/components/video-player/VideoPlayer.tsx:699
+#: src/components/video-player/VideoPlayer.tsx:700
+#: src/components/video-player/VideoPlayer.tsx:875
+msgid "Auto"
+msgstr "Авто"
+
+#. Video quality: auto-selected by browser
+#: src/components/video-player/VideoPlayer.tsx:892
+msgid "Auto (browser)"
+msgstr "Авто (браузер)"
+
+#. Profile avatar section title
+#: app/routes/dashboard/profile.tsx:167
+msgid "Avatar"
+msgstr "Аватар"
+
+#. FAQ answer: bank cards via YooKassa
+#: app/routes/-pricing.tsx:150
+msgid "Bank cards (Visa, Mastercard, Mir) via YooKassa."
+msgstr "Банковские карты (Visa, Mastercard, Мир) через ЮKassa."
+
+#. Basic billing plan label
+#. Basic pricing tier name
+#. Basic pricing tier name
+#. Basic tier
+#. Basic tier
+#. Basic tier
+#. Basic tier
+#. JSON-LD offer name for Basic plan
+#. Team plan label for basic tier
+#: app/routes/-home.tsx:257
+#: app/routes/-home.tsx:330
+#: app/routes/-pricing.tsx:29
+#: app/routes/1.tsx:228
+#: app/routes/2.tsx:198
+#: app/routes/3.tsx:278
+#: app/routes/5.tsx:316
+#: app/routes/dashboard/-settings.tsx:64
+#: app/routes/dashboard/index.tsx:39
+msgid "Basic"
+msgstr "Basic"
+
+#. FAQ answer: Basic and Pro plans with pricing
+#: app/routes/-pricing.tsx:138
+msgid "Basic ($5/mo, 100GB) and Pro ($25/mo, 1TB). Both include unlimited seats, projects, and clients."
+msgstr "Basic ($5/мес, 100 ГБ) и Pro ($25/мес, 1 ТБ). Оба включают безлимитные места, проекты и клиентов."
+
+#. CTA subtext: pricing tiers
+#. Final CTA pricing summary
+#: app/routes/-home.tsx:300
+#: app/routes/mono.tsx:197
+msgid "Basic is $5/month. Pro is $25/month."
+msgstr "Basic — $5/месяц. Pro — $25/месяц."
+
+#. Badge highlighting Pro plan has large file support
+#. Badge highlighting Pro plan has large file support
+#: app/routes/-home.tsx:275
+#: app/routes/-pricing.tsx:72
+msgid "Big files"
+msgstr "Большие файлы"
+
+#. Button to navigate to billing settings
+#. Link to team billing settings
+#: app/routes/dashboard/-team.tsx:209
+#: app/routes/dashboard/index.tsx:179
+msgid "Billing"
+msgstr "Оплата"
+
+#. Competitor downside: too many features
+#: app/routes/-home.tsx:186
+msgid "Bloated ecosystem"
+msgstr "Раздутая экосистема"
+
+#. Frame.io advantage — unlimited budget
+#: app/routes/-compare-frameio.tsx:299
+msgid "Budget isn't a concern and you want every feature imaginable, even the ones you'll never use"
+msgstr "Бюджет не проблема, и вам нужны все мыслимые функции, даже те, которыми вы никогда не воспользуетесь"
+
+#. Feedback type toggle - bug
+#: src/components/FeedbackDialog.tsx:100
+msgid "Bug"
+msgstr "Баг"
+
+#. Feature description: built for speed
+#: app/routes/mono.tsx:87
+msgid "Built for speed"
+msgstr "Создан для скорости"
+
+#. Wipster approval feature
+#: app/routes/-compare-wipster.tsx:43
+msgid "Built-in workflows"
+msgstr "Встроенные рабочие процессы"
+
+#. Frame.io enterprise setup process
+#: app/routes/-compare-frameio.tsx:43
+msgid "Call sales for enterprise"
+msgstr "Свяжитесь с отделом продаж"
+
+#. FAQ question about client review without account
+#: app/routes/-pricing.tsx:192
+msgid "Can clients review without an account?"
+msgstr "Могут ли клиенты делать ревью без аккаунта?"
+
+#. FAQ question about self-hosting. {PRODUCT_NAME} is the product name, keep untranslated
+#: app/routes/-pricing.tsx:209
+msgid "Can I self-host {PRODUCT_NAME}?"
+msgstr "Могу ли я разместить {PRODUCT_NAME} на своём сервере?"
+
+#. Aria label for cancel comment button
+#. Cancel button in dialog
+#. Cancel button in dialog
+#. Cancel button in dialog
+#. Cancel button in dialog
+#. Cancel button in project creation dialog
+#. Cancel editing team name
+#: app/routes/dashboard/-settings.tsx:303
+#: app/routes/dashboard/-team.tsx:336
+#: src/components/comments/CommentInput.tsx:138
+#: src/components/FeedbackDialog.tsx:123
+#: src/components/SubscriptionRequiredDialog.tsx:50
+#: src/components/teams/CreateTeamDialog.tsx:71
+#: src/components/UpgradeRequestDialog.tsx:85
+msgid "Cancel"
+msgstr "Отмена"
+
+#. Aria label for cancel edit button
+#. Tooltip for cancel edit button
+#: app/routes/dashboard/-video.tsx:321
+#: app/routes/dashboard/-video.tsx:322
+msgid "Cancel editing"
+msgstr "Отменить редактирование"
+
+#. Cancel subscription button
+#: app/routes/dashboard/-settings.tsx:520
+msgid "Cancel subscription"
+msgstr "Отменить подписку"
+
+#. Delete team warning when subscription active
+#: app/routes/dashboard/-settings.tsx:583
+msgid "Cancel the active subscription before deleting this team."
+msgstr "Отмените активную подписку перед удалением этой команды."
+
+#. Error when trying to delete team with active subscription
+#: app/routes/dashboard/-settings.tsx:189
+msgid "Cancel the team's active subscription in billing before deleting this team."
+msgstr "Отмените активную подписку команды в разделе оплаты перед удалением этой команды."
+
+#. Aria label for cancel upload button
+#: src/components/upload/UploadProgress.tsx:80
+msgid "Cancel upload"
+msgstr "Отменить загрузку"
+
+#. Subscription canceled badge
+#. Subscription status: canceled
+#: app/routes/dashboard/-settings.tsx:85
+#: app/routes/dashboard/-settings.tsx:342
+msgid "Canceled"
+msgstr "Отменена"
+
+#. Canceling subscription in progress
+#: app/routes/dashboard/-settings.tsx:519
+msgid "Canceling..."
+msgstr "Отмена..."
+
+#. Change password button
+#: app/routes/dashboard/profile.tsx:285
+msgid "Change password"
+msgstr "Изменить пароль"
+
+#. Video player: playback speed button tooltip
+#: src/components/video-player/VideoPlayer.tsx:830
+msgid "Change playback speed"
+msgstr "Изменить скорость воспроизведения"
+
+#. Password section description
+#: app/routes/dashboard/profile.tsx:257
+msgid "Change your account password."
+msgstr "Измените пароль вашего аккаунта."
+
+#. Status while checking if video has public playback
+#: app/routes/dashboard/-layout.tsx:281
+msgid "Checking public playback access..."
+msgstr "Проверяем публичный доступ..."
+
+#. Dialog title for selecting upload target project
+#: app/routes/dashboard/-layout.tsx:343
+msgid "Choose a project"
+msgstr "Выберите проект"
+
+#. Step 3 action: click to comment
+#: app/routes/mono.tsx:165
+msgid "Click"
+msgstr "Нажмите"
+
+#. How it works step 3 description
+#: app/routes/-home.tsx:133
+msgid "Click to comment on exact frames. Export to your NLE."
+msgstr "Кликните, чтобы оставить комментарий к точному кадру. Экспортируйте в NLE."
+
+#. Profile avatar section description
+#: app/routes/dashboard/profile.tsx:169
+msgid "Click to upload a new profile picture."
+msgstr "Нажмите, чтобы загрузить фото профиля."
+
+#. Pain point description: instant upload and playback, no transcoding queue
+#: app/routes/-for-agencies.tsx:142
+msgid "Client says \"I need to see it by 3pm.\" It's 2:47pm. You upload the cut, it plays instantly. No transcoding queue. No \"processing your video\" spinner. Just playback."
+msgstr "Клиент говорит: «Мне нужно увидеть это к 15:00». Сейчас 14:47. Вы загружаете монтаж, он воспроизводится мгновенно. Без очереди на транскодирование. Без спиннера «обработка видео». Просто воспроизведение."
+
+#. Step 3 description: frame-accurate comments exportable to NLE
+#: app/routes/-for-video-editors.tsx:167
+msgid "Clients click anywhere on the video to leave comments at exact frames. You see every note with precise timecodes, ready to export back to your NLE timeline."
+msgstr "Клиенты кликают в любое место на видео, чтобы оставить комментарий к точному кадру. Вы видите каждую заметку с точными таймкодами, готовую к экспорту на таймлайн вашей NLE."
+
+#. Pain point title: clients don't know timecodes
+#: app/routes/-for-video-editors.tsx:115
+msgid "CLIENTS DON'T KNOW TIMECODES"
+msgstr "КЛИЕНТЫ НЕ ЗНАЮТ ТАЙМКОДЫ"
+
+#. Pain point title: clients need account-free review
+#: app/routes/-for-agencies.tsx:134
+msgid "CLIENTS NEED NO-ACCOUNT REVIEW"
+msgstr "КЛИЕНТАМ НУЖНО РЕВЬЮ БЕЗ РЕГИСТРАЦИИ"
+
+#. Competitor downside: not open source
+#: app/routes/-home.tsx:190
+#~ msgid "Closed source"
+#~ msgstr "Закрытый исходный код"
+
+#. Step 3 action: collect and export feedback
+#: app/routes/-for-video-editors.tsx:162
+msgid "COLLECT & EXPORT"
+msgstr "СОБРАТЬ И ЭКСПОРТИРОВАТЬ"
+
+#. Aria label for comment actions menu
+#. Tooltip for comment actions menu
+#: src/components/comments/CommentItem.tsx:118
+#: src/components/comments/CommentItem.tsx:119
+msgid "Comment actions"
+msgstr "Действия с комментарием"
+
+#. Label showing the video timestamp where comment will be placed
+#. Label showing the video timestamp where comment will be placed
+#. Label showing the video timestamp where comment will be placed
+#. Tooltip for comment marker on video timeline
+#. placeholder {0}: formatTimestamp(currentTime)
+#. placeholder {0}: formatTimestamp(marker.comment.timestampSeconds)
+#: app/routes/-share.tsx:386
+#: app/routes/-watch.tsx:265
+#: app/routes/-watch.tsx:374
+#: src/components/video-player/VideoPlayer.tsx:750
+msgid "Comment at {0}"
+msgstr "Комментарий на {0}"
+
+#. placeholder {0}: formatTimestamp(timestampSeconds)
+#: src/components/comments/CommentInput.tsx:46
+msgid "Comment at {0}..."
+msgstr "Комментарий на {0}..."
+
+#. Heading for comments section on shared video
+#: app/routes/-share.tsx:379
+msgid "Comments"
+msgstr "Комментарии"
+
+#. Product comparison value — simple approval
+#: app/routes/-compare-wipster.tsx:44
+msgid "Comments + thumbs up"
+msgstr "Комментарии + лайк"
+
+#. Pain point description: export comments with timecodes to Premiere, Resolve, or Final Cut
+#: app/routes/-for-video-editors.tsx:123
+msgid "Comments are useless if you have to manually re-type them into your timeline. Export frame-accurate comments with timecodes and bring them straight back to Premiere, Resolve, or Final Cut."
+msgstr "Комментарии бесполезны, если их нужно вручную вбивать в таймлайн. Экспортируйте покадровые комментарии с таймкодами и перенесите их прямо в Premiere, Resolve или Final Cut."
+
+#. Feature description: comments land on exact frames
+#: app/routes/mono.tsx:85
+msgid "Comments on exact frames"
+msgstr "Комментарии к точным кадрам"
+
+#. Error in comments section
+#: app/routes/dashboard/-video.tsx:53
+msgid "Comments unavailable"
+msgstr "Комментарии недоступны"
+
+#. Comments menu item with optional count
+#. placeholder {0}: comments && comments.length > 0 ? ` (${comments.length})` : ""
+#: app/routes/dashboard/-video.tsx:420
+msgid "Comments{0}"
+msgstr "Комментарии{0}"
+
+#. Compare label
+#. Footer section heading: comparison links
+#. Nav link to comparison page
+#. Navigation link to comparison page
+#. SEO: comparison page meta description verb
+#. SEO: comparison page meta description verb
+#: app/routes/-home.tsx:52
+#: app/routes/5.tsx:227
+#: app/routes/compare.frameio.tsx:11
+#: app/routes/compare.wipster.tsx:11
+#: src/components/MarketingFooter.tsx:43
+#: src/components/MarketingNav.tsx:37
+msgid "Compare"
+msgstr "Сравнение"
+
+#. Comparison section label
+#: app/routes/2.tsx:138
+msgid "Comparison"
+msgstr ""
+
+#. Competitor downside: complex interface
+#: app/routes/-home.tsx:178
+msgid "Complex interface"
+msgstr "Сложный интерфейс"
+
+#. Confirm password input placeholder
+#: app/routes/dashboard/profile.tsx:273
+msgid "Confirm password"
+msgstr "Подтвердите пароль"
+
+#. Aria label for copy invite link button
+#: src/components/teams/MemberInvite.tsx:178
+msgid "Copy invite link"
+msgstr "Скопировать ссылку-приглашение"
+
+#. Aria label for copy share link button
+#: src/components/ShareDialog.tsx:357
+msgid "Copy link"
+msgstr "Скопировать ссылку"
+
+#. Step 2 description: share link with clients, no account needed
+#: app/routes/-for-video-editors.tsx:166
+msgid "Copy the review link and send it to your client. They don't need an account, they don't need to download anything. They just click and watch."
+msgstr "Скопируйте ссылку на ревью и отправьте клиенту. Ему не нужен аккаунт, не нужно ничего скачивать. Просто перейти и смотреть."
+
+#. Video player context menu: copy current timestamp
+#. placeholder {0}: formatTimestamp(displayTime)
+#: src/components/video-player/VideoPlayer.tsx:1089
+msgid "Copy timestamp ({0})"
+msgstr "Скопировать таймкод ({0})"
+
+#. Button to copy URL to clipboard
+#: src/components/ShareDialog.tsx:202
+msgid "Copy URL"
+msgstr "Скопировать URL"
+
+#. Error toast when clipboard copy fails
+#. Error toast when clipboard copy fails
+#: app/routes/dashboard/-project.tsx:317
+#: app/routes/dashboard/-project.tsx:327
+msgid "Could not copy link"
+msgstr "Не удалось скопировать ссылку"
+
+#. Submit button to create a project
+#: app/routes/dashboard/-team.tsx:342
+msgid "Create"
+msgstr "Создать"
+
+#. Dialog title for creating a new team
+#: src/components/teams/CreateTeamDialog.tsx:52
+msgid "Create a new team"
+msgstr "Создать новую команду"
+
+#. Button to create first team in empty state
+#: app/routes/dashboard/index.tsx:108
+msgid "Create a team"
+msgstr "Создать команду"
+
+#. Sign up page heading
+#: app/routes/auth/-sign-up.tsx:32
+msgid "Create account"
+msgstr "Создать аккаунт"
+
+#. Button to create a new project
+#. Dialog title for creating a new project
+#: app/routes/dashboard/-team.tsx:272
+#: app/routes/dashboard/-team.tsx:317
+msgid "Create project"
+msgstr "Создать проект"
+
+#. Button to create a restricted share link
+#: src/components/ShareDialog.tsx:300
+msgid "Create restricted link"
+msgstr "Создать ограниченную ссылку"
+
+#. Heading for creating a restricted share link
+#: src/components/ShareDialog.tsx:219
+msgid "Create restricted share link"
+msgstr "Создать ограниченную ссылку для доступа"
+
+#. Submit button to create a new team
+#: src/components/teams/CreateTeamDialog.tsx:74
+msgid "Create team"
+msgstr "Создать команду"
+
+#. Empty state description when billing is active
+#: app/routes/dashboard/-team.tsx:261
+msgid "Create your first project to start uploading videos."
+msgstr "Создайте первый проект, чтобы начать загружать видео."
+
+#. Empty state title when user has no teams
+#: app/routes/dashboard/index.tsx:97
+msgid "Create your first team"
+msgstr "Создайте свою первую команду"
+
+#. Create team
+#. Create team
+#. Create team
+#. Create team CTA
+#: app/routes/1.tsx:294
+#: app/routes/2.tsx:259
+#: app/routes/3.tsx:340
+#: app/routes/5.tsx:394
+msgid "Create Your Team"
+msgstr ""
+
+#. CTA button to create a team
+#: app/routes/-home.tsx:305
+msgid "CREATE YOUR TEAM"
+msgstr "СОЗДАЙТЕ СВОЮ КОМАНДУ"
+
+#. Button text while creating a share link
+#. Loading state for create team button
+#. Submit button while project is being created
+#: app/routes/dashboard/-team.tsx:342
+#: src/components/ShareDialog.tsx:300
+#: src/components/teams/CreateTeamDialog.tsx:74
+msgid "Creating..."
+msgstr "Создание..."
+
+#. Problem paragraph 1
+#: app/routes/3.tsx:148
+msgid "Creative teams spend hours wrestling with bloated review tools. Per-seat pricing punishes growth. Complex interfaces slow down feedback. Enterprise features no one asked for get in the way of the one thing that matters: getting notes on your cut."
+msgstr ""
+
+#. Heading for current team members list
+#: src/components/teams/MemberInvite.tsx:191
+msgid "Current members"
+msgstr "Текущие участники"
+
+#. Dashboard breadcrumb label
+#. Dashboard breadcrumb label
+#: app/routes/dashboard/index.tsx:89
+#: app/routes/dashboard/index.tsx:124
+msgid "dashboard"
+msgstr "Панель управления"
+
+#. SEO: dashboard page title
+#: app/routes/dashboard/route.tsx:10
+msgid "Dashboard"
+msgstr "Панель управления"
+
+#. Button to decline team invitation
+#: app/routes/-invite.tsx:179
+msgid "Decline"
+msgstr "Отклонить"
+
+#. Delete team button
+#. Menu action to delete a comment
+#. Menu item to delete a project
+#. Menu item to delete a video
+#. Menu item to delete a video
+#: app/routes/dashboard/-project.tsx:523
+#: app/routes/dashboard/-project.tsx:688
+#: app/routes/dashboard/-settings.tsx:593
+#: app/routes/dashboard/-team.tsx:102
+#: src/components/comments/CommentItem.tsx:151
+msgid "Delete"
+msgstr "Удалить"
+
+#. Aria label for delete share link button
+#: src/components/ShareDialog.tsx:378
+msgid "Delete link"
+msgstr "Удалить ссылку"
+
+#. Delete team section heading
+#: app/routes/dashboard/-settings.tsx:578
+msgid "Delete team"
+msgstr "Удалить команду"
+
+#. Feedback textarea placeholder
+#: src/components/FeedbackDialog.tsx:104
+msgid "Describe your feedback or the bug you encountered..."
+msgstr "Опишите вашу идею или обнаруженную ошибку..."
+
+#. Upgrade request textarea placeholder
+#: src/components/UpgradeRequestDialog.tsx:76
+msgid "Describe your needs..."
+msgstr "Опишите ваши потребности..."
+
+#. Title when signed-in email differs from invite email
+#: app/routes/-invite.tsx:124
+msgid "Different email address"
+msgstr "Другой email"
+
+#. Video player context menu: disable video looping
+#: src/components/video-player/VideoPlayer.tsx:1097
+msgid "Disable loop"
+msgstr "Отключить повтор"
+
+#. Heading for discussion/comments section
+#. Heading for discussion/comments section
+#. Heading for video comment sidebar
+#. Heading for video comment sidebar
+#: app/routes/-watch.tsx:204
+#: app/routes/-watch.tsx:299
+#: app/routes/dashboard/-video.tsx:505
+#: app/routes/dashboard/-video.tsx:545
+msgid "Discussion"
+msgstr "Обсуждение"
+
+#. Aria label for dismiss upload error button
+#: src/components/upload/UploadProgress.tsx:66
+msgid "Dismiss"
+msgstr "Закрыть"
+
+#. Profile name section title
+#: app/routes/dashboard/profile.tsx:205
+msgid "Display name"
+msgstr "Имя"
+
+#. Cost comparison section heading: do the math
+#: app/routes/-for-agencies.tsx:157
+msgid "DO THE"
+msgstr "ПОСЧИТАЕМ"
+
+#. Section heading for cost calculator
+#. Section heading for cost calculator
+#: app/routes/-compare-frameio.tsx:166
+#: app/routes/-compare-wipster.tsx:166
+msgid "DO THE<0/>MATH."
+msgstr "ПОСЧИТАЕМ<0/>ЦИФРЫ."
+
+#. Video workflow status: completed
+#: src/components/videos/VideoWorkflowStatusControl.tsx:25
+msgid "Done"
+msgstr "Готово"
+
+#. Menu item to download a video
+#. Menu item to download a video
+#. Video player: download button text
+#: app/routes/dashboard/-project.tsx:475
+#: app/routes/dashboard/-project.tsx:640
+#: src/components/video-player/VideoPlayer.tsx:910
+#~ msgid "Download"
+#~ msgstr "Скачать"
+
+#. Menu item to download original video file
+#. Menu item to download original video file
+#. Video player context menu: download option
+#. Video player: download button
+#. Video player: download button tooltip
+#. Video player: download original button text
+#: app/routes/dashboard/-project.tsx:502
+#: app/routes/dashboard/-project.tsx:667
+#: src/components/video-player/VideoPlayer.tsx:906
+#: src/components/video-player/VideoPlayer.tsx:907
+#: src/components/video-player/VideoPlayer.tsx:910
+#: src/components/video-player/VideoPlayer.tsx:1080
+msgid "Download original"
+msgstr "Скачать оригинал"
+
+#. Video player context menu: download option
+#. Video player: download button
+#. Video player: download button tooltip
+#: src/components/video-player/VideoPlayer.tsx:906
+#: src/components/video-player/VideoPlayer.tsx:907
+#: src/components/video-player/VideoPlayer.tsx:1080
+#~ msgid "Download video"
+#~ msgstr "Скачать видео"
+
+#. Transcode stage: downloading from storage
+#. Transcode stage: downloading from storage
+#: app/routes/dashboard/-project.tsx:73
+#: app/routes/dashboard/-video.tsx:472
+msgid "Downloading"
+msgstr "Загрузка"
+
+#. Transcode stage: downloading from storage
+#. Transcode stage: downloading from storage
+#: app/routes/dashboard/-project.tsx:47
+#: app/routes/dashboard/-video.tsx:408
+#~ msgid "Downloading..."
+#~ msgstr "Загрузка..."
+
+#. How it works step 1 description
+#: app/routes/-home.tsx:131
+msgid "Drag and drop your cut. We process it instantly."
+msgstr "Перетащите свой монтаж. Мы обработаем его мгновенно."
+
+#. Step 1 description: drag-drop upload with Mux processing
+#: app/routes/-for-video-editors.tsx:165
+msgid "Drag and drop your export. H.264, ProRes, whatever. We process it instantly through Mux so playback is fast on any device, any connection."
+msgstr "Перетащите ваш экспорт. H.264, ProRes, что угодно. Мы мгновенно обрабатываем его через Mux, и воспроизведение быстрое на любом устройстве, при любом соединении."
+
+#. Drag-and-drop active state
+#: src/components/upload/DropZone.tsx:97
+msgid "Drop to upload"
+msgstr "Отпустите для загрузки"
+
+#. Drag-and-drop idle state
+#: src/components/upload/DropZone.tsx:97
+msgid "Drop videos or click to upload"
+msgstr "Перетащите видео или нажмите для загрузки"
+
+#. Drag overlay text when dragging files over dashboard
+#: app/routes/dashboard/-layout.tsx:302
+msgid "Drop videos to upload"
+msgstr "Перетащите видео для загрузки"
+
+#. Aria label for edit video title button
+#. Tooltip for edit video title button
+#: app/routes/dashboard/-video.tsx:336
+#: app/routes/dashboard/-video.tsx:337
+msgid "Edit title"
+msgstr "Редактировать название"
+
+#. Profile email section title
+#: app/routes/dashboard/profile.tsx:237
+msgid "Email"
+msgstr "Эл. почта"
+
+#. Placeholder for email input in team invite
+#: src/components/teams/MemberInvite.tsx:135
+msgid "Email address"
+msgstr "Электронная почта"
+
+#. Title when shared video requires email verification
+#: app/routes/-share.tsx:280
+msgid "Email verification required"
+msgstr "Требуется подтверждение email"
+
+#. Video player: enter fullscreen button
+#: src/components/video-player/VideoPlayer.tsx:918
+msgid "Enter fullscreen"
+msgstr "Полноэкранный режим"
+
+#. Placeholder for password input on shared video
+#: app/routes/-share.tsx:254
+msgid "Enter password"
+msgstr "Введите пароль"
+
+#. Error boundary heading
+#: app/routes/__root.tsx:42
+msgid "Error"
+msgstr "Ошибка"
+
+#. Pain points section subtext. {PRODUCT_NAME} is the product name
+#: app/routes/-for-video-editors.tsx:96
+msgid "Every editor knows these problems. We built {PRODUCT_NAME} to fix them."
+msgstr "Каждый монтажёр знает эти проблемы. Мы создали {PRODUCT_NAME}, чтобы их решить."
+
+#. Features heading
+#: app/routes/5.tsx:115
+msgid "Everything you need to review"
+msgstr ""
+
+#. Features heading
+#: app/routes/1.tsx:130
+msgid "Everything you need.<0/><1>Nothing you don't.</1>"
+msgstr ""
+
+#. Video player: exit fullscreen button
+#. Video player: exit fullscreen tooltip
+#: src/components/video-player/VideoPlayer.tsx:918
+#: src/components/video-player/VideoPlayer.tsx:919
+msgid "Exit fullscreen"
+msgstr "Выйти из полноэкранного режима"
+
+#. Label for share link expiration setting
+#: src/components/ShareDialog.tsx:222
+msgid "Expiration"
+msgstr "Срок действия"
+
+#. Badge for expired share link
+#: src/components/ShareDialog.tsx:325
+msgid "Expired"
+msgstr "Истекла"
+
+#. Share link expiration time
+#. placeholder {0}: formatRelativeTime(new Date(link.expiresAt).getTime())
+#: src/components/ShareDialog.tsx:347
+msgid "Expires {0}"
+msgstr "Истекает {0}"
+
+#. Video failed status badge
+#. Video status overlay when failed
+#. Video status overlay when failed
+#: app/routes/dashboard/-project.tsx:474
+#: app/routes/dashboard/-project.tsx:602
+#: app/routes/dashboard/-video.tsx:348
+msgid "Failed"
+msgstr "Ошибка"
+
+#. Fallback error when accepting invite fails
+#: app/routes/-invite.tsx:42
+msgid "Failed to accept invite"
+msgstr "Не удалось принять приглашение"
+
+#. Generic password change error
+#: app/routes/dashboard/profile.tsx:140
+msgid "Failed to change password"
+msgstr "Не удалось изменить пароль"
+
+#. Error when comment submission fails
+#. Error when comment submission fails
+#: app/routes/-share.tsx:186
+#: app/routes/-watch.tsx:101
+msgid "Failed to post comment."
+msgstr "Не удалось отправить комментарий."
+
+#. FAQ section heading
+#: app/routes/-pricing.tsx:116
+msgid "FAQ."
+msgstr "FAQ."
+
+#. Pain point title: fast turnaround requires fast tools
+#: app/routes/-for-agencies.tsx:136
+msgid "FAST TURNAROUND MEANS FAST TOOLS"
+msgstr "БЫСТРЫЕ СРОКИ — БЫСТРЫЕ ИНСТРУМЕНТЫ"
+
+#. Feature column
+#. Table column header
+#. Table column header
+#: app/routes/-compare-frameio.tsx:120
+#: app/routes/-compare-wipster.tsx:119
+#: app/routes/2.tsx:148
+msgid "Feature"
+msgstr "Функция"
+
+#. Section heading for comparison table
+#: app/routes/-compare-frameio.tsx:109
+msgid "FEATURE<0/>FIGHT."
+msgstr "БИТВА<0/>ФУНКЦИЙ."
+
+#. Features label
+#. Nav: features
+#: app/routes/1.tsx:44
+#: app/routes/5.tsx:112
+msgid "Features"
+msgstr ""
+
+#. Feedback type toggle - feedback
+#: src/components/FeedbackDialog.tsx:89
+msgid "Feedback"
+msgstr "Обратная связь"
+
+#. Product comparison value — intentional simplicity
+#: app/routes/-compare-wipster.tsx:38
+msgid "Fewer features (on purpose)"
+msgstr "Меньше функций (специально)"
+
+#. Value prop: flat pricing model
+#: app/routes/-home.tsx:110
+msgid "FLAT PRICING"
+msgstr "ФИКСИРОВАННАЯ ЦЕНА"
+
+#. Product pricing model: flat monthly rate
+#: app/routes/-home.tsx:202
+msgid "Flat total / month"
+msgstr "Фиксированная сумма / месяц"
+
+#. Pricing clarification: flat rate, not per seat
+#: app/routes/-for-video-editors.tsx:82
+msgid "flat, not per seat"
+msgstr "фиксированно, не за место"
+
+#. Footer link to agencies use case page
+#: src/components/MarketingFooter.tsx:82
+msgid "For agencies"
+msgstr "Для агентств"
+
+#. Footer link to video editors use case page
+#: src/components/MarketingFooter.tsx:74
+msgid "For video editors"
+msgstr "Для монтажёров"
+
+#. Page label for video editors landing page
+#: app/routes/-for-video-editors.tsx:61
+msgid "FOR VIDEO EDITORS"
+msgstr "ДЛЯ МОНТАЖЁРОВ"
+
+#. Video player: forward button
+#: src/components/video-player/VideoPlayer.tsx:818
+msgid "Forward 10 seconds"
+msgstr "Вперёд на 10 секунд"
+
+#. Video player: forward button tooltip with hotkey
+#: src/components/video-player/VideoPlayer.tsx:819
+msgid "Forward 10 seconds (→)"
+msgstr "Вперёд на 10 секунд (→)"
+
+#. Feature title: frame-accurate comments
+#: app/routes/mono.tsx:79
+msgid "Frame-accurate"
+msgstr "Покадровая точность"
+
+#. Hero subtitle
+#: app/routes/5.tsx:66
+msgid "Frame-accurate comments, unlimited seats, and flat pricing. The video review tool creative teams have been waiting for."
+msgstr ""
+
+#. Editorial intro paragraph
+#: app/routes/3.tsx:70
+msgid "Frame-accurate comments. Unlimited seats. $5/month flat. Built for teams who ship creative work, not manage enterprise software."
+msgstr ""
+
+#. Terminal tagline
+#: app/routes/4.tsx:73
+msgid "Frame-accurate comments. Unlimited seats. $5/month flat. Self-hosted. No bloat."
+msgstr ""
+
+#. Swiss hero description
+#: app/routes/2.tsx:54
+msgid "Frame-accurate video review for creative teams. Unlimited seats. Flat pricing. No complexity."
+msgstr ""
+
+#. Competitor comparison card heading: Frame.io
+#. Competitor name: Frame.io
+#. Label — Frame.io is a competitor name, keep untranslated
+#. Table column header — Frame.io is a competitor name, keep untranslated
+#: app/routes/-compare-frameio.tsx:123
+#: app/routes/-compare-frameio.tsx:201
+#: app/routes/mono.tsx:107
+#: app/routes/mono.tsx:126
+msgid "Frame.io"
+msgstr "Frame.io"
+
+#. Competitor name label: Frame.io is a competitor product
+#: app/routes/-for-agencies.tsx:190
+msgid "FRAME.IO"
+msgstr "FRAME.IO"
+
+#. Cost calculator description — Frame.io is a competitor name, keep untranslated. {PRODUCT_NAME} is the product name, keep untranslated. Currency values are translatable
+#: app/routes/-compare-frameio.tsx:173
+msgid "Frame.io charges $19 per user per month. {PRODUCT_NAME} charges $5 per month. Not per user. Just $5. Here's what that means annually."
+msgstr "Frame.io берёт $19 за пользователя в месяц. {PRODUCT_NAME} — $5 в месяц. Не за пользователя. Просто $5. Вот что это значит за год."
+
+#. Problem paragraph 2
+#: app/routes/3.tsx:156
+msgid "Frame.io charges $19 per user per month. For a team of five, that's over a thousand dollars a year — for software that takes longer to load than your timeline."
+msgstr ""
+
+#. Cost comparison subtext: Frame.io vs product pricing. Frame.io is a competitor name. {PRODUCT_NAME} is the product name
+#: app/routes/-for-agencies.tsx:162
+msgid "Frame.io charges $19/user/month. {PRODUCT_NAME} charges $5/month total. Here's what that looks like at agency scale."
+msgstr "Frame.io берёт $19/пользователь/мес. {PRODUCT_NAME} — $5/мес за всё. Вот как это выглядит в масштабе агентства."
+
+#. Hero description — Frame.io is a competitor name, keep untranslated. {PRODUCT_NAME} is the product name, keep untranslated. Currency $5/month is translatable
+#: app/routes/-compare-frameio.tsx:94
+msgid "Frame.io is a great product built for enterprise teams with enterprise budgets. {PRODUCT_NAME} is a scrappy little tool that does the important stuff for $5/month flat. No per-seat math. No PhD in procurement required."
+msgstr "Frame.io — отличный продукт для корпоративных команд с корпоративными бюджетами. {PRODUCT_NAME} — шустрый инструмент, который делает всё важное за $5/мес. Без калькулятора мест. Без диссертации по закупкам."
+
+#. Comparison section description, Frame.io is a competitor product name
+#: app/routes/-home.tsx:159
+msgid "Frame.io is solid software. But you're paying for enterprise features you don't need."
+msgstr "Frame.io — хороший софт. Но вы платите за корпоративные функции, которые вам не нужны."
+
+#. Comparison section subtext. Frame.io is a competitor name
+#: app/routes/mono.tsx:99
+msgid "Frame.io is solid software. Here's where we differ."
+msgstr "Frame.io — хороший софт. Вот чем мы отличаемся."
+
+#. Final CTA subtext: free trial, no credit card
+#: app/routes/-for-video-editors.tsx:204
+msgid "Free trial, no credit card. Set up your first review in under a minute."
+msgstr "Бесплатный пробный период, без карты. Настройте первое ревью менее чем за минуту."
+
+#. CTA subtext
+#: app/routes/5.tsx:388
+msgid "Free trial. No credit card required."
+msgstr ""
+
+#. Wipster feature scope
+#: app/routes/-compare-wipster.tsx:37
+msgid "Full-featured platform"
+msgstr "Полнофункциональная платформа"
+
+#. Video player: fullscreen button tooltip
+#: src/components/video-player/VideoPlayer.tsx:919
+msgid "Fullscreen"
+msgstr "Полный экран"
+
+#. Product advantage: open source
+#: app/routes/-home.tsx:220
+#~ msgid "Fully open source"
+#~ msgstr "Полностью open source"
+
+#. Value prop description: open source details
+#: app/routes/-home.tsx:108
+#~ msgid "Fully open source. Read the code, fork it, make it yours."
+#~ msgstr "Полностью open source. Читайте код, форкайте, делайте своим."
+
+#. FAQ answer: fully open source on GitHub
+#: app/routes/-pricing.tsx:139
+#~ msgid "Fully. Check our GitHub. Read the code, fork it, whatever you want."
+#~ msgstr "Полностью. Загляните на наш GitHub. Читайте код, форкайте — как хотите."
+
+#. FAQ answer: generate link with optional password and expiration
+#: app/routes/-pricing.tsx:197
+#~ msgid "Generate a link for any video. Optionally add a password and expiration date. Recipients can watch without signing up. Sign in to comment."
+#~ msgstr "Создайте ссылку на любое видео. По желанию добавьте пароль и срок действия. Получатели могут смотреть без регистрации. Для комментирования нужно войти."
+
+#. FAQ answer: generate link with optional password and expiration, recipients watch and comment without signing up
+#: app/routes/-pricing.tsx:197
+msgid "Generate a link for any video. Optionally add a password and expiration date. Recipients watch and comment without signing up."
+msgstr "Создайте ссылку на любое видео. По желанию добавьте пароль и срок действия. Получатели смотрят и комментируют без регистрации."
+
+#. Transcode stage: generating thumbnail
+#. Transcode stage: generating thumbnail
+#: app/routes/dashboard/-project.tsx:79
+#: app/routes/dashboard/-video.tsx:475
+msgid "Generating thumbnail"
+msgstr "Генерация превью"
+
+#. Transcode stage: generating thumbnail
+#. Transcode stage: generating thumbnail
+#: app/routes/dashboard/-project.tsx:53
+#: app/routes/dashboard/-video.tsx:411
+#~ msgid "Generating thumbnail..."
+#~ msgstr "Генерация превью..."
+
+#. Closing remark for Frame.io section — Frame.io is a competitor name, keep untranslated
+#: app/routes/-compare-frameio.tsx:307
+msgid "Genuinely, Frame.io is solid software. If this is you, go use it. We won't be offended. (Okay maybe a little.)"
+msgstr "Серьёзно, Frame.io — хороший софт. Если это про вас — используйте его. Мы не обидимся. (Ну, может, чуть-чуть.)"
+
+#. Savings commentary for 25-person team
+#: app/routes/-compare-wipster.tsx:61
+msgid "Genuinely, that's a lot of money."
+msgstr "Серьёзно, это куча денег."
+
+#. CTA button to get the Basic plan
+#. CTA button to get the Basic plan
+#. Get Basic
+#. Get Basic
+#. Get Basic
+#. Get Basic CTA
+#: app/routes/-home.tsx:268
+#: app/routes/-pricing.tsx:61
+#: app/routes/1.tsx:246
+#: app/routes/2.tsx:214
+#: app/routes/3.tsx:294
+#: app/routes/5.tsx:335
+msgid "Get Basic"
+msgstr "Подключить Basic"
+
+#. CTA button to get the Pro plan
+#. CTA button to get the Pro plan
+#. Get Pro
+#. Get Pro
+#. Get Pro
+#. Get Pro CTA
+#: app/routes/-home.tsx:287
+#: app/routes/-pricing.tsx:105
+#: app/routes/1.tsx:274
+#: app/routes/2.tsx:236
+#: app/routes/3.tsx:317
+#: app/routes/5.tsx:364
+msgid "Get Pro"
+msgstr "Подключить Pro"
+
+#. Nav: start
+#. Nav: start
+#: app/routes/3.tsx:39
+#: app/routes/5.tsx:36
+msgid "Get Started"
+msgstr ""
+
+#. CTA button: get started
+#: app/routes/mono.tsx:62
+msgid "Get Started →"
+msgstr "Начать →"
+
+#. Pain point title: getting notes back into editing software
+#: app/routes/-for-video-editors.tsx:117
+msgid "GETTING NOTES BACK INTO YOUR NLE"
+msgstr "ПЕРЕНОС ЗАМЕТОК ОБРАТНО В NLE"
+
+#. FAQ group: getting started
+#: app/routes/-pricing.tsx:121
+msgid "Getting Started"
+msgstr "Начало работы"
+
+#. Button to navigate to product homepage. {PRODUCT_NAME} is the product name, keep untranslated
+#. Button to navigate to product homepage. {PRODUCT_NAME} is the product name, keep untranslated
+#. Button to navigate to product homepage. {PRODUCT_NAME} is the product name, keep untranslated
+#: app/routes/-invite.tsx:72
+#: app/routes/-share.tsx:222
+#: app/routes/-watch.tsx:130
+msgid "Go to {PRODUCT_NAME}"
+msgstr "Перейти в {PRODUCT_NAME}"
+
+#. Button to navigate to billing page
+#. Button to navigate to billing page
+#: app/routes/dashboard/-team.tsx:246
+#: app/routes/dashboard/-team.tsx:286
+msgid "Go to Billing"
+msgstr "Перейти к оплате"
+
+#. Aria label for grid view toggle
+#. Tooltip for grid view toggle button
+#: app/routes/dashboard/-project.tsx:368
+#: app/routes/dashboard/-project.tsx:369
+msgid "Grid view"
+msgstr "Сетка"
+
+#. Empty state description when team has no projects
+#: app/routes/dashboard/index.tsx:198
+msgid "Head over to the team page to create your first project."
+msgstr "Перейдите на страницу команды, чтобы создать первый проект."
+
+#. Section heading for honest advice
+#. Section heading for honest advice
+#: app/routes/-compare-frameio.tsx:238
+#: app/routes/-compare-wipster.tsx:237
+msgid "HONEST<0/>ADVICE."
+msgstr "ЧЕСТНЫЙ<0/>СОВЕТ."
+
+#. Comparison section heading. {PRODUCT_NAME} is the product name
+#: app/routes/mono.tsx:98
+msgid "How {PRODUCT_NAME} compares"
+msgstr "Как {PRODUCT_NAME} выглядит на фоне конкурентов"
+
+#. FAQ question about creating a team
+#: app/routes/-pricing.tsx:128
+msgid "How do I create a team?"
+msgstr "Как создать команду?"
+
+#. FAQ question about how share links work
+#: app/routes/-pricing.tsx:196
+msgid "How do share links work?"
+msgstr "Как работают ссылки для просмотра?"
+
+#. FAQ question about how billing works
+#: app/routes/-pricing.tsx:145
+msgid "How does billing work?"
+msgstr "Как устроена оплата?"
+
+#. FAQ question about video processing workflow
+#: app/routes/-pricing.tsx:183
+msgid "How does video processing work?"
+msgstr "Как работает обработка видео?"
+
+#. How it works heading
+#. How it works section heading
+#: app/routes/2.tsx:112
+#: app/routes/mono.tsx:149
+msgid "How it works"
+msgstr "Как это работает"
+
+#. How it works section heading
+#. Section heading for how the product works
+#: app/routes/-for-video-editors.tsx:137
+#: app/routes/-home.tsx:126
+msgid "HOW IT WORKS."
+msgstr "КАК ЭТО РАБОТАЕТ."
+
+#. Comparison heading
+#: app/routes/3.tsx:225
+msgid "How we compare"
+msgstr ""
+
+#. Pull quote
+#: app/routes/3.tsx:127
+msgid "I built {PRODUCT_NAME} because video review should be instant."
+msgstr ""
+
+#. Honest note about approval limitations
+#: app/routes/-compare-wipster.tsx:45
+msgid "If that's not enough, we respect that."
+msgstr "Если этого недостаточно, мы понимаем."
+
+#. Error when wrong password entered for shared video
+#: app/routes/-share.tsx:260
+msgid "Incorrect password"
+msgstr "Неверный пароль"
+
+#. Product comparison value — Mux is a video platform name
+#: app/routes/-compare-wipster.tsx:26
+msgid "Instant Mux playback"
+msgstr "Мгновенное воспроизведение через Mux"
+
+#. Value prop description: speed details
+#: app/routes/-home.tsx:109
+msgid "Instant playback. Built for speed, not loading spinners."
+msgstr "Мгновенное воспроизведение. Создан для скорости, а не для крутилок загрузки."
+
+#. Title when invite link is invalid or expired
+#: app/routes/-invite.tsx:64
+msgid "Invalid or expired invite"
+msgstr "Недействительное или просроченное приглашение"
+
+#. Description in team members dialog
+#: src/components/teams/MemberInvite.tsx:128
+msgid "Invite new members or manage existing ones."
+msgstr "Пригласите новых участников или управляйте текущими."
+
+#. Product advantage: unlimited team members
+#: app/routes/-home.tsx:212
+msgid "Invite the whole team"
+msgstr "Пригласите всю команду"
+
+#. Wipster sharing model
+#: app/routes/-compare-wipster.tsx:31
+msgid "Invite to workspace"
+msgstr "Пригласить в рабочее пространство"
+
+#. Shows what role was assigned in invite
+#. placeholder {0}: getRoleLabel(invite.role)
+#: src/components/teams/MemberInvite.tsx:269
+msgid "Invited as {0}"
+msgstr "Приглашён как {0}"
+
+#. Label for invited email address
+#: app/routes/-invite.tsx:99
+msgid "Invited email"
+msgstr "Email приглашения"
+
+#. FAQ question about open source status. {PRODUCT_NAME} is the product name, keep untranslated
+#: app/routes/-pricing.tsx:138
+#~ msgid "Is {PRODUCT_NAME} really open source?"
+#~ msgstr "{PRODUCT_NAME} правда open source?"
+
+#. Pain points section heading continuation
+#: app/routes/-for-agencies.tsx:113
+msgid "IS HARD ENOUGH."
+msgstr "И ТАК НЕПРОСТО."
+
+#. FAQ question about free trial availability
+#: app/routes/-pricing.tsx:124
+msgid "Is there a free trial?"
+msgstr "Есть пробный период?"
+
+#. Tongue-in-cheek description of Frame.io speed
+#: app/routes/-compare-frameio.tsx:25
+msgid "It's... fine"
+msgstr "Ну... нормально"
+
+#. Join team title
+#. placeholder {0}: invite.teamName
+#: app/routes/-invite.tsx:152
+msgid "Join {0}"
+msgstr "Вступить в {0}"
+
+#. SEO: team invite page title
+#: app/routes/invite.$token.tsx:10
+msgid "Join team"
+msgstr "Вступить в команду"
+
+#. Button text while accepting invite
+#: app/routes/-invite.tsx:169
+msgid "Joining..."
+msgstr "Вступаем..."
+
+#. Aria label for comment marker on video timeline
+#. placeholder {0}: formatTimestamp(marker.comment.timestampSeconds)
+#: src/components/video-player/VideoPlayer.tsx:749
+msgid "Jump to comment at {0}"
+msgstr "Перейти к комментарию на {0}"
+
+#. Aria label for comment timestamp button
+#. Tooltip for comment timestamp button
+#: src/components/comments/CommentItem.tsx:101
+#: src/components/comments/CommentItem.tsx:102
+msgid "Jump to timestamp"
+msgstr "Перейти к таймкоду"
+
+#. Product comparison value — sharing via link
+#. Product comparison value — sharing via link
+#: app/routes/-compare-frameio.tsx:38
+#: app/routes/-compare-wipster.tsx:32
+msgid "Just a link"
+msgstr "Просто ссылка"
+
+#. Value prop description: sharing details
+#: app/routes/-home.tsx:111
+msgid "Just copy the link and send it to your client."
+msgstr "Просто скопируйте ссылку и отправьте клиенту."
+
+#. Relative time: less than a minute ago
+#: src/lib/utils.ts:56
+msgid "Just now"
+msgstr "Только что"
+
+#. Final CTA subtext encouraging sign-up
+#: app/routes/-pricing.tsx:243
+msgid "Just try it. No credit card. No commitment."
+msgstr "Просто попробуйте. Без карты. Без обязательств."
+
+#. Product advantage: focused feature set
+#: app/routes/-home.tsx:216
+msgid "Just what you need"
+msgstr "Только то, что нужно"
+
+#. Hero secondary CTA
+#: app/routes/1.tsx:92
+msgid "Learn More"
+msgstr ""
+
+#. Placeholder for comment input
+#. Placeholder for comment input
+#. Placeholder for comment input on shared video
+#: app/routes/-share.tsx:401
+#: app/routes/-watch.tsx:270
+#: app/routes/-watch.tsx:379
+msgid "Leave a comment..."
+msgstr "Оставьте комментарий..."
+
+#. Placeholder for share link password input
+#: src/components/ShareDialog.tsx:269
+msgid "Leave empty for no password"
+msgstr "Оставьте пустым, если пароль не нужен"
+
+#. Suffix after time remaining
+#: src/components/upload/UploadProgress.tsx:96
+msgid "left"
+msgstr "осталось"
+
+#. Hero sub-tagline emphasizing simplicity
+#. Hero tagline emphasis: less features, no nonsense
+#: app/routes/-home.tsx:85
+#: app/routes/mono.tsx:49
+msgid "Less features. No bull$#!t."
+msgstr "Меньше функций. Без ерунды."
+
+#. Frame.io seat limitation
+#: app/routes/-compare-frameio.tsx:19
+msgid "Limited by plan tier"
+msgstr "Ограничено тарифом"
+
+#. Title when share link is expired or not found
+#: app/routes/-share.tsx:214
+msgid "Link expired or invalid"
+msgstr "Ссылка истекла или недействительна"
+
+#. Aria label for list view toggle
+#. Tooltip for list view toggle button
+#: app/routes/dashboard/-project.tsx:381
+#: app/routes/dashboard/-project.tsx:382
+msgid "List view"
+msgstr "Список"
+
+#. Pro plan description
+#. Pro plan description
+#: app/routes/-home.tsx:278
+#: app/routes/-pricing.tsx:79
+msgid "Literally the exact same thing but more space."
+msgstr "Буквально то же самое, только больше места."
+
+#. Loading state for comments section
+#. Loading state for comments section
+#. Loading state for comments section
+#: app/routes/-share.tsx:412
+#: app/routes/-watch.tsx:215
+#: app/routes/-watch.tsx:318
+msgid "Loading comments..."
+msgstr "Загрузка комментариев..."
+
+#. Loading indicator for projects list
+#: app/routes/dashboard/-layout.tsx:349
+msgid "Loading projects..."
+msgstr "Загрузка проектов..."
+
+#. Loading indicator while video stream initializes
+#. Loading state while video stream is being fetched
+#. Loading state while video stream is being fetched
+#. Loading video stream
+#: app/routes/-share.tsx:370
+#: app/routes/-watch.tsx:193
+#: app/routes/dashboard/-video.tsx:459
+#: src/components/video-player/VideoPlayer.tsx:1023
+msgid "Loading stream..."
+msgstr "Загрузка потока..."
+
+#. Dashboard loading state
+#. Global loading indicator
+#. Loading indicator for comments
+#. Loading indicator for share links
+#. Loading profile state
+#. Loading state for invite page
+#. Loading state for settings page
+#. Loading state for video page
+#. Loading state while watch page initializes
+#: app/router.tsx:9
+#: app/routes/-invite.tsx:51
+#: app/routes/-watch.tsx:110
+#: app/routes/dashboard/-layout.tsx:271
+#: app/routes/dashboard/-settings.tsx:146
+#: app/routes/dashboard/-video.tsx:263
+#: app/routes/dashboard/profile.tsx:152
+#: src/components/comments/CommentList.tsx:37
+#: src/components/ShareDialog.tsx:309
+msgid "Loading..."
+msgstr "Загрузка..."
+
+#. Nav link to sign in page
+#. Nav: log in
+#. Nav: log in
+#. Nav: log in
+#. Navigation link to sign in
+#: app/routes/-home.tsx:53
+#: app/routes/1.tsx:50
+#: app/routes/2.tsx:25
+#: app/routes/5.tsx:30
+#: src/components/MarketingNav.tsx:40
+msgid "Log in"
+msgstr "Войти"
+
+#. Nav: login
+#: app/routes/4.tsx:37
+msgid "login"
+msgstr ""
+
+#. Video player context menu: enable video looping
+#: src/components/video-player/VideoPlayer.tsx:1097
+msgid "Loop video"
+msgstr "Зациклить видео"
+
+#. Link to billing settings from subscription banner
+#: app/routes/dashboard/-project.tsx:411
+msgid "Manage billing"
+msgstr "Управление оплатой"
+
+#. Manage subscription button
+#: src/components/SubscriptionRequiredDialog.tsx:58
+msgid "Manage subscription"
+msgstr "Управление подпиской"
+
+#. Link to team management page
+#: app/routes/dashboard/index.tsx:185
+msgid "Manage team"
+msgstr "Управление командой"
+
+#. SEO: dashboard page meta description prefix
+#: app/routes/dashboard/route.tsx:11
+msgid "Manage your video projects on"
+msgstr "Управляйте видеопроектами на"
+
+#. Pain point title: managing multiple clients shouldn't need a PM tool
+#: app/routes/-for-agencies.tsx:135
+msgid "MANAGING 12 CLIENTS SHOULDN'T REQUIRE A PM TOOL"
+msgstr "ВЕДЕНИЕ 12 КЛИЕНТОВ НЕ ДОЛЖНО ТРЕБОВАТЬ PM-ИНСТРУМЕНТА"
+
+#. Humorous note about pricing comparison
+#: app/routes/-compare-frameio.tsx:15
+msgid "Math is hard, but not that hard."
+msgstr "Математика — штука сложная, но не настолько."
+
+#. Cost comparison section heading continuation
+#: app/routes/-for-agencies.tsx:159
+msgid "MATH."
+msgstr "ЦИФРЫ."
+
+#. Member role option in dropdown
+#. Member role option in member role dropdown
+#. Team role: regular member
+#: src/components/teams/MemberInvite.tsx:40
+#: src/components/teams/MemberInvite.tsx:153
+#: src/components/teams/MemberInvite.tsx:231
+msgid "Member"
+msgstr "Участник"
+
+#. Button to open team members dialog
+#. Team members section heading
+#: app/routes/dashboard/-settings.tsx:528
+#: app/routes/dashboard/-team.tsx:218
+msgid "Members"
+msgstr "Участники"
+
+#. FAQ answer: monthly billing for whole team
+#: app/routes/-pricing.tsx:146
+msgid "Monthly billing. Pay once — your whole team is covered. No per-user fees."
+msgstr "Ежемесячная оплата. Платите один раз — вся команда подключена. Никаких доплат за участников."
+
+#. Aria label for video actions menu
+#. Aria label for video actions menu
+#. Aria label for video actions menu
+#. Tooltip for video actions menu
+#. Tooltip for video actions menu
+#. Tooltip for video actions menu
+#: app/routes/dashboard/-project.tsx:487
+#: app/routes/dashboard/-project.tsx:488
+#: app/routes/dashboard/-project.tsx:652
+#: app/routes/dashboard/-project.tsx:653
+#: app/routes/dashboard/-video.tsx:407
+#: app/routes/dashboard/-video.tsx:408
+msgid "More actions"
+msgstr "Ещё"
+
+#. Popular badge
+#: app/routes/5.tsx:342
+msgid "MOST POPULAR"
+msgstr ""
+
+#. Supported video formats hint
+#: src/components/upload/DropZone.tsx:97
+#~ msgid "MP4, MOV, WebM supported"
+#~ msgstr "Поддерживаются MP4, MOV, WebM"
+
+#. FAQ answer: common formats transcoded to HLS
+#: app/routes/-pricing.tsx:180
+msgid "MP4, MOV, WebM, and most common formats. Videos are automatically transcoded to HLS for fast streaming."
+msgstr "MP4, MOV, WebM и большинство распространённых форматов. Видео автоматически перекодируется в HLS для быстрого стриминга."
+
+#. Supported video formats hint
+#: src/components/upload/DropZone.tsx:100
+msgid "MP4, MOV, WebM, MKV supported"
+msgstr "Поддерживаются MP4, MOV, WebM, MKV"
+
+#. Video player: mute button
+#. Video player: mute tooltip
+#: src/components/video-player/VideoPlayer.tsx:779
+#: src/components/video-player/VideoPlayer.tsx:780
+msgid "Mute"
+msgstr "Выключить звук"
+
+#. Share link expiration: never expires
+#. Share link expiration: never expires
+#: src/components/ShareDialog.tsx:228
+#: src/components/ShareDialog.tsx:237
+msgid "Never"
+msgstr "Бессрочно"
+
+#. New password input placeholder
+#: app/routes/dashboard/profile.tsx:266
+msgid "New password"
+msgstr "Новый пароль"
+
+#. Button to create a new project
+#: app/routes/dashboard/-team.tsx:224
+msgid "New project"
+msgstr "Новый проект"
+
+#. Button to create a new team in dashboard header
+#: app/routes/dashboard/index.tsx:127
+msgid "New team"
+msgstr "Новая команда"
+
+#. Hero badge
+#: app/routes/5.tsx:52
+msgid "New: Self-hosted video review"
+msgstr ""
+
+#. Next payment date display
+#. placeholder {0}: formatUtcDateFromUnixSeconds(billing.currentPeriodEnd)
+#: app/routes/dashboard/-settings.tsx:367
+msgid "Next payment: {0}"
+msgstr "Следующий платёж: {0}"
+
+#. Frame.io has no self-hosting
+#. Wipster has no self-hosting
+#: app/routes/-compare-frameio.tsx:31
+#: app/routes/-compare-wipster.tsx:19
+msgid "No"
+msgstr "Нет"
+
+#. Empty state when no comments exist
+#. Empty state when no comments exist
+#. Empty state when no comments exist
+#: app/routes/-share.tsx:414
+#: app/routes/-watch.tsx:217
+#: app/routes/-watch.tsx:320
+msgid "No comments yet."
+msgstr "Комментариев пока нет."
+
+#. Empty state when video has no comments
+#: src/components/comments/CommentList.tsx:45
+msgid "No comments yet.<0/>Click on the timeline to add one."
+msgstr "Комментариев пока нет.<0/>Нажмите на таймлайн, чтобы добавить."
+
+#. CTA closing line
+#: app/routes/-compare-wipster.tsx:403
+msgid "No credit card required. No per-seat gotchas.<0/>Just video review that doesn't require a spreadsheet to budget."
+msgstr "Без карты. Без подвохов с оплатой за место.<0/>Просто видеоревью, для бюджета которого не нужна таблица."
+
+#. Feature description: no vendor lock-in
+#: app/routes/mono.tsx:88
+msgid "No lock-in"
+msgstr "Без привязки"
+
+#. Empty state title when team has no projects
+#. Empty state title when team has no projects
+#: app/routes/dashboard/-team.tsx:258
+#: app/routes/dashboard/index.tsx:196
+msgid "No projects yet"
+msgstr "Проектов пока нет"
+
+#. Competitor downside: no self-hosting option
+#: app/routes/-home.tsx:190
+msgid "No self-hosting"
+msgstr "Нет самостоятельного хостинга"
+
+#. Empty state when no share links exist
+#: src/components/ShareDialog.tsx:311
+msgid "No share links yet"
+msgstr "Ссылок для доступа пока нет"
+
+#. Empty state in project picker when no projects available
+#: app/routes/dashboard/-layout.tsx:352
+msgid "No uploadable projects found for your account."
+msgstr "Для вашего аккаунта не найдено проектов с правом загрузки."
+
+#. 404 page main heading
+#: src/components/ui/NotFound.tsx:13
+msgid "NOT FOUND."
+msgstr "НЕ НАЙДЕНО."
+
+#. Pricing emphasis: not per user
+#: app/routes/-for-video-editors.tsx:182
+msgid "NOT PER USER."
+msgstr "НЕ ЗА ПОЛЬЗОВАТЕЛЯ."
+
+#. Subscription status: no subscription
+#: app/routes/dashboard/-settings.tsx:89
+msgid "Not subscribed"
+msgstr "Нет подписки"
+
+#. Feature description: one price for everyone
+#: app/routes/mono.tsx:86
+msgid "One price for everyone"
+msgstr "Одна цена для всех"
+
+#. Button to open video in new tab
+#: src/components/ShareDialog.tsx:211
+msgid "Open"
+msgstr "Открыть"
+
+#. Aria label for open share link button
+#: src/components/ShareDialog.tsx:369
+msgid "Open link"
+msgstr "Открыть ссылку"
+
+#. Link text to open a project
+#. Project card link text
+#: app/routes/dashboard/-team.tsx:110
+#: app/routes/dashboard/index.tsx:70
+msgid "Open project"
+msgstr "Открыть проект"
+
+#. Comparison table row label
+#. Comparison table row label
+#. Footer section heading: open source links
+#: app/routes/-compare-frameio.tsx:30
+#: app/routes/-compare-wipster.tsx:18
+#: src/components/MarketingFooter.tsx:89
+#~ msgid "Open source"
+#~ msgstr "Open source"
+
+#. Value prop: product is open source
+#: app/routes/-home.tsx:108
+#~ msgid "OPEN SOURCE"
+#~ msgstr "OPEN SOURCE"
+
+#. Button to navigate to team page from empty project state
+#: app/routes/dashboard/index.tsx:207
+msgid "Open team"
+msgstr "Открыть команду"
+
+#. Loading state while shared video page initializes
+#: app/routes/-share.tsx:201
+msgid "Opening shared video..."
+msgstr "Открытие видео по ссылке..."
+
+#. Direct email fallback text
+#: src/components/FeedbackDialog.tsx:112
+msgid "Or email us directly at <0>{SUPPORT_EMAIL}</0>"
+msgstr "Или напишите нам напрямую на <0>{SUPPORT_EMAIL}</0>"
+
+#. CTA closing joke — currency values are translatable
+#: app/routes/-compare-frameio.tsx:404
+msgid "Or keep paying $19/user/month. We don't judge.<0/>(We judge a little.)"
+msgstr "Или продолжайте платить $19/пользователь/месяц. Мы не осуждаем.<0/>(Немного осуждаем.)"
+
+#. Video quality: original source
+#: src/components/video-player/VideoPlayer.tsx:698
+msgid "Original"
+msgstr "Оригинал"
+
+#. Video quality: original source file
+#: src/components/video-player/VideoPlayer.tsx:892
+msgid "Original source"
+msgstr "Оригинальный файл"
+
+#. Badge for team owner role
+#. Team role: team owner
+#: src/components/teams/MemberInvite.tsx:38
+#: src/components/teams/MemberInvite.tsx:212
+msgid "Owner"
+msgstr "Владелец"
+
+#. FAQ answer: owner, admin, member, viewer roles
+#: app/routes/-pricing.tsx:201
+msgid "Owner (full control + billing), Admin (manage members + content), Member (upload + comment), Viewer (watch + comment only)."
+msgstr "Владелец (полный контроль + оплата), Админ (управление участниками + контентом), Участник (загрузка + комментарии), Зритель (только просмотр + комментарии)."
+
+#. Password section title
+#: app/routes/dashboard/profile.tsx:255
+msgid "Password"
+msgstr "Пароль"
+
+#. Label for optional password field on share link
+#: src/components/ShareDialog.tsx:265
+msgid "Password (optional)"
+msgstr "Пароль (необязательно)"
+
+#. Password validation error
+#: app/routes/dashboard/profile.tsx:123
+msgid "Password must be at least 8 characters"
+msgstr "Пароль должен быть не менее 8 символов"
+
+#. Title when shared video requires a password
+#: app/routes/-share.tsx:239
+msgid "Password required"
+msgstr "Требуется пароль"
+
+#. Password mismatch error
+#: app/routes/dashboard/profile.tsx:127
+msgid "Passwords do not match"
+msgstr "Пароли не совпадают"
+
+#. Subscription status: payment overdue
+#: app/routes/dashboard/-settings.tsx:83
+msgid "Past due"
+msgstr "Просрочена"
+
+#. Video player: pause button
+#. Video player: pause tooltip
+#: src/components/video-player/VideoPlayer.tsx:768
+#: src/components/video-player/VideoPlayer.tsx:769
+msgid "Pause"
+msgstr "Пауза"
+
+#. Badge showing invite is pending
+#: src/components/teams/MemberInvite.tsx:273
+msgid "Pending"
+msgstr "Ожидает"
+
+#. Heading for pending team invites list
+#: src/components/teams/MemberInvite.tsx:259
+msgid "Pending invites"
+msgstr "Ожидающие приглашения"
+
+#. Team size label plural
+#. Team size label plural
+#: app/routes/-compare-frameio.tsx:195
+#: app/routes/-compare-wipster.tsx:193
+msgid "people"
+msgstr "человек"
+
+#. Per month
+#. Per month
+#: app/routes/2.tsx:202
+#: app/routes/2.tsx:224
+msgid "per month"
+msgstr ""
+
+#. Hero headline continuation: per seat pricing
+#: app/routes/-for-agencies.tsx:71
+msgid "PER SEAT."
+msgstr "ЗА МЕСТО."
+
+#. Competitor pricing model
+#: app/routes/-home.tsx:172
+msgid "Per user / month"
+msgstr "За пользователя / месяц"
+
+#. Wipster advantage — budget not a concern
+#: app/routes/-compare-wipster.tsx:299
+msgid "Per-user pricing is fine because your budget is already approved and nobody's counting"
+msgstr "Оплата за пользователя — не проблема, потому что ваш бюджет уже утверждён и никто не считает"
+
+#. Wipster pricing model
+#: app/routes/-compare-wipster.tsx:13
+msgid "Per-user/month"
+msgstr "За пользователя/месяц"
+
+#. Delete team warning when allowed
+#: app/routes/dashboard/-settings.tsx:582
+msgid "Permanently remove this team, all projects, and videos."
+msgstr "Безвозвратно удалить эту команду, все проекты и видео."
+
+#. Team size label singular
+#: app/routes/-compare-frameio.tsx:194
+msgid "person"
+msgstr "человек"
+
+#. Default project picker description
+#: app/routes/dashboard/-layout.tsx:345
+msgid "Pick a project to start uploading."
+msgstr "Выберите проект для начала загрузки."
+
+#. CTA heading: pick your plan
+#: app/routes/mono.tsx:194
+msgid "Pick your plan"
+msgstr "Выберите тариф"
+
+#. Billing plan label
+#: app/routes/dashboard/-settings.tsx:334
+msgid "Plan"
+msgstr "Тариф"
+
+#. Billing plans section heading
+#. Pricing label
+#: app/routes/2.tsx:188
+#: app/routes/dashboard/-settings.tsx:411
+msgid "Plans"
+msgstr "Тарифы"
+
+#. FAQ group: plans and billing
+#: app/routes/-pricing.tsx:134
+msgid "Plans & Billing"
+msgstr "Тарифы и оплата"
+
+#. Video player: play button
+#. Video player: play tooltip
+#: src/components/video-player/VideoPlayer.tsx:768
+#: src/components/video-player/VideoPlayer.tsx:769
+msgid "Play"
+msgstr "Воспроизвести"
+
+#. Video player: big play button overlay
+#: src/components/video-player/VideoPlayer.tsx:1038
+msgid "Play video"
+msgstr "Воспроизвести видео"
+
+#. Video player: current playback speed
+#: src/components/video-player/VideoPlayer.tsx:829
+msgid "Playback speed {playbackRate}x"
+msgstr "Скорость воспроизведения {playbackRate}x"
+
+#. Instruction to sign in with correct email
+#: app/routes/-invite.tsx:131
+msgid "Please sign in with the correct email address to accept this invite."
+msgstr "Войдите с нужным адресом почты, чтобы принять приглашение."
+
+#. Popular badge
+#: app/routes/1.tsx:253
+msgid "Popular"
+msgstr ""
+
+#. Button to post a comment
+#. Button to post a comment
+#. Button to post a comment
+#: app/routes/-share.tsx:407
+#: app/routes/-watch.tsx:276
+#: app/routes/-watch.tsx:385
+msgid "Post comment"
+msgstr "Отправить"
+
+#. Button state while comment is being posted
+#. Button state while comment is being posted
+#. Button state while comment is being posted
+#: app/routes/-share.tsx:407
+#: app/routes/-watch.tsx:276
+#: app/routes/-watch.tsx:385
+msgid "Posting..."
+msgstr "Отправка..."
+
+#. Video player context menu: download in progress
+#: src/components/video-player/VideoPlayer.tsx:1080
+msgid "Preparing download..."
+msgstr "Подготовка скачивания..."
+
+#. Loading state while video stream is being prepared
+#. Loading state while video stream is being prepared
+#. Preparing video stream
+#: app/routes/-share.tsx:370
+#: app/routes/-watch.tsx:193
+#: app/routes/dashboard/-video.tsx:459
+msgid "Preparing stream..."
+msgstr "Подготовка потока..."
+
+#. Video player: download in progress
+#: src/components/video-player/VideoPlayer.tsx:910
+msgid "Preparing..."
+msgstr "Подготовка..."
+
+#. Comparison table row label
+#: app/routes/-compare-frameio.tsx:12
+msgid "Price"
+msgstr "Цена"
+
+#. Comparison table row label
+#. Footer link to pricing page
+#. Nav link to pricing section
+#. Nav: pricing
+#. Nav: pricing
+#. Nav: pricing
+#. Navigation link to pricing page
+#. Pricing heading
+#. Pricing label
+#. Pricing label
+#: app/routes/-compare-wipster.tsx:12
+#: app/routes/-home.tsx:51
+#: app/routes/1.tsx:47
+#: app/routes/2.tsx:191
+#: app/routes/3.tsx:30
+#: app/routes/3.tsx:264
+#: app/routes/5.tsx:27
+#: app/routes/5.tsx:305
+#: src/components/MarketingFooter.tsx:20
+#: src/components/MarketingNav.tsx:31
+msgid "Pricing"
+msgstr "Цены"
+
+#. SEO: pricing page title
+#: app/routes/pricing.tsx:10
+msgid "Pricing — $5/month, unlimited seats"
+msgstr "Цены — $5/месяц, безлимит мест"
+
+#. SEO: pricing page meta description
+#: app/routes/pricing.tsx:11
+msgid "pricing is simple. $5/month for unlimited seats, projects, and clients. $25/month if you need more storage. No per-user fees."
+msgstr "цены просты. $5/мес за безлимит мест, проектов и клиентов. $25/мес, если нужно больше хранилища. Без оплаты за пользователей."
+
+#. Comparison category: pricing model
+#: app/routes/mono.tsx:104
+msgid "PRICING MODEL"
+msgstr "МОДЕЛЬ ОПЛАТЫ"
+
+#. Pricing heading
+#: app/routes/1.tsx:221
+msgid "Pricing."
+msgstr ""
+
+#. Pricing page heading
+#. Pricing section heading
+#: app/routes/-home.tsx:251
+#: app/routes/-pricing.tsx:13
+msgid "PRICING."
+msgstr "ЦЕНЫ."
+
+#. Video visibility: private
+#. Video visibility: private
+#: src/components/ShareDialog.tsx:165
+#: src/components/ShareDialog.tsx:184
+msgid "Private"
+msgstr "Приватное"
+
+#. Description of video visibility behavior
+#: src/components/ShareDialog.tsx:161
+msgid "Private disables the public URL. Restricted share links can still be used."
+msgstr "Приватный режим отключает публичный URL. Ограниченные ссылки для доступа по-прежнему работают."
+
+#. JSON-LD offer name for Pro plan
+#. Pro billing plan label
+#. Pro pricing tier name
+#. Pro pricing tier name
+#. Pro tier
+#. Pro tier
+#. Pro tier
+#. Pro tier
+#. Team plan label for pro tier
+#: app/routes/-home.tsx:274
+#: app/routes/-home.tsx:340
+#: app/routes/-pricing.tsx:69
+#: app/routes/1.tsx:256
+#: app/routes/2.tsx:220
+#: app/routes/3.tsx:301
+#: app/routes/5.tsx:345
+#: app/routes/dashboard/-settings.tsx:66
+#: app/routes/dashboard/index.tsx:38
+msgid "Pro"
+msgstr "Pro"
+
+#. Process label
+#. Section label
+#: app/routes/2.tsx:109
+#: app/routes/5.tsx:180
+msgid "Process"
+msgstr ""
+
+#. Video processing status badge
+#: app/routes/dashboard/-video.tsx:347
+msgid "Processing"
+msgstr "Обработка"
+
+#. Video processing failure
+#: app/routes/dashboard/-video.tsx:492
+msgid "Processing failed"
+msgstr "Ошибка обработки"
+
+#. Upload status: video is being processed
+#. Video is being processed
+#: app/routes/dashboard/-video.tsx:487
+#: src/components/upload/UploadProgress.tsx:104
+msgid "Processing video..."
+msgstr "Обработка видео..."
+
+#. Video status overlay while processing
+#: app/routes/dashboard/-project.tsx:90
+msgid "Processing..."
+msgstr "Обработка..."
+
+#. Footer section heading: product links
+#: src/components/MarketingFooter.tsx:12
+msgid "Product"
+msgstr "Продукт"
+
+#. Profile breadcrumb label
+#. Profile breadcrumb label
+#: app/routes/dashboard/profile.tsx:150
+#: app/routes/dashboard/profile.tsx:160
+msgid "profile"
+msgstr "Профиль"
+
+#. Menu action to open profile settings
+#: src/components/DashboardHeader.tsx:75
+msgid "Profile settings"
+msgstr "Настройки профиля"
+
+#. Placeholder for project name input
+#: app/routes/dashboard/-team.tsx:324
+msgid "Project name"
+msgstr "Название проекта"
+
+#. Error message when project is not found
+#: app/routes/dashboard/-project.tsx:336
+msgid "Project not found"
+msgstr "Проект не найден"
+
+#. Dialog description for project creation
+#: app/routes/dashboard/-team.tsx:319
+msgid "Projects help you organize related videos together."
+msgstr "Проекты помогают организовать видео по группам."
+
+#. Indicator that share link is password-protected
+#: src/components/ShareDialog.tsx:336
+msgid "Protected"
+msgstr "Защищена"
+
+#. Video visibility: public
+#. Video visibility: public
+#: src/components/ShareDialog.tsx:165
+#: src/components/ShareDialog.tsx:176
+msgid "Public"
+msgstr "Публичное"
+
+#. Label for the public video URL
+#: src/components/ShareDialog.tsx:190
+msgid "Public URL"
+msgstr "Публичный URL"
+
+#. Description for the share video dialog
+#: src/components/ShareDialog.tsx:147
+#~ msgid "Public videos can be viewed by anyone with the URL. Only signed-in users can comment."
+#~ msgstr "Публичные видео может смотреть любой по ссылке. Комментировать могут только авторизованные пользователи."
+
+#. Description for the share video dialog
+#: src/components/ShareDialog.tsx:152
+msgid "Public videos can be viewed by anyone with the URL. Share link recipients can watch and comment without signing up."
+msgstr "Публичные видео доступны всем по ссылке. Получатели ссылок для просмотра могут смотреть и комментировать без регистрации."
+
+#. Competitor downside: per-seat pricing penalizes growth
+#: app/routes/-home.tsx:182
+msgid "Punishes you for growing"
+msgstr "Наказывает за рост"
+
+#. Video quality settings label
+#: src/components/video-player/VideoPlayer.tsx:696
+msgid "Quality"
+msgstr "Качество"
+
+#. Video player: current quality level
+#: src/components/video-player/VideoPlayer.tsx:840
+msgid "Quality {qualityLabel}"
+msgstr "Качество {qualityLabel}"
+
+#. Video player: quality settings button tooltip
+#: src/components/video-player/VideoPlayer.tsx:841
+msgid "Quality settings"
+msgstr "Настройки качества"
+
+#. Quick facts label
+#: app/routes/3.tsx:100
+msgid "Quick Facts"
+msgstr ""
+
+#. Humorous note about open source transparency
+#: app/routes/-compare-frameio.tsx:33
+#~ msgid "Read our code. Judge us."
+#~ msgstr "Читайте наш код. Осуждайте."
+
+#. Final CTA
+#: app/routes/3.tsx:330
+msgid "Ready to simplify<0/>your <1>review process?</1>"
+msgstr ""
+
+#. Final CTA
+#: app/routes/5.tsx:379
+msgid "Ready to start<0/><1>reviewing?</1>"
+msgstr ""
+
+#. CTA subtext
+#: app/routes/4.tsx:279
+msgid "Ready when you are. Hit enter to begin."
+msgstr ""
+
+#. Placeholder for share link email restriction input
+#: src/components/ShareDialog.tsx:286
+msgid "recipient@example.com"
+msgstr "recipient@example.com"
+
+#. Status while redirecting to sign in provider
+#. Status while redirecting user to sign in
+#: app/routes/auth/-sign-in.tsx:36
+#: app/routes/dashboard/-layout.tsx:282
+msgid "Redirecting to sign in..."
+msgstr "Переход к авторизации..."
+
+#. Status while redirecting to sign up provider
+#: app/routes/auth/-sign-up.tsx:35
+msgid "Redirecting to sign up..."
+msgstr "Переход к регистрации..."
+
+#. Redirecting to checkout
+#. Redirecting to checkout
+#: app/routes/dashboard/-settings.tsx:462
+#: app/routes/dashboard/-settings.tsx:475
+msgid "Redirecting..."
+msgstr "Переход..."
+
+#. Subscription status: refunded
+#: app/routes/dashboard/-settings.tsx:87
+msgid "Refunded"
+msgstr "Возвращена"
+
+#. Aria label for remove team member button
+#: src/components/teams/MemberInvite.tsx:245
+msgid "Remove member"
+msgstr "Удалить участника"
+
+#. Menu action to reply to a comment
+#: src/components/comments/CommentItem.tsx:131
+msgid "Reply"
+msgstr "Ответить"
+
+#. Feedback dialog description
+#: src/components/FeedbackDialog.tsx:75
+msgid "Report a bug or share your thoughts."
+msgstr "Сообщите об ошибке или поделитесь идеей."
+
+#. Feedback button aria-label
+#. Feedback button tooltip
+#: app/routes/dashboard/-layout.tsx:332
+#: app/routes/dashboard/-layout.tsx:333
+msgid "Report an issue"
+msgstr "Сообщить о проблеме"
+
+#. Upgrade request dialog title
+#: src/components/UpgradeRequestDialog.tsx:68
+msgid "Request a plan upgrade"
+msgstr "Запросить увеличение тарифа"
+
+#. Request plan upgrade button
+#: app/routes/dashboard/-settings.tsx:500
+msgid "Request more"
+msgstr "Запросить больше"
+
+#. Menu action to resolve a comment
+#: src/components/comments/CommentItem.tsx:140
+msgid "Resolve"
+msgstr "Решить"
+
+#. Badge indicating comment is resolved
+#: src/components/comments/CommentItem.tsx:108
+msgid "Resolved"
+msgstr "Решён"
+
+#. Label for optional email field to restrict share link access
+#: src/components/ShareDialog.tsx:282
+msgid "Restrict to email (optional)"
+msgstr "Ограничить по email (необязательно)"
+
+#. Heading for list of restricted share links
+#: src/components/ShareDialog.tsx:307
+msgid "Restricted links"
+msgstr "Ограниченные ссылки"
+
+#. Retry button in comment error boundary
+#. Retry failed upload button
+#: app/routes/dashboard/-video.tsx:57
+#: src/components/upload/UploadProgress.tsx:118
+msgid "Retry"
+msgstr "Повторить"
+
+#. 404 page back to home link
+#: src/components/ui/NotFound.tsx:24
+msgid "Return to Base"
+msgstr "Вернуться на главную"
+
+#. Default video workflow status label
+#. Video workflow status: needs review
+#: src/components/videos/VideoWorkflowStatusControl.tsx:23
+#: src/components/videos/VideoWorkflowStatusControl.tsx:31
+msgid "Review"
+msgstr "Ревью"
+
+#. How it works step 3: review action
+#: app/routes/-home.tsx:133
+msgid "REVIEW"
+msgstr "РЕВЬЮ"
+
+#. SEO: shared video page meta description prefix
+#: app/routes/share.$token.tsx:11
+msgid "Review this shared video on"
+msgstr "Посмотрите это видео на"
+
+#. Aria label for revoke team invite button
+#: src/components/teams/MemberInvite.tsx:279
+msgid "Revoke invite"
+msgstr "Отозвать приглашение"
+
+#. Video player: rewind button
+#: src/components/video-player/VideoPlayer.tsx:807
+msgid "Rewind 10 seconds"
+msgstr "Назад на 10 секунд"
+
+#. Video player: rewind button tooltip with hotkey
+#: src/components/video-player/VideoPlayer.tsx:808
+msgid "Rewind 10 seconds (←)"
+msgstr "Назад на 10 секунд (←)"
+
+#. Video workflow status: needs rework
+#: src/components/videos/VideoWorkflowStatusControl.tsx:24
+msgid "Rework"
+msgstr "Доработка"
+
+#. Save button label
+#. Save team name button
+#: app/routes/dashboard/-settings.tsx:296
+#: app/routes/dashboard/profile.tsx:227
+msgid "Save"
+msgstr "Сохранить"
+
+#. Aria label for save title button
+#. Tooltip for save title button
+#: app/routes/dashboard/-video.tsx:311
+#: app/routes/dashboard/-video.tsx:312
+msgid "Save title"
+msgstr "Сохранить название"
+
+#. Saved confirmation
+#: app/routes/dashboard/profile.tsx:225
+msgid "Saved"
+msgstr "Сохранено"
+
+#. Savings label
+#. Savings label
+#: app/routes/-compare-frameio.tsx:220
+#: app/routes/-compare-wipster.tsx:218
+msgid "saved per year"
+msgstr "экономия в год"
+
+#. Transcode stage: uploading segments
+#. Transcode stage: uploading segments
+#: app/routes/dashboard/-project.tsx:77
+#: app/routes/dashboard/-video.tsx:474
+msgid "Saving"
+msgstr "Сохранение"
+
+#. Transcode stage: uploading segments
+#. Transcode stage: uploading segments
+#: app/routes/dashboard/-project.tsx:51
+#: app/routes/dashboard/-video.tsx:410
+#~ msgid "Saving..."
+#~ msgstr "Сохранение..."
+
+#. Comparison table row label — number of user seats
+#. Team seats label
+#: app/routes/-compare-frameio.tsx:18
+#: app/routes/dashboard/-settings.tsx:400
+msgid "Seats"
+msgstr "Места"
+
+#. Hero secondary
+#: app/routes/5.tsx:83
+msgid "See Features"
+msgstr ""
+
+#. File input tooltip for upload drop zone
+#: src/components/upload/DropZone.tsx:81
+msgid "Select video files"
+msgstr "Выберите видеофайлы"
+
+#. Value prop: product is self-hosted
+#: app/routes/-home.tsx:108
+msgid "SELF-HOSTED"
+msgstr "СВОЙ ХОСТИНГ"
+
+#. Product advantage: self-hosted option
+#: app/routes/-home.tsx:220
+msgid "Self-hosted option"
+msgstr "Возможность самостоятельного хостинга"
+
+#. Comparison table row label
+#. Comparison table row label
+#. FAQ group: self-hosting
+#: app/routes/-compare-frameio.tsx:30
+#: app/routes/-compare-wipster.tsx:18
+#: app/routes/-pricing.tsx:206
+msgid "Self-hosting"
+msgstr "Свой хостинг"
+
+#. Feedback submit button
+#: src/components/FeedbackDialog.tsx:128
+msgid "Send"
+msgstr "Отправить"
+
+#. How it works step 2 description
+#: app/routes/-home.tsx:132
+msgid "Send a link. No account required for clients."
+msgstr "Отправьте ссылку. Клиентам не нужен аккаунт."
+
+#. Aria label for send comment button
+#: src/components/comments/CommentInput.tsx:149
+msgid "Send comment"
+msgstr "Отправить комментарий"
+
+#. Feedback dialog title
+#: src/components/FeedbackDialog.tsx:72
+msgid "Send feedback"
+msgstr "Отправить отзыв"
+
+#. Submit button to send team invite
+#: src/components/teams/MemberInvite.tsx:163
+msgid "Send invite"
+msgstr "Отправить приглашение"
+
+#. Upgrade request submit button
+#: src/components/UpgradeRequestDialog.tsx:90
+msgid "Send request"
+msgstr "Отправить запрос"
+
+#. Feedback submit loading state
+#. Loading state for send invite button
+#. Upgrade request submit loading state
+#: src/components/FeedbackDialog.tsx:127
+#: src/components/teams/MemberInvite.tsx:163
+#: src/components/UpgradeRequestDialog.tsx:89
+msgid "Sending..."
+msgstr "Отправка..."
+
+#. Closing remark for Wipster section — Wipster is a competitor name, keep untranslated
+#: app/routes/-compare-wipster.tsx:307
+msgid "Seriously, Wipster is good. If this is you, go use it. We'll be here if you change your mind later."
+msgstr "Серьёзно, Wipster хорош. Если это про вас — используйте. Мы будем тут, если передумаете."
+
+#. Card title prompting user to set up billing
+#: app/routes/dashboard/-team.tsx:233
+msgid "Set up billing to create projects"
+msgstr "Подключите оплату для создания проектов"
+
+#. Final CTA subtext: quick setup
+#: app/routes/-for-agencies.tsx:258
+msgid "Set up takes about 2 minutes. Your first freelancer will thank you."
+msgstr "Настройка займёт около 2 минут. Ваш первый фрилансер скажет спасибо."
+
+#. Settings breadcrumb label
+#: app/routes/dashboard/-settings.tsx:244
+#~ msgid "settings"
+#~ msgstr "настройки"
+
+#. Settings breadcrumb label
+#: app/routes/dashboard/-settings.tsx:276
+msgid "Settings"
+msgstr "Настройки"
+
+#. Comparison table row label — onboarding process
+#: app/routes/-compare-frameio.tsx:42
+msgid "Setup"
+msgstr "Настройка"
+
+#. Menu item to share a video
+#. Menu item to share a video
+#. Share video button
+#. Share video menu item
+#. Step 2 action: share
+#: app/routes/dashboard/-project.tsx:512
+#: app/routes/dashboard/-project.tsx:677
+#: app/routes/dashboard/-video.tsx:377
+#: app/routes/dashboard/-video.tsx:416
+#: app/routes/mono.tsx:164
+msgid "Share"
+msgstr "Поделиться"
+
+#. How it works step 2: share action
+#: app/routes/-home.tsx:132
+msgid "SHARE"
+msgstr "ПОДЕЛИТЬСЯ"
+
+#. Step 2 action: share a link
+#: app/routes/-for-video-editors.tsx:161
+msgid "SHARE A LINK"
+msgstr "ОТПРАВИТЬ ССЫЛКУ"
+
+#. Success toast when public share link is copied
+#: app/routes/dashboard/-project.tsx:323
+msgid "Share link copied"
+msgstr "Ссылка скопирована"
+
+#. Instruction to share invite link
+#: src/components/teams/MemberInvite.tsx:170
+msgid "Share this link with the invitee:"
+msgstr "Отправьте эту ссылку приглашённому:"
+
+#. Dialog title for sharing a video
+#: src/components/ShareDialog.tsx:150
+msgid "Share video"
+msgstr "Поделиться видео"
+
+#. Footer text on shared video page. {PRODUCT_NAME} is the product name, keep untranslated
+#: app/routes/-share.tsx:460
+msgid "Shared via <0>{PRODUCT_NAME}</0>"
+msgstr "Отправлено через <0>{PRODUCT_NAME}</0>"
+
+#. SEO: shared video page title
+#: app/routes/share.$token.tsx:10
+msgid "Shared video"
+msgstr "Видео по ссылке"
+
+#. Comparison table row label — how sharing works
+#. Comparison table row label — how sharing works
+#: app/routes/-compare-frameio.tsx:36
+#: app/routes/-compare-wipster.tsx:30
+msgid "Sharing"
+msgstr "Общий доступ"
+
+#. FAQ group: sharing and collaboration
+#: app/routes/-pricing.tsx:189
+msgid "Sharing & Collaboration"
+msgstr "Доступ и совместная работа"
+
+#. Comparison label
+#: app/routes/3.tsx:219
+msgid "Side by Side"
+msgstr ""
+
+#. Section heading for comparison table
+#: app/routes/-compare-wipster.tsx:108
+msgid "SIDE BY<0/>SIDE."
+msgstr "БОК О<0/>БОК."
+
+#. Button to sign in for email-restricted video
+#. Footer link to sign in
+#. Nav: sign in
+#. SEO: sign-in page title
+#. Sign in page heading
+#: app/routes/-share.tsx:293
+#: app/routes/3.tsx:33
+#: app/routes/auth/-sign-in.tsx:33
+#: app/routes/sign-in.tsx:11
+#: src/components/MarketingFooter.tsx:36
+msgid "Sign in"
+msgstr "Войти"
+
+#. Navigation link: sign in
+#: app/routes/mono.tsx:31
+msgid "Sign In"
+msgstr "Войти"
+
+#. Button to sign in and accept invite
+#: app/routes/-invite.tsx:107
+msgid "Sign in to accept"
+msgstr "Войдите, чтобы принять"
+
+#. Button prompting user to sign in to leave a comment
+#. Button prompting user to sign in to leave a comment
+#: app/routes/-watch.tsx:286
+#: app/routes/-watch.tsx:395
+msgid "Sign in to comment"
+msgstr "Войдите, чтобы комментировать"
+
+#. SEO: sign-in page meta description prefix
+#: app/routes/sign-in.tsx:12
+msgid "Sign in to your"
+msgstr "Войдите в свой"
+
+#. Button to sign in with a different account
+#: app/routes/-invite.tsx:135
+msgid "Sign in with different account"
+msgstr "Войти с другим аккаунтом"
+
+#. Instruction to sign in with invited email
+#: app/routes/-invite.tsx:104
+msgid "Sign in with the email address above to accept this invite."
+msgstr "Войдите с указанным выше адресом почты, чтобы принять приглашение."
+
+#. Menu action to sign out of account
+#: src/components/DashboardHeader.tsx:83
+msgid "Sign out"
+msgstr "Выйти"
+
+#. Product comparison value — simple setup
+#: app/routes/-compare-frameio.tsx:44
+msgid "Sign up and upload"
+msgstr "Зарегистрируйтесь и загрузите"
+
+#. SEO: sign-up page meta description prefix
+#: app/routes/sign-up.tsx:12
+msgid "Sign up for"
+msgstr "Зарегистрируйтесь в"
+
+#. FAQ answer: sign up and name your team
+#: app/routes/-pricing.tsx:129
+msgid "Sign up, name your team — done. Invite editors, producers, clients. All seats are free."
+msgstr "Зарегистрируйтесь, дайте имя команде — готово. Приглашайте монтажёров, продюсеров, клиентов. Все места бесплатные."
+
+#. Callback page heading while verifying auth
+#: app/routes/auth.callback.tsx:29
+msgid "Signing in"
+msgstr "Вход"
+
+#. Status while processing sign-in callback
+#: app/routes/auth.callback.tsx:22
+#~ msgid "Signing in..."
+#~ msgstr "Входим..."
+
+#. Pricing heading
+#: app/routes/5.tsx:308
+msgid "Simple pricing for everyone"
+msgstr ""
+
+#. Value prop: easy sharing
+#: app/routes/-home.tsx:111
+msgid "SIMPLE SHARING"
+msgstr "ПРОСТОЙ ШАРИНГ"
+
+#. Pricing heading
+#: app/routes/3.tsx:270
+msgid "Simple, honest pricing"
+msgstr ""
+
+#. SEO: Wipster comparison page title suffix
+#: app/routes/compare.wipster.tsx:10
+msgid "simpler video review, flat pricing"
+msgstr "проще видеоревью, фиксированная цена"
+
+#. Comparison table row label
+#: app/routes/-compare-wipster.tsx:36
+msgid "Simplicity"
+msgstr "Простота"
+
+#. Wipster speed assessment
+#: app/routes/-compare-wipster.tsx:25
+msgid "Solid, no complaints"
+msgstr "Надёжно, без нареканий"
+
+#. Pain point card badge: problem solved
+#: app/routes/-for-video-editors.tsx:110
+msgid "SOLVED"
+msgstr "РЕШЕНО"
+
+#. Fallback for unknown inviter
+#: app/routes/dashboard/index.tsx:143
+msgid "Someone"
+msgstr "Кто-то"
+
+#. Comparison table row label
+#. Comparison table row label
+#: app/routes/-compare-frameio.tsx:24
+#: app/routes/-compare-wipster.tsx:24
+msgid "Speed"
+msgstr "Скорость"
+
+#. Nav button to start using the product
+#. Nav: start
+#. Nav: start CTA
+#. Navigation CTA button to start free trial
+#. Navigation link: start / sign up
+#: app/routes/-home.tsx:54
+#: app/routes/1.tsx:56
+#: app/routes/2.tsx:31
+#: app/routes/mono.tsx:32
+#: src/components/MarketingNav.tsx:46
+msgid "Start"
+msgstr "Начать"
+
+#. Start billing plan trial button
+#. placeholder {0}: getPlanLabel(planId)
+#: app/routes/dashboard/-settings.tsx:463
+msgid "Start {0} Trial"
+msgstr "Начать пробный период {0}"
+
+#. Final CTA heading: start editing faster
+#: app/routes/-for-video-editors.tsx:201
+msgid "START EDITING FASTER."
+msgstr "НАЧНИТЕ МОНТИРОВАТЬ БЫСТРЕЕ."
+
+#. Hero CTA
+#: app/routes/1.tsx:86
+msgid "Start Free"
+msgstr ""
+
+#. Footer link to start free trial
+#: src/components/MarketingFooter.tsx:28
+msgid "Start free trial"
+msgstr "Начать бесплатно"
+
+#. CTA
+#. Hero CTA
+#: app/routes/2.tsx:64
+#: app/routes/5.tsx:77
+msgid "Start Free Trial"
+msgstr ""
+
+#. CTA button text
+#. CTA button to start free trial
+#. CTA button: start free trial
+#. CTA button: start free trial
+#: app/routes/-compare-wipster.tsx:400
+#: app/routes/-for-video-editors.tsx:77
+#: app/routes/-for-video-editors.tsx:211
+#: app/routes/-pricing.tsx:249
+msgid "START FREE TRIAL"
+msgstr "ПОПРОБОВАТЬ БЕСПЛАТНО"
+
+#. CTA button to start free trial
+#: app/routes/-home.tsx:97
+msgid "START FREE TRIAL →"
+msgstr "ПОПРОБОВАТЬ БЕСПЛАТНО →"
+
+#. Hero headline continuation: start shipping
+#: app/routes/-for-agencies.tsx:73
+msgid "START SHIPPING"
+msgstr "НАЧИНАЙТЕ ВЫПУСКАТЬ"
+
+#. CTA button: start with basic plan
+#: app/routes/mono.tsx:202
+msgid "Start with Basic"
+msgstr "Начать с Basic"
+
+#. Final CTA heading: start your team
+#: app/routes/-for-agencies.tsx:249
+msgid "START YOUR"
+msgstr "СОЗДАЙТЕ СВОЮ"
+
+#. SEO: sign-up page title
+#: app/routes/sign-up.tsx:11
+msgid "Start your free trial"
+msgstr "Начните пробный период"
+
+#. Read more CTA
+#: app/routes/3.tsx:79
+msgid "Start your free trial →"
+msgstr ""
+
+#. CTA button: start your team
+#. CTA button: start your team
+#: app/routes/-for-agencies.tsx:93
+#: app/routes/-for-agencies.tsx:264
+msgid "START YOUR TEAM"
+msgstr "СОЗДАЙТЕ СВОЮ КОМАНДУ"
+
+#. Final CTA
+#: app/routes/1.tsx:284
+msgid "START<0/><1>NOW.</1>"
+msgstr ""
+
+#. CTA heading
+#. CTA heading
+#. Final CTA section heading
+#: app/routes/-compare-frameio.tsx:385
+#: app/routes/-compare-wipster.tsx:385
+#: app/routes/-home.tsx:297
+msgid "START<0/>NOW."
+msgstr "НАЧАТЬ<0/>СЕЙЧАС."
+
+#. Final CTA
+#: app/routes/2.tsx:248
+msgid "Start<0/>reviewing."
+msgstr ""
+
+#. Price label
+#: app/routes/2.tsx:70
+msgid "Starting at"
+msgstr ""
+
+#. 404 page status code header
+#: src/components/ui/NotFound.tsx:9
+msgid "Status Code // 404"
+msgstr "Код ответа // 404"
+
+#. Label for step number in how-it-works cards
+#. Step card label
+#: app/routes/-for-video-editors.tsx:155
+#: app/routes/-home.tsx:138
+msgid "STEP"
+msgstr "ШАГ"
+
+#. Final CTA section heading
+#: app/routes/-pricing.tsx:240
+msgid "Still reading?"
+msgstr "Всё ещё читаете?"
+
+#. Hero headline: stop per-seat pricing, start shipping work
+#: app/routes/-for-agencies.tsx:69
+msgid "STOP PAYING"
+msgstr "ХВАТИТ ПЛАТИТЬ"
+
+#. Pricing tagline: stop paying per-seat tax
+#: app/routes/-for-video-editors.tsx:192
+msgid "Stop paying per-seat tax on collaboration."
+msgstr "Хватит платить «налог» за каждого в команде."
+
+#. Storage usage label
+#: app/routes/dashboard/-settings.tsx:382
+msgid "Storage"
+msgstr "Хранилище"
+
+#. Product advantage: fast performance
+#: app/routes/-home.tsx:208
+msgid "Stupidly fast"
+msgstr "Безумно быстрый"
+
+#. FAQ group: subscription and access
+#: app/routes/-pricing.tsx:155
+msgid "Subscription & Access"
+msgstr "Подписка и доступ"
+
+#. Banner showing subscription expiry date
+#. placeholder {0}: new Date(billing.currentPeriodEnd * 1000).toLocaleDateString()
+#: app/routes/dashboard/-video.tsx:430
+msgid "Subscription expires {0}"
+msgstr "Подписка истекает {0}"
+
+#. Subscription end date in dialog
+#. placeholder {0}: new Date(currentPeriodEnd * 1000).toLocaleDateString()
+#: src/components/SubscriptionRequiredDialog.tsx:41
+msgid "Subscription expires {0}."
+msgstr "Подписка истекает {0}."
+
+#. Subscription required dialog title
+#: src/components/SubscriptionRequiredDialog.tsx:34
+msgid "Subscription required"
+msgstr "Требуется подписка"
+
+#. Placeholder when comment input is disabled due to subscription
+#: src/components/comments/CommentInput.tsx:44
+msgid "Subscription required to comment"
+msgstr "Для комментирования необходима подписка"
+
+#. Switch to Basic plan button
+#. placeholder {0}: getPlanLabel(planId)
+#: app/routes/dashboard/-settings.tsx:478
+msgid "Switch to {0}"
+msgstr "Перейти на {0}"
+
+#. Accessibility label for theme toggle
+#. Accessibility label for theme toggle
+#: app/routes/auth/-layout.tsx:23
+#: src/components/DashboardHeader.tsx:35
+msgid "Switch to dark mode"
+msgstr "Переключить на тёмную тему"
+
+#. Theme toggle button tooltip
+#. Theme toggle button tooltip
+#: app/routes/auth/-layout.tsx:20
+#: src/components/DashboardHeader.tsx:32
+msgid "Switch to dark mode (⌘⇧L)"
+msgstr "Тёмная тема (⌘⇧L)"
+
+#. Accessibility label for theme toggle
+#. Accessibility label for theme toggle
+#: app/routes/auth/-layout.tsx:22
+#: src/components/DashboardHeader.tsx:34
+msgid "Switch to light mode"
+msgstr "Переключить на светлую тему"
+
+#. Theme toggle button tooltip
+#. Theme toggle button tooltip
+#: app/routes/auth/-layout.tsx:19
+#: src/components/DashboardHeader.tsx:31
+msgid "Switch to light mode (⌘⇧L)"
+msgstr "Светлая тема (⌘⇧L)"
+
+#. Dialog title for team member management
+#: src/components/teams/MemberInvite.tsx:126
+msgid "Team members"
+msgstr "Участники команды"
+
+#. Placeholder for team name input
+#: src/components/teams/CreateTeamDialog.tsx:59
+msgid "Team name"
+msgstr "Название команды"
+
+#. Error message when team is not found
+#. Team not found error
+#: app/routes/dashboard/-settings.tsx:154
+#: app/routes/dashboard/-team.tsx:164
+msgid "Team not found"
+msgstr "Команда не найдена"
+
+#. Frame.io annual cost for team of 5
+#: app/routes/mono.tsx:109
+msgid "Team of 5 = $1,140/year"
+msgstr "Команда из 5 = $1 140/год"
+
+#. Product annual cost for team of 5
+#: app/routes/mono.tsx:114
+msgid "Team of 5 = $60/year"
+msgstr "Команда из 5 = $60/год"
+
+#. Comparison table label: team size
+#: app/routes/-for-agencies.tsx:177
+msgid "TEAM SIZE"
+msgstr "РАЗМЕР КОМАНДЫ"
+
+#. Final CTA heading continuation
+#: app/routes/-for-agencies.tsx:251
+msgid "TEAM."
+msgstr "КОМАНДУ."
+
+#. Empty state description when user has no teams
+#: app/routes/dashboard/index.tsx:99
+msgid "Teams help you organize projects and collaborate on video reviews."
+msgstr "Команды помогают организовать проекты и совместно работать над видеоревью."
+
+#. Description in create team dialog
+#: src/components/teams/CreateTeamDialog.tsx:54
+msgid "Teams let you collaborate on video projects with others."
+msgstr "Команды позволяют совместно работать над видеопроектами."
+
+#. Upgrade request dialog description
+#: src/components/UpgradeRequestDialog.tsx:71
+msgid "Tell us about your needs and we'll find the right plan for you."
+msgstr "Расскажите о ваших потребностях, и мы подберём подходящий тариф."
+
+#. Feedback sent success message
+#: src/components/FeedbackDialog.tsx:65
+msgid "Thank you! Your message has been sent."
+msgstr "Спасибо! Ваше сообщение отправлено."
+
+#. Humorous savings commentary for 3-person team
+#: app/routes/-compare-frameio.tsx:58
+msgid "That's a lot of burritos."
+msgstr "Это целая гора буррито."
+
+#. Savings commentary: humorous note about coffee
+#: app/routes/-for-agencies.tsx:222
+msgid "That's a lot of coffee."
+msgstr "Это очень много кофе."
+
+#. Savings commentary for 5-person team
+#: app/routes/-compare-wipster.tsx:59
+msgid "That's a new camera lens."
+msgstr "Это новый объектив."
+
+#. SEO: Frame.io comparison page title suffix
+#: app/routes/compare.frameio.tsx:10
+msgid "the cheaper, faster alternative"
+msgstr "дешевле, быстрее, проще"
+
+#. Pain point description: product is $5/month flat for unlimited seats. {PRODUCT_NAME} is the product name
+#: app/routes/-for-video-editors.tsx:124
+msgid "The director, the producer, the client, the client's wife, the intern who somehow has opinions — they all need access. {PRODUCT_NAME} is $5/month flat. Invite literally everyone."
+msgstr "Режиссёр, продюсер, клиент, жена клиента, стажёр, у которого откуда-то есть мнение — всем нужен доступ. {PRODUCT_NAME} стоит $5/мес за всё. Приглашайте буквально всех."
+
+#. Step 2 description: the link
+#: app/routes/mono.tsx:169
+msgid "the link"
+msgstr "ссылка"
+
+#. Open source callout label
+#: app/routes/-compare-wipster.tsx:233
+#~ msgid "THE OPEN SOURCE THING"
+#~ msgstr "ПРО OPEN SOURCE"
+
+#. Competitor label
+#: app/routes/1.tsx:183
+msgid "The other guys"
+msgstr ""
+
+#. Label for the competitor column
+#: app/routes/-home.tsx:167
+msgid "THE OTHER GUYS"
+msgstr "КОНКУРЕНТЫ"
+
+#. Pain points section heading
+#: app/routes/-for-video-editors.tsx:93
+msgid "THE PAIN IS REAL."
+msgstr "БОЛЬ РЕАЛЬНА."
+
+#. Comparison summary label
+#: app/routes/-for-agencies.tsx:234
+msgid "The pattern:"
+msgstr "Паттерн:"
+
+#. Problem heading
+#: app/routes/3.tsx:144
+msgid "The problem with video review"
+msgstr ""
+
+#. 404 page description
+#: src/components/ui/NotFound.tsx:17
+msgid "The requested path doesn't exist. It might have been moved, deleted, or you typed the URL incorrectly."
+msgstr "Запрашиваемый путь не существует. Возможно, он был перемещён, удалён, или вы ввели URL с ошибкой."
+
+#. Our product label
+#: app/routes/1.tsx:197
+msgid "The solution"
+msgstr ""
+
+#. Label for product column in comparison
+#: app/routes/-home.tsx:197
+msgid "THE SOLUTION"
+msgstr "РЕШЕНИЕ"
+
+#. Editorial hero title
+#: app/routes/3.tsx:56
+msgid "The tool creative<0/>teams actually<1/><2>wanted.</2>"
+msgstr ""
+
+#. Comparison section heading
+#: app/routes/-home.tsx:156
+msgid "THE<0/>RIVAL."
+msgstr "КОНКУ<0/>РЕНТ."
+
+#. Comparison summary: competitors charge more as you grow, we don't
+#: app/routes/-for-agencies.tsx:235
+msgid "They charge more as you grow. We don't. Your 50th seat costs the same as your first — $0 extra."
+msgstr "Они берут больше с ростом вашей команды. Мы — нет. 50-й пользователь стоит столько же, сколько первый — $0 сверху."
+
+#. Description when invite link is invalid
+#: app/routes/-invite.tsx:66
+msgid "This invite link is no longer valid. Please ask for a new invitation."
+msgstr "Эта ссылка приглашения больше недействительна. Попросите новое приглашение."
+
+#. Description when signed-in email differs from invite email
+#. placeholder {0}: invite.email
+#: app/routes/-invite.tsx:126
+msgid "This invite was sent to {0}, but you're signed in as {userEmail}."
+msgstr "Приглашение было отправлено на {0}, но вы вошли как {userEmail}."
+
+#. Profile name section description
+#: app/routes/dashboard/profile.tsx:207
+msgid "This is how others will see you in teams."
+msgstr "Так вас будут видеть другие участники команд."
+
+#. Description when share link is expired or not found
+#: app/routes/-share.tsx:216
+msgid "This share link is no longer valid. Please ask the video owner for a new link."
+msgstr "Эта ссылка для доступа больше недействительна. Попросите владельца видео создать новую."
+
+#. Description explaining team needs billing setup
+#: app/routes/dashboard/-team.tsx:235
+msgid "This team has no active subscription. Go to Billing to start Basic or Pro before creating projects."
+msgstr "У этой команды нет активной подписки. Перейдите в раздел «Оплата», чтобы подключить Basic или Pro перед созданием проектов."
+
+#. Description when shared video is not available
+#: app/routes/-share.tsx:312
+msgid "This video is not available or is still processing."
+msgstr "Это видео недоступно или ещё обрабатывается."
+
+#. Description when shared video requires a password
+#: app/routes/-share.tsx:241
+msgid "This video is password protected. Enter the password to view."
+msgstr "Это видео защищено паролем. Введите пароль для просмотра."
+
+#. Description when video is not accessible
+#: app/routes/-watch.tsx:125
+msgid "This video is private, invalid, or no longer available."
+msgstr "Это видео приватное, недействительное или больше недоступно."
+
+#. Description when shared video requires email verification
+#: app/routes/-share.tsx:284
+msgid "This video is shared with a specific person. Sign in to verify your email."
+msgstr "Это видео доступно конкретному человеку. Войдите, чтобы подтвердить email."
+
+#. Error when signed-in email doesn't match the restricted email
+#: app/routes/-share.tsx:283
+msgid "This video was shared with a different email address."
+msgstr "Это видео было отправлено на другой email."
+
+#. Process heading
+#: app/routes/5.tsx:183
+msgid "Three steps to better reviews"
+msgstr ""
+
+#. How it works subtext: simple onboarding
+#: app/routes/-for-video-editors.tsx:140
+msgid "Three steps. No onboarding calls, no training videos, no \"schedule a demo\" buttons."
+msgstr "Три шага. Без звонков для онбординга, без обучающих видео, без кнопок «запланировать демо»."
+
+#. Step 3 description: to comment
+#: app/routes/mono.tsx:170
+msgid "to comment"
+msgstr "комментарий"
+
+#. Pricing emphasis: total price
+#: app/routes/-for-video-editors.tsx:184
+msgid "TOTAL."
+msgstr "ЗА ВСЁ."
+
+#. Transcode stage: encoding video with percent
+#. Transcode stage: encoding video with percent
+#. placeholder {0}: progress.percent
+#. placeholder {0}: transcodeProgress.percent
+#: app/routes/dashboard/-project.tsx:75
+#: app/routes/dashboard/-video.tsx:473
+msgid "Transcoding {0}%"
+msgstr "Транскодирование {0}%"
+
+#. Trial end date display
+#: app/routes/dashboard/-settings.tsx:318
+#~ msgid "Trial ends {0} UTC"
+#~ msgstr "Пробный период заканчивается {0} UTC"
+
+#. Subscription status: trialing
+#. Subscription trialing badge
+#: app/routes/dashboard/-settings.tsx:81
+#: app/routes/dashboard/-settings.tsx:345
+msgid "Trialing"
+msgstr "Пробный период"
+
+#. CTA button text — {PRODUCT_NAME} is the product name, keep untranslated
+#: app/routes/-compare-frameio.tsx:401
+msgid "TRY {PRODUCT_NAME} FREE"
+msgstr "ПОПРОБОВАТЬ {PRODUCT_NAME} БЕСПЛАТНО"
+
+#. Hero subheading — humorous marketing statement
+#: app/routes/-compare-wipster.tsx:83
+msgid "Two video review tools<0/>walk into a bar.<1/><2>One costs less. That's the whole joke.</2>"
+msgstr "Два инструмента видеоревью<0/>заходят в бар.<1/><2>Один стоит дешевле. Это вся шутка.</2>"
+
+#. Confirm dialog asking user to type team name
+#: app/routes/dashboard/-settings.tsx:202
+msgid "Type the team name to confirm: "
+msgstr "Введите название команды для подтверждения: "
+
+#. Fallback error when subscription cancellation fails
+#: app/routes/dashboard/-settings.tsx:231
+msgid "Unable to cancel subscription."
+msgstr "Не удалось отменить подписку."
+
+#. Error when video playback fails to load
+#. Error when video playback fails to load
+#: app/routes/-share.tsx:135
+#: app/routes/-watch.tsx:55
+msgid "Unable to load playback session."
+msgstr "Не удалось загрузить сессию воспроизведения."
+
+#. Fallback error when billing checkout fails
+#: app/routes/dashboard/-settings.tsx:260
+msgid "Unable to start checkout."
+msgstr "Не удалось начать оформление."
+
+#. Humorous note about fast setup
+#: app/routes/-compare-frameio.tsx:45
+msgid "Under 60 seconds or your money back."
+msgstr "Менее 60 секунд, или вернём деньги."
+
+#. Product seat availability
+#. Unlimited seats label
+#: app/routes/-compare-frameio.tsx:20
+#: app/routes/dashboard/-settings.tsx:72
+msgid "Unlimited"
+msgstr "Безлимит"
+
+#. Basic plan feature: unlimited clients
+#. Basic plan feature: unlimited clients
+#. Pro plan feature: unlimited clients
+#. Pro plan feature: unlimited clients
+#: app/routes/-home.tsx:264
+#: app/routes/-home.tsx:283
+#: app/routes/-pricing.tsx:49
+#: app/routes/-pricing.tsx:93
+msgid "Unlimited clients"
+msgstr "Безлимит клиентов"
+
+#. Basic plan description
+#. Basic plan description
+#: app/routes/-home.tsx:259
+#: app/routes/-pricing.tsx:35
+msgid "Unlimited everything, except storage."
+msgstr "Безлимит на всё, кроме хранилища."
+
+#. Basic plan feature: unlimited projects
+#. Basic plan feature: unlimited projects
+#. Pro plan feature: unlimited projects
+#. Pro plan feature: unlimited projects
+#: app/routes/-home.tsx:263
+#: app/routes/-home.tsx:282
+#: app/routes/-pricing.tsx:45
+#: app/routes/-pricing.tsx:89
+msgid "Unlimited projects"
+msgstr "Безлимит проектов"
+
+#. Pain point description: unlimited projects organized by team
+#: app/routes/-for-agencies.tsx:141
+msgid "Unlimited projects, organized by team. No per-project limits, no storage gotchas. Every client gets their own space. You get your sanity back."
+msgstr "Безлимит проектов, организованных по командам. Без лимитов на проект, без подвохов с хранилищем. У каждого клиента своё пространство. Вы сохраняете рассудок."
+
+#. Pricing clarification: unlimited seats
+#: app/routes/mono.tsx:57
+msgid "unlimited seats"
+msgstr "безлимит мест"
+
+#. Basic plan feature: unlimited seats
+#. Basic plan feature: unlimited seats
+#. Feature title: unlimited seats
+#. Pro plan feature: unlimited seats
+#. Pro plan feature: unlimited seats
+#. Unlimited seats pricing detail
+#: app/routes/-home.tsx:92
+#: app/routes/-home.tsx:262
+#: app/routes/-home.tsx:281
+#: app/routes/-pricing.tsx:41
+#: app/routes/-pricing.tsx:85
+#: app/routes/mono.tsx:80
+msgid "Unlimited seats"
+msgstr "Безлимит мест"
+
+#. JSON-LD description for Basic plan offer
+#: app/routes/-home.tsx:333
+msgid "Unlimited seats, unlimited projects, unlimited clients, 100GB storage"
+msgstr "Безлимит мест, безлимит проектов, безлимит клиентов, 100 ГБ хранилища"
+
+#. JSON-LD description for Pro plan offer
+#: app/routes/-home.tsx:343
+msgid "Unlimited seats, unlimited projects, unlimited clients, 1TB storage"
+msgstr "Безлимит мест, безлимит проектов, безлимит клиентов, 1 ТБ хранилища"
+
+#. Pricing clarification: unlimited seats
+#: app/routes/-for-agencies.tsx:100
+msgid "Unlimited seats. Seriously."
+msgstr "Безлимит мест. Серьёзно."
+
+#. Pricing details: unlimited everything for one flat price
+#: app/routes/-for-video-editors.tsx:187
+msgid "Unlimited seats. Unlimited projects. Unlimited reviewers. Your entire team, your clients, your client's clients — everyone gets access for one flat price."
+msgstr "Безлимит мест. Безлимит проектов. Безлимит ревьюеров. Вся ваша команда, ваши клиенты, клиенты ваших клиентов — у всех доступ за одну фиксированную цену."
+
+#. Video player: unmute button
+#. Video player: unmute tooltip
+#: src/components/video-player/VideoPlayer.tsx:779
+#: src/components/video-player/VideoPlayer.tsx:780
+msgid "Unmute"
+msgstr "Включить звук"
+
+#. Team billing status label when subscription is unpaid
+#. Team has no active subscription
+#: app/routes/dashboard/-settings.tsx:168
+#: app/routes/dashboard/index.tsx:36
+msgid "Unpaid"
+msgstr "Не оплачена"
+
+#. Menu action to unresolve a comment
+#: src/components/comments/CommentItem.tsx:140
+msgid "Unresolve"
+msgstr "Вернуть в открытые"
+
+#. Aria label for workflow status dropdown
+#. Tooltip for workflow status dropdown
+#: src/components/videos/VideoWorkflowStatusControl.tsx:79
+#: src/components/videos/VideoWorkflowStatusControl.tsx:80
+msgid "Update review status"
+msgstr "Обновить статус ревью"
+
+#. Password saved confirmation
+#: app/routes/dashboard/profile.tsx:283
+msgid "Updated"
+msgstr "Обновлено"
+
+#. Upgrade to Pro plan button
+#. placeholder {0}: getPlanLabel(planId)
+#: app/routes/dashboard/-settings.tsx:477
+msgid "Upgrade to {0}"
+msgstr "Перейти на {0}"
+
+#. Upgrade note: can upgrade to Pro anytime
+#: app/routes/mono.tsx:204
+msgid "Upgrade to Pro anytime"
+msgstr "Перейти на Pro можно в любой момент"
+
+#. FAQ answer: upgrade to Pro or delete old projects
+#: app/routes/-pricing.tsx:131
+#~ msgid "Upgrade to Pro for more space, or delete old projects to free up room."
+#~ msgstr "Перейдите на Pro для увеличения хранилища или удалите старые проекты, чтобы освободить место."
+
+#. FAQ answer: upgrade to Pro or delete old projects
+#: app/routes/-pricing.tsx:176
+msgid "Upgrade to Pro for more space, or delete old projects. You won't be able to upload new videos until you free up space."
+msgstr "Перейдите на Pro для увеличения хранилища или удалите старые проекты. Загрузка новых видео будет недоступна, пока не освободите место."
+
+#. Step 1 action: upload
+#. Upload button label
+#. Upload button label
+#: app/routes/dashboard/-project.tsx:393
+#: app/routes/mono.tsx:163
+#: src/components/upload/UploadButton.tsx:47
+msgid "Upload"
+msgstr "Загрузить"
+
+#. How it works step 1: upload action
+#: app/routes/-home.tsx:131
+msgid "UPLOAD"
+msgstr "ЗАГРУЗИТЬ"
+
+#. Step 1 action: upload your cut
+#: app/routes/-for-video-editors.tsx:160
+msgid "UPLOAD YOUR CUT"
+msgstr "ЗАГРУЗИТЕ МОНТАЖ"
+
+#. FAQ answer: automatic transcoding to adaptive streaming
+#: app/routes/-pricing.tsx:184
+msgid "Upload your file, it's automatically transcoded into adaptive streaming format. Processing time depends on file size — usually a few minutes."
+msgstr "Загрузите файл — он автоматически перекодируется в адаптивный формат стриминга. Время обработки зависит от размера файла — обычно несколько минут."
+
+#. Pain point title: slow upload/transcode process
+#: app/routes/-for-video-editors.tsx:116
+msgid "UPLOAD, WAIT, TRANSCODE, WAIT"
+msgstr "ЗАГРУЗКА, ОЖИДАНИЕ, ТРАНСКОД, ОЖИДАНИЕ"
+
+#. Video uploading status badge
+#: app/routes/dashboard/-video.tsx:346
+msgid "Uploading"
+msgstr "Загрузка"
+
+#. Video status overlay while uploading
+#. Video status overlay while uploading
+#. Video upload in progress
+#: app/routes/dashboard/-project.tsx:473
+#: app/routes/dashboard/-project.tsx:601
+#: app/routes/dashboard/-video.tsx:465
+msgid "Uploading..."
+msgstr "Загрузка..."
+
+#. Heading — {PRODUCT_NAME} is the product name, keep untranslated
+#. Heading — {PRODUCT_NAME} is the product name, keep untranslated
+#: app/routes/-compare-frameio.tsx:319
+#: app/routes/-compare-wipster.tsx:319
+msgid "Use {PRODUCT_NAME} if..."
+msgstr "{PRODUCT_NAME} подойдёт, если..."
+
+#. Footer section heading: use case links
+#: src/components/MarketingFooter.tsx:66
+msgid "Use cases"
+msgstr "Кейсы"
+
+#. Heading — Frame.io is a competitor name, keep untranslated
+#: app/routes/-compare-frameio.tsx:256
+msgid "Use Frame.io if..."
+msgstr "Используйте Frame.io, если..."
+
+#. Heading — Wipster is a competitor name, keep untranslated
+#: app/routes/-compare-wipster.tsx:256
+msgid "Use Wipster if..."
+msgstr "Используйте Wipster, если..."
+
+#. Status while processing sign-in callback
+#: app/routes/auth.callback.tsx:32
+msgid "Verifying your credentials..."
+msgstr "Проверка данных..."
+
+#. Button state while verifying password
+#: app/routes/-share.tsx:263
+msgid "Verifying..."
+msgstr "Проверка..."
+
+#. Product tagline on auth pages
+#: app/routes/auth/-layout.tsx:80
+msgid "Video collaboration, simplified"
+msgstr "Совместная работа над видео — просто"
+
+#. Success toast when private video link is copied
+#: app/routes/dashboard/-project.tsx:324
+msgid "Video link copied (public watch link not available yet)"
+msgstr "Ссылка на видео скопирована (публичная ссылка пока недоступна)"
+
+#. Title when shared video is not available
+#: app/routes/-share.tsx:310
+msgid "Video not available"
+msgstr "Видео недоступно"
+
+#. Video not found error
+#: app/routes/dashboard/-video.tsx:271
+msgid "Video not found"
+msgstr "Видео не найдено"
+
+#. Nav descriptor: video review
+#: app/routes/mono.tsx:28
+msgid "video review"
+msgstr "видеоревью"
+
+#. Footer tagline
+#: app/routes/4.tsx:297
+msgid "video review // creative teams"
+msgstr ""
+
+#. SEO: homepage meta description. Frame.io is a competitor product name
+#. SEO: root page meta description. Frame.io is a competitor product name
+#: app/routes/__root.tsx:27
+#: app/routes/index.tsx:11
+#~ msgid "Video review and collaboration for creative teams. Frame-accurate comments, unlimited seats, $5/month flat. The open source Frame.io alternative."
+#~ msgstr "Видеоревью и совместная работа для креативных команд. Покадровые комментарии, безлимит мест, $5/месяц фиксированно. Open source альтернатива Frame.io."
+
+#. SEO: homepage meta description. Frame.io is a competitor product name
+#. SEO: root page meta description. Frame.io is a competitor product name
+#: app/routes/__root.tsx:27
+#: app/routes/index.tsx:11
+msgid "Video review and collaboration for creative teams. Frame-accurate comments, unlimited seats, $5/month flat. The simpler Frame.io alternative."
+msgstr "Видеоревью и коллаборация для творческих команд. Покадровые комментарии, безлимитные места, от 800 ₽/мес. Простая альтернатива Frame.io."
+
+#. JSON-LD meta description for search engines
+#: app/routes/-home.tsx:320
+msgid "Video review and collaboration for creative teams. Frame-accurate comments, unlimited seats, flat pricing."
+msgstr "Видеоревью и совместная работа для креативных команд. Покадровые комментарии, безлимит мест, фиксированная цена."
+
+#. SEO: agencies landing page meta description
+#: app/routes/for.agencies.tsx:10
+msgid "Video review built for agencies. Unlimited seats for $5/month. No per-user pricing, no client accounts needed, instant sharing."
+msgstr "Видеоревью для агентств. Безлимит мест за $5/месяц. Без оплаты за пользователя, без аккаунтов для клиентов, мгновенный шаринг."
+
+#. SEO: video editors landing page meta description
+#: app/routes/for.video-editors.tsx:10
+msgid "Video review built for editors. Frame-accurate comments, instant playback, no account required for reviewers. $5/month flat."
+msgstr "Видеоревью для монтажёров. Покадровые комментарии, мгновенное воспроизведение, ревьюерам не нужен аккаунт. $5/месяц фиксированно."
+
+#. SEO: agencies landing page title
+#: app/routes/for.agencies.tsx:9
+msgid "Video review for agencies — stop paying per seat"
+msgstr "Видеоревью для агентств — хватит платить за каждое место"
+
+#. SEO: homepage title tagline
+#. SEO: root page title tagline
+#: app/routes/__root.tsx:24
+#: app/routes/index.tsx:10
+msgid "video review for creative teams"
+msgstr "видеоревью для креативных команд"
+
+#. Footer
+#. Footer tagline
+#: app/routes/1.tsx:303
+#: app/routes/2.tsx:270
+msgid "Video review for creative teams"
+msgstr ""
+
+#. Footer tagline
+#. Footer tagline
+#. Hero tagline describing the product purpose
+#. Hero tagline: video review for creative teams
+#. Product tagline in footer
+#. Terminal hero
+#: app/routes/-home.tsx:82
+#: app/routes/3.tsx:354
+#: app/routes/4.tsx:70
+#: app/routes/5.tsx:406
+#: app/routes/mono.tsx:47
+#: src/components/MarketingFooter.tsx:91
+msgid "Video review for creative teams."
+msgstr "Видеоревью для креативных команд."
+
+#. SEO: sign-up page meta description suffix
+#: app/routes/sign-up.tsx:12
+msgid "video review for creative teams. $5/month flat, unlimited seats."
+msgstr "видеоревью для креативных команд. $5/мес, безлимит мест."
+
+#. Cinema hero tagline
+#: app/routes/1.tsx:76
+msgid "Video review for creative teams. Brutally simple."
+msgstr ""
+
+#. SEO: video editors landing page title
+#: app/routes/for.video-editors.tsx:9
+msgid "Video review for editors — frame-accurate feedback"
+msgstr "Видеоревью для монтажёров — покадровая обратная связь"
+
+#. Swiss hero label
+#: app/routes/2.tsx:42
+msgid "Video Review Platform"
+msgstr ""
+
+#. Hero headline: video review tool editors want to use
+#: app/routes/-for-video-editors.tsx:64
+msgid "VIDEO REVIEW THAT EDITORS ACTUALLY WANT TO USE."
+msgstr "ВИДЕОРЕВЬЮ, КОТОРЫМ МОНТАЖЁРЫ ДЕЙСТВИТЕЛЬНО ХОТЯТ ПОЛЬЗОВАТЬСЯ."
+
+#. Editorial kicker
+#: app/routes/3.tsx:50
+msgid "Video Review, Reimagined"
+msgstr ""
+
+#. Gradient hero title
+#: app/routes/5.tsx:56
+msgid "Video review<0/><1>made simple.</1>"
+msgstr ""
+
+#. Title when video is not accessible
+#: app/routes/-watch.tsx:123
+msgid "Video unavailable"
+msgstr "Видео недоступно"
+
+#. FAQ group: videos and storage
+#: app/routes/-pricing.tsx:172
+msgid "Videos & Storage"
+msgstr "Видео и хранилище"
+
+#. Button to view and accept a pending invite
+#: app/routes/dashboard/index.tsx:149
+msgid "View invite"
+msgstr "Посмотреть приглашение"
+
+#. GitHub link text
+#: app/routes/-compare-wipster.tsx:251
+#~ msgid "View on GitHub"
+#~ msgstr "Смотреть на GitHub"
+
+#. Button to view password-protected video
+#: app/routes/-share.tsx:263
+msgid "View video"
+msgstr "Смотреть видео"
+
+#. FAQ answer: view videos and read comments only
+#: app/routes/-pricing.tsx:163
+msgid "View videos and read comments. Uploading, commenting, downloading, and resolving comments require an active subscription."
+msgstr "Просмотр видео и чтение комментариев. Загрузка, комментирование, скачивание и отметка комментариев как решённых требуют активной подписки."
+
+#. Team role: read-only viewer
+#. Viewer role option in dropdown
+#. Viewer role option in member role dropdown
+#: src/components/teams/MemberInvite.tsx:41
+#: src/components/teams/MemberInvite.tsx:156
+#: src/components/teams/MemberInvite.tsx:236
+msgid "Viewer"
+msgstr "Наблюдатель"
+
+#. Label for video visibility setting
+#: src/components/ShareDialog.tsx:159
+msgid "Visibility"
+msgstr "Видимость"
+
+#. Video player: volume slider
+#: src/components/video-player/VideoPlayer.tsx:785
+msgid "Volume"
+msgstr "Громкость"
+
+#. SEO: watch video page meta description prefix
+#: app/routes/watch.$publicId.tsx:11
+msgid "Watch and review this video on"
+msgstr "Смотрите и обсуждайте это видео на"
+
+#. SEO: watch video page title
+#: app/routes/watch.$publicId.tsx:10
+msgid "Watch video"
+msgstr "Смотреть видео"
+
+#. Humorous note about intentional simplicity
+#: app/routes/-compare-wipster.tsx:39
+msgid "We call this a feature, not a bug."
+msgstr "Мы называем это фичей, а не багом."
+
+#. Honest advice intro — Frame.io is a competitor name, keep untranslated
+#: app/routes/-compare-frameio.tsx:245
+msgid "We could trash-talk Frame.io but that would be dishonest and also they have way more employees than us. Here's the real deal."
+msgstr "Мы могли бы поливать Frame.io грязью, но это было бы нечестно, да и сотрудников у них куда больше. Вот как дела обстоят на самом деле."
+
+#. Closing remark for product section — Frame.io is a competitor name, keep untranslated. {PRODUCT_NAME} is the product name, keep untranslated
+#: app/routes/-compare-frameio.tsx:370
+msgid "We do less than Frame.io. Proudly. Turns out \"upload, share, comment\" is 90% of what anyone actually needs."
+msgstr "Мы делаем меньше, чем Frame.io. И гордимся этим. Оказывается, «загрузить, поделиться, прокомментировать» — это 90% того, что реально нужно."
+
+#. Closing remark for product section — Wipster is a competitor name, keep untranslated. {PRODUCT_NAME} is the product name, keep untranslated
+#: app/routes/-compare-wipster.tsx:370
+msgid "We do less than Wipster. Proudly. Upload, share, comment. Go home. That's 90% of what anyone actually needs."
+msgstr "Мы делаем меньше, чем Wipster. И гордимся этим. Загрузить, поделиться, прокомментировать. Пойти домой. Это 90% того, что реально нужно."
+
+#. Note about speed priority
+#: app/routes/-compare-frameio.tsx:27
+msgid "We obsess over this so you don't wait."
+msgstr "Мы одержимы этим, чтобы вам не ждать."
+
+#. Hero subheading — bold marketing statement
+#: app/routes/-compare-frameio.tsx:83
+msgid "We're not better.<0/>We're cheaper and faster.<1/><2>That might be better.</2>"
+msgstr "Мы не лучше.<0/>Мы дешевле и быстрее.<1/><2>Возможно, это и есть лучше.</2>"
+
+#. Sympathy message after subscription cancellation
+#: app/routes/dashboard/-settings.tsx:355
+msgid "We're sorry to see you go"
+msgstr "Нам очень жаль, что вы уходите"
+
+#. Humorous note about speed obsession
+#: app/routes/-compare-wipster.tsx:27
+msgid "We're unreasonably competitive about this."
+msgstr "Мы помешаны на этом до неприличия."
+
+#. FAQ question about what's available without subscription
+#: app/routes/-pricing.tsx:162
+msgid "What can I do without an active subscription?"
+msgstr "Что доступно без активной подписки?"
+
+#. FAQ question about what counts as a seat
+#: app/routes/-pricing.tsx:141
+msgid "What counts as a seat?"
+msgstr "Что считается местом?"
+
+#. FAQ question about what happens after trial ends
+#: app/routes/-pricing.tsx:158
+msgid "What happens after the trial ends?"
+msgstr "Что происходит после окончания пробного периода?"
+
+#. FAQ question about hitting storage limit
+#: app/routes/-pricing.tsx:175
+msgid "What happens if I hit the storage limit?"
+msgstr "Что будет, если лимит хранилища закончится?"
+
+#. FAQ question about data retention after cancellation
+#: app/routes/-pricing.tsx:166
+msgid "What happens to my data if I cancel?"
+msgstr "Что произойдёт с моими данными при отмене подписки?"
+
+#. FAQ question about accepted payment methods
+#: app/routes/-pricing.tsx:149
+msgid "What payment methods do you accept?"
+msgstr "Какие способы оплаты принимаются?"
+
+#. FAQ question about available plans
+#: app/routes/-pricing.tsx:137
+msgid "What plans are available?"
+msgstr "Какие тарифы доступны?"
+
+#. FAQ question about available team roles
+#: app/routes/-pricing.tsx:200
+msgid "What roles are available in a team?"
+msgstr "Какие роли доступны в команде?"
+
+#. FAQ question about supported video formats
+#: app/routes/-pricing.tsx:179
+msgid "What video formats are supported?"
+msgstr "Какие форматы видео поддерживаются?"
+
+#. Compare heading
+#: app/routes/5.tsx:230
+msgid "Why teams switch"
+msgstr ""
+
+#. Label — Wipster is a competitor name, keep untranslated
+#. Table column header — Wipster is a competitor name, keep untranslated
+#: app/routes/-compare-wipster.tsx:122
+#: app/routes/-compare-wipster.tsx:199
+msgid "Wipster"
+msgstr "Wipster"
+
+#. Cost calculator description — Wipster is a competitor name, keep untranslated. {PRODUCT_NAME} is the product name, keep untranslated. Currency values are translatable
+#: app/routes/-compare-wipster.tsx:173
+msgid "Wipster charges per user. {PRODUCT_NAME} charges $5 per month total. Not per user. Just $5. The math gets increasingly silly as your team grows."
+msgstr "Wipster берёт плату за каждого пользователя. {PRODUCT_NAME} — $5 в месяц за всё. Не за пользователя. Просто $5. Чем больше команда, тем смешнее разница."
+
+#. Hero description — Wipster is a competitor name, keep untranslated. {PRODUCT_NAME} is the product name, keep untranslated
+#: app/routes/-compare-wipster.tsx:94
+#~ msgid "Wipster is a solid tool with real approval workflows and a proper feature set. {PRODUCT_NAME} is smaller, cheaper, and open source. We do less for less money, and that's the whole pitch."
+#~ msgstr "Wipster — надёжный инструмент с настоящими рабочими процессами согласования и полным набором функций. {PRODUCT_NAME} меньше, дешевле и open source. Мы делаем меньше за меньшие деньги — в этом вся суть."
+
+#. Hero description — Wipster is a competitor name, keep untranslated. {PRODUCT_NAME} is the product name, keep untranslated
+#: app/routes/-compare-wipster.tsx:94
+msgid "Wipster is a solid tool with real approval workflows and a proper feature set. {PRODUCT_NAME} is smaller, cheaper, and self-hostable. We do less for less money, and that's the whole pitch."
+msgstr "Wipster — надёжный инструмент с полноценными процессами согласования. {PRODUCT_NAME} — меньше, дешевле и с возможностью самостоятельного хостинга. Мы делаем меньше за меньшие деньги — в этом и суть."
+
+#. Honest advice intro — Wipster is a competitor name, keep untranslated
+#: app/routes/-compare-wipster.tsx:244
+msgid "Wipster is genuinely good software built by people who care about video review. We just think there's room for something simpler. Here are the facts."
+msgstr "Wipster — действительно хороший софт, созданный людьми, которым не всё равно на видеоревью. Мы просто думаем, что есть место для чего-то проще. Вот факты."
+
+#. Hero headline continuation: work
+#: app/routes/-for-agencies.tsx:75
+msgid "WORK."
+msgstr "РАБОТУ."
+
+#. Placeholder for reply input
+#: src/components/comments/CommentItem.tsx:174
+msgid "Write a reply..."
+msgstr "Написать ответ..."
+
+#. Label for yearly savings comparison
+#. Savings label
+#: app/routes/-home.tsx:225
+#: app/routes/1.tsx:209
+msgid "Yearly savings (5 users)"
+msgstr "Годовая экономия (5 пользователей)"
+
+#. Product supports self-hosting
+#. Product supports self-hosting
+#: app/routes/-compare-frameio.tsx:32
+#: app/routes/-compare-wipster.tsx:20
+msgid "Yes"
+msgstr "Да"
+
+#. FAQ answer: 7-day free trial with full access
+#: app/routes/-pricing.tsx:125
+msgid "Yes. 7-day free trial, no credit card required. Full access to all features during trial."
+msgstr "Да. 7-дневный бесплатный пробный период без привязки карты. Полный доступ ко всем функциям."
+
+#. FAQ answer: self-hosting is available
+#: app/routes/-pricing.tsx:210
+#~ msgid "Yes. Deploy on your own infrastructure with full control over your data and video pipeline."
+#~ msgstr "Да. Разверните на собственной инфраструктуре с полным контролем над данными и видеопайплайном."
+
+#. FAQ answer: self-hosting is available with contact email
+#: app/routes/-pricing.tsx:210
+msgid "Yes. Deploy on your own infrastructure with full control over your data and video pipeline. Contact us at help@pravko.ru to get started."
+msgstr "Да. Разверните на собственной инфраструктуре с полным контролем над данными и видеопайплайном. Напишите нам на help@pravko.ru, чтобы начать."
+
+#. FAQ answer: clients can watch via share link without signing up, sign in to comment
+#: app/routes/-pricing.tsx:193
+#~ msgid "Yes. Send a share link. They click and watch — no sign-up required. To leave comments, they'll need to sign in."
+#~ msgstr "Да. Отправьте ссылку для доступа. Они переходят и смотрят — регистрация не нужна. Для комментирования потребуется войти."
+
+#. FAQ answer: clients can watch and comment via share link without signing up
+#: app/routes/-pricing.tsx:193
+msgid "Yes. Send a share link. They click, watch, and comment. No sign-up required."
+msgstr "Да. Отправьте ссылку для доступа. Они переходят, смотрят и комментируют. Регистрация не нужна."
+
+#. FAQ answer: free trial with no credit card required
+#: app/routes/-pricing.tsx:135
+#~ msgid "Yes. Sign up and try it. No credit card required to start."
+#~ msgstr "Да. Зарегистрируйтесь и попробуйте. Карта для старта не нужна."
+
+#. Note about open source transparency
+#. Open source callout heading
+#: app/routes/-compare-wipster.tsx:21
+#: app/routes/-compare-wipster.tsx:236
+#~ msgid "You can literally read our code."
+#~ msgstr "Вы буквально можете прочитать наш код."
+
+#. Savings commentary for 20-person team
+#: app/routes/-compare-frameio.tsx:61
+msgid "You could hire another freelancer with that."
+msgstr "На это можно нанять ещё одного фрилансера."
+
+#. Alert when user has no upload permissions
+#: app/routes/dashboard/-layout.tsx:159
+msgid "You do not have upload access to any projects."
+msgstr "У вас нет прав на загрузку ни в один проект."
+
+#. Product advantage — anti per-seat pricing
+#: app/routes/-compare-wipster.tsx:340
+msgid "You hate per-seat pricing with a passion that concerns your friends and family"
+msgstr "Вы ненавидите оплату за место с такой страстью, что это беспокоит ваших друзей и семью"
+
+#. Frame.io advantage — large team workflows
+#: app/routes/-compare-frameio.tsx:288
+msgid "You have 100+ people with complex multi-stage approval workflows and version trees"
+msgstr "У вас 100+ человек со сложными многоэтапными рабочими процессами согласования и деревьями версий"
+
+#. Pain point description: product is $5/month total with unlimited seats. {PRODUCT_NAME} is the product name
+#: app/routes/-for-agencies.tsx:139
+msgid "You hired them for a two-week project. Why are you paying a monthly seat fee? {PRODUCT_NAME} is $5/month total. Unlimited seats. Add your whole roster — full-timers, freelancers, that one intern who's \"really good at Premiere.\""
+msgstr "Вы наняли их на двухнедельный проект. Зачем платить ежемесячно за место? {PRODUCT_NAME} — $5/мес за всё. Безлимит мест. Добавляйте всех — штатных, фрилансеров, того стажёра, который «очень хорош в Premiere»."
+
+#. Wipster advantage — approval workflows
+#: app/routes/-compare-wipster.tsx:266
+msgid "You need built-in approval workflows with multiple review stages, status tracking, and the whole production pipeline"
+msgstr "Вам нужны встроенные рабочие процессы согласования с несколькими этапами ревью, отслеживанием статусов и полным продакшн-пайплайном"
+
+#. Frame.io advantage — enterprise compliance
+#: app/routes/-compare-frameio.tsx:266
+msgid "You need enterprise compliance docs (SOC 2, etc.) for your procurement team to approve anything"
+msgstr "Вашему отделу закупок нужны корпоративные документы соответствия (SOC 2 и т.д.) для согласования"
+
+#. Savings label: annual savings amount
+#: app/routes/-for-agencies.tsx:214
+msgid "YOU SAVE / YEAR"
+msgstr "ВЫ ЭКОНОМИТЕ / ГОД"
+
+#. Savings
+#: app/routes/5.tsx:291
+msgid "You save annually"
+msgstr ""
+
+#. Product advantage — open source transparency
+#: app/routes/-compare-wipster.tsx:386
+#~ msgid "You value open source and want to know exactly what software you're trusting with your work"
+#~ msgstr "Вы цените open source и хотите точно знать, какому ПО доверяете свою работу"
+
+#. Product advantage — simplicity
+#: app/routes/-compare-frameio.tsx:362
+msgid "You value speed and simplicity over a feature checklist that makes the marketing site look impressive"
+msgstr "Вы цените скорость и простоту больше, чем чеклист функций, который делает маркетинговый сайт внушительным"
+
+#. Product advantage — link-based review
+#: app/routes/-compare-wipster.tsx:351
+msgid "You want clients to review with just a link, no account creation, no \"please check your email\" nonsense"
+msgstr "Вы хотите, чтобы клиенты делали ревью по ссылке, без регистрации аккаунта, без «проверьте свою почту»"
+
+#. Wipster advantage — deep review features
+#: app/routes/-compare-wipster.tsx:288
+msgid "You want deep review stages with version comparisons, granular permissions, and structured feedback rounds"
+msgstr "Вам нужны глубокие этапы ревью со сравнением версий, детальными правами и структурированными раундами обратной связи"
+
+#. Product advantage — self-hosting and data control
+#: app/routes/-compare-wipster.tsx:362
+msgid "You want to self-host and keep full control over your data and video infrastructure"
+msgstr "Вы хотите разместить на своём сервере и полностью контролировать данные и видеоинфраструктуру"
+
+#. FAQ answer: need to subscribe to continue uploading
+#: app/routes/-pricing.tsx:159
+msgid "You'll need to subscribe to continue uploading videos and leaving comments. Existing videos remain viewable during the grace period."
+msgstr "Для загрузки видео и комментирования потребуется подписка. Существующие видео остаются доступными для просмотра в течение льготного периода."
+
+#. Hero subtext: per-seat pricing is not built for agencies
+#: app/routes/-for-agencies.tsx:79
+msgid "You're a 15-person agency with 30 freelancers rotating through. Per-seat pricing wasn't built for you. It was built to charge you more."
+msgstr "Вы — агентство из 15 человек с 30 фрилансерами на ротации. Оплата за место создана не для вас. Она создана, чтобы брать с вас больше."
+
+#. Product advantage — freelancers
+#: app/routes/-compare-frameio.tsx:351
+msgid "You're a freelancer who just needs to show a cut to a client without making them create yet another account"
+msgstr "Вы фрилансер, которому нужно просто показать монтаж клиенту, не заставляя его создавать ещё один аккаунт"
+
+#. Product advantage — small teams and agencies
+#: app/routes/-compare-wipster.tsx:329
+msgid "You're a small team or agency that just needs to share cuts and collect feedback without a 45-minute onboarding"
+msgstr "Вы небольшая команда или агентство, которым нужно просто отправить монтаж и собрать обратную связь без 45-минутного онбординга"
+
+#. Product advantage — small teams
+#: app/routes/-compare-frameio.tsx:329
+msgid "You're a small-to-mid team that just needs to share cuts and collect feedback without a NASA control panel"
+msgstr "Вы небольшая или средняя команда, которой нужно просто отправить монтаж и собрать обратную связь без панели управления как у NASA"
+
+#. Product advantage — agencies
+#: app/routes/-compare-frameio.tsx:340
+msgid "You're an agency tired of doing per-seat multiplication every time you onboard a client"
+msgstr "Вы агентство, уставшее умножать стоимость места каждый раз, когда подключаете клиента"
+
+#. Wipster advantage — established teams
+#: app/routes/-compare-wipster.tsx:277
+msgid "You're an established media team that's already invested in a full review ecosystem and switching costs are real"
+msgstr "Вы сформировавшаяся медиакоманда, которая уже вложилась в полноценную экосистему ревью, и затраты на переход реальны"
+
+#. Frame.io advantage — Adobe is a brand name, keep untranslated
+#: app/routes/-compare-frameio.tsx:277
+msgid "You're deeply embedded in Adobe Premiere and After Effects and need native panel integration"
+msgstr "Вы глубоко интегрированы в Adobe Premiere и After Effects и вам нужна нативная интеграция с панелями"
+
+#. Invite page title
+#. placeholder {0}: invite.teamName
+#: app/routes/-invite.tsx:90
+msgid "You're invited to {0}"
+msgstr "Вас приглашают в {0}"
+
+#. Humorous note about simple pricing
+#: app/routes/-compare-wipster.tsx:15
+msgid "Your accountant will love you."
+msgstr "Ваш бухгалтер будет в восторге."
+
+#. Pain point description: clients can review via link without account
+#: app/routes/-for-agencies.tsx:140
+msgid "Your client doesn't want to create an account. They want to watch the video, leave a comment at 0:47 that says \"make it pop more,\" and move on with their day. Send a link. That's it."
+msgstr "Ваш клиент не хочет создавать аккаунт. Он хочет посмотреть видео, оставить комментарий на 0:47 «сделай поярче» и заняться своими делами. Отправьте ссылку. Всё."
+
+#. Hero subtext: product provides frame-accurate feedback. {PRODUCT_NAME} is the product name
+#: app/routes/-for-video-editors.tsx:67
+msgid "Your client said \"make it pop\" on a 47-minute timeline. You deserve a review tool that at least tells you where they meant. {PRODUCT_NAME} gives you frame-accurate feedback, instant playback, and a workflow that doesn't fight your NLE."
+msgstr "Ваш клиент сказал «сделай поярче» на 47-минутном таймлайне. Вы заслуживаете инструмент, который хотя бы покажет, где именно. {PRODUCT_NAME} даёт покадровую обратную связь, мгновенное воспроизведение и рабочий процесс, который не конфликтует с вашим NLE."
+
+#. Pain point description: product enables frame-accurate comments. {PRODUCT_NAME} is the product name
+#: app/routes/-for-video-editors.tsx:121
+msgid "Your client says \"around the middle somewhere, you know, after the thing.\" With {PRODUCT_NAME}, they click on the video and their comment lands on that exact frame. No timecode math. No guessing."
+msgstr "Ваш клиент говорит «где-то в середине, ну, после той штуки». В {PRODUCT_NAME} он кликает на видео, и комментарий привязывается к точному кадру. Без вычисления таймкодов. Без угадывания."
+
+#. Note about simple sharing
+#. Note about simple sharing
+#: app/routes/-compare-frameio.tsx:39
+#: app/routes/-compare-wipster.tsx:33
+msgid "Your clients don't want another login."
+msgstr "Вашим клиентам не нужен ещё один логин."
+
+#. FAQ answer: data retained with grace period, then videos deleted
+#: app/routes/-pricing.tsx:167
+msgid "Your data stays accessible until the end of the billing period. After that, there's a 10-day grace period. If you don't resubscribe, video files are permanently deleted. Comments are preserved and can be recovered if you re-upload."
+msgstr "Данные остаются доступными до конца оплаченного периода. После этого действует 10-дневный льготный период. Если подписка не возобновлена, видеофайлы удаляются безвозвратно. Комментарии сохраняются и могут быть восстановлены при повторной загрузке."
+
+#. Note about self-hosting capability
+#. Note about self-hosting capability
+#: app/routes/-compare-frameio.tsx:33
+#: app/routes/-compare-wipster.tsx:21
+msgid "Your data, your servers."
+msgstr "Ваши данные, ваши серверы."
+
+#. Value prop description: self-hosted details
+#: app/routes/-home.tsx:108
+msgid "Your data, your servers. Full control over your video pipeline."
+msgstr "Ваши данные, ваши серверы. Полный контроль над видеопайплайном."
+
+#. Profile email section description
+#: app/routes/dashboard/profile.tsx:239
+msgid "Your email is managed by the authentication provider."
+msgstr "Ваша почта управляется провайдером аутентификации."
+
+#. Humorous note about unlimited seats
+#: app/routes/-compare-frameio.tsx:21
+msgid "Your intern deserves access too."
+msgstr "Ваш стажёр тоже заслуживает доступа."
+
+#. Name input placeholder
+#. Placeholder for guest name input on shared video
+#: app/routes/-share.tsx:393
+#: app/routes/dashboard/profile.tsx:215
+msgid "Your name"
+msgstr "Ваше имя"
+
+#. Upgrade request sent success message
+#: src/components/UpgradeRequestDialog.tsx:61
+msgid "Your request has been sent. We'll get back to you soon!"
+msgstr "Ваш запрос отправлен. Мы свяжемся с вами в ближайшее время!"
+
+#. Step 1 description: your video
+#: app/routes/mono.tsx:168
+msgid "your video"
+msgstr "ваше видео"
+
+#. Pain points subtext: video review shouldn't make agency life harder
+#: app/routes/-for-agencies.tsx:116
+msgid "Your video review tool shouldn't make it harder. Here are the problems we actually solve."
+msgstr "Инструмент видеоревью не должен усложнять жизнь. Вот проблемы, которые мы действительно решаем."

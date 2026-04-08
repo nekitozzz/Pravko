@@ -1,23 +1,19 @@
 
-import { useAuth } from "@clerk/tanstack-react-start";
-import { useConvex, useQuery } from "convex/react";
-import { useCallback, useEffect, useMemo, useRef, useState, type ComponentType } from "react";
-import { api } from "@convex/_generated/api";
-import type { Id } from "@convex/_generated/dataModel";
+import { useLogto } from "@logto/react";
+import { useQuery } from "@tanstack/react-query";
+import { Trans, Plural } from "@lingui/react/macro";
+import { t } from "@lingui/core/macro";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import api, { setAccessTokenGetter, setAuthFailureHandler } from "@/lib/api";
+import { MessageSquarePlus } from "lucide-react";
+import { FeedbackDialog } from "@/components/FeedbackDialog";
 
 import {
   Outlet,
-  Link,
   useLocation,
   useParams,
 } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
-import {
-  dashboardHomePath,
-  teamHomePath,
-  teamSettingsPath,
-} from "@/lib/routes";
-import { useRoutePrewarmIntent } from "@/lib/useRoutePrewarmIntent";
 import {
   Dialog,
   DialogContent,
@@ -26,9 +22,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { UploadProgress } from "@/components/upload/UploadProgress";
-import { prewarmDashboardIndex } from "./-index.data";
-import { prewarmSettings } from "./-settings.data";
-import { prewarmTeam } from "./-team.data";
 import { useVideoUploadManager } from "./-useVideoUploadManager";
 import { DashboardUploadProvider } from "@/lib/dashboardUploadContext";
 
@@ -48,48 +41,104 @@ function dragEventHasFiles(event: DragEvent) {
 }
 
 export default function DashboardLayout() {
-  const { isLoaded, userId } = useAuth();
+  const { isAuthenticated, isLoading, getAccessToken, getIdTokenClaims, signOut } = useLogto();
+  // Track only the initial auth check — ignore subsequent isLoading toggles from getAccessToken()
+  const [initialAuthResolved, setInitialAuthResolved] = useState(false);
+  useEffect(() => {
+    if (!isLoading && !initialAuthResolved) {
+      setInitialAuthResolved(true);
+    }
+  }, [isLoading, initialAuthResolved]);
+  const authLoading = !initialAuthResolved;
   const location = useLocation();
   const { pathname, searchStr } = location;
   const params = useParams({ strict: false });
-  const convex = useConvex();
-  const teamSlug =
-    typeof params.teamSlug === "string" ? params.teamSlug : undefined;
+  const teamId =
+    typeof params.teamId === "string" ? params.teamId : undefined;
   const routeProjectId =
-    typeof params.projectId === "string"
-      ? (params.projectId as Id<"projects">)
-      : undefined;
+    typeof params.projectId === "string" ? params.projectId : undefined;
   const routeVideoId =
     typeof params.videoId === "string" ? params.videoId : undefined;
-  const publicPlaybackId = useQuery(
-    api.videos.getPublicIdByVideoId,
-    routeVideoId ? { videoId: routeVideoId } : "skip",
-  );
-  const teamHome = teamSlug ? teamHomePath(teamSlug) : null;
-  const settingsPath = teamSlug ? teamSettingsPath(teamSlug) : null;
-  const uploadTargets = useQuery(
-    api.projects.listUploadTargets,
-    teamSlug ? { teamSlug } : {},
-  );
+
+  // Wire up the API client's token getter using a ref to avoid re-render loops
+  const getAccessTokenRef = useRef(getAccessToken);
+  getAccessTokenRef.current = getAccessToken;
+  const signOutRef = useRef(signOut);
+  signOutRef.current = signOut;
+  useEffect(() => {
+    const resource = import.meta.env.VITE_API_URL ?? window.location.origin + "/api";
+    let signingOut = false;
+    const doSignOut = () => {
+      if (signingOut) return;
+      signingOut = true;
+      console.warn("[auth] Session expired, signing out");
+      signOutRef.current(window.location.origin).catch(() => {
+        // If signOut itself fails (dead session), redirect manually
+        window.location.replace("/sign-in");
+      });
+    };
+    setAccessTokenGetter(async () => {
+      try {
+        return await getAccessTokenRef.current(resource);
+      } catch (err) {
+        const serialized = JSON.stringify(err, Object.getOwnPropertyNames(err ?? {}));
+        if (serialized.includes("invalid_grant")) {
+          doSignOut();
+        }
+        return undefined;
+      }
+    });
+    setAuthFailureHandler(doSignOut);
+  }, []);
+
+  // Sync Logto profile claims → backend DB (once per session)
+  const profileSyncedRef = useRef(false);
+  useEffect(() => {
+    if (!isAuthenticated || profileSyncedRef.current) return;
+    profileSyncedRef.current = true;
+    getIdTokenClaims().then((claims) => {
+      if (!claims) return;
+      const { name, email, picture } = claims as { name?: string; email?: string; picture?: string };
+      if (name || email || picture) {
+        api.users.syncProfile({ name, email, avatarUrl: picture }).catch(() => {});
+      }
+    }).catch(() => {});
+  }, [isAuthenticated, getIdTokenClaims]);
+
+  const publicPlaybackId = useQuery({
+    queryKey: ["video-public-id", routeVideoId],
+    queryFn: () => api.videos.getPublicIdByVideoId(routeVideoId!),
+    enabled: !!routeVideoId && !isAuthenticated && !authLoading,
+  });
+
+  const uploadTargets = useQuery({
+    queryKey: ["upload-targets", teamId],
+    queryFn: () => api.projects.listUploadTargets(teamId),
+    enabled: isAuthenticated,
+  });
+
   const {
     uploads,
     uploadFilesToProject,
     cancelUpload,
+    dismissUpload,
+    retryUpload,
   } = useVideoUploadManager();
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [isGlobalDragActive, setIsGlobalDragActive] = useState(false);
   const [projectPickerOpen, setProjectPickerOpen] = useState(false);
   const [pendingFiles, setPendingFiles] = useState<File[] | null>(null);
   const dragDepthRef = useRef(0);
   const uploadableProjectIds = useMemo(
-    () => new Set((uploadTargets ?? []).map((target) => target.projectId)),
-    [uploadTargets],
+    () => new Set((uploadTargets.data ?? []).map((target) => target.projectId)),
+    [uploadTargets.data],
   );
   const canUploadToCurrentProject = routeProjectId
     ? uploadableProjectIds.has(routeProjectId)
     : false;
 
   const requestUpload = useCallback(
-    (inputFiles: File[], preferredProjectId?: Id<"projects">) => {
+    (inputFiles: File[], preferredProjectId?: string) => {
       const files = inputFiles.filter(isVideoFile);
       if (files.length === 0) return;
 
@@ -100,14 +149,14 @@ export default function DashboardLayout() {
 
       if (
         routeProjectId &&
-        (canUploadToCurrentProject || uploadTargets === undefined)
+        (canUploadToCurrentProject || uploadTargets.data === undefined)
       ) {
         void uploadFilesToProject(routeProjectId, files);
         return;
       }
 
-      if (uploadTargets && uploadTargets.length === 0) {
-        window.alert("You do not have upload access to any projects.");
+      if (uploadTargets.data && uploadTargets.data.length === 0) {
+        window.alert(t({message: "You do not have upload access to any projects.", comment: "Alert when user has no upload permissions"}));
         return;
       }
 
@@ -118,12 +167,12 @@ export default function DashboardLayout() {
       canUploadToCurrentProject,
       routeProjectId,
       uploadFilesToProject,
-      uploadTargets,
+      uploadTargets.data,
     ],
   );
 
   const handleProjectSelected = useCallback(
-    (projectId: Id<"projects">) => {
+    (projectId: string) => {
       const files = pendingFiles;
       if (!files || files.length === 0) return;
 
@@ -196,40 +245,41 @@ export default function DashboardLayout() {
     }),
     [requestUpload, uploads, cancelUpload],
   );
+
   const isResolvingPublicPlaybackExemption =
-    Boolean(isLoaded && !userId && routeVideoId) && publicPlaybackId === undefined;
+    Boolean(!authLoading && !isAuthenticated && routeVideoId) && publicPlaybackId.data === undefined;
 
   useEffect(() => {
-    if (!isLoaded || userId) return;
+    if (authLoading || isAuthenticated) return;
     if (typeof window === "undefined") return;
 
     if (routeVideoId) {
-      if (publicPlaybackId === undefined) return;
-      if (publicPlaybackId) {
-        window.location.replace(`/watch/${publicPlaybackId}`);
+      if (publicPlaybackId.data === undefined) return;
+      if (publicPlaybackId.data?.publicId) {
+        window.location.replace(`/watch/${publicPlaybackId.data.publicId}`);
         return;
       }
     }
 
     const redirectUrl = `${pathname}${searchStr}`;
     window.location.replace(`/sign-in?redirect_url=${encodeURIComponent(redirectUrl)}`);
-  }, [isLoaded, userId, pathname, searchStr, routeVideoId, publicPlaybackId]);
+  }, [authLoading, isAuthenticated, pathname, searchStr, routeVideoId, publicPlaybackId.data]);
 
-  if (!isLoaded) {
+  if (authLoading) {
     return (
       <div className="h-full flex items-center justify-center bg-[#f0f0e8]">
-        <div className="text-[#888]">Loading...</div>
+        <div className="text-[#888]"><Trans comment="Dashboard loading state">Loading...</Trans></div>
       </div>
     );
   }
 
-  if (!userId) {
+  if (!isAuthenticated) {
     return (
       <div className="h-full flex items-center justify-center bg-[#f0f0e8]">
         <div className="text-[#888]">
           {isResolvingPublicPlaybackExemption
-            ? "Checking public playback access..."
-            : "Redirecting to sign in..."}
+            ? <Trans comment="Status while checking if video has public playback">Checking public playback access...</Trans>
+            : <Trans comment="Status while redirecting user to sign in">Redirecting to sign in...</Trans>}
         </div>
       </div>
     );
@@ -249,7 +299,7 @@ export default function DashboardLayout() {
           <div className="absolute inset-0 bg-[#1a1a1a]/20" />
           <div className="absolute inset-4 border-4 border-dashed border-[#2d5a2d] bg-[#2d5a2d]/10 flex items-center justify-center">
             <p className="border-2 border-[#1a1a1a] bg-[#f0f0e8] px-4 py-2 text-sm font-bold text-[#1a1a1a]">
-              Drop videos to upload
+              <Trans comment="Drag overlay text when dragging files over dashboard">Drop videos to upload</Trans>
             </p>
           </div>
         </div>
@@ -268,28 +318,42 @@ export default function DashboardLayout() {
               bytesPerSecond={upload.bytesPerSecond}
               estimatedSecondsRemaining={upload.estimatedSecondsRemaining}
               onCancel={() => cancelUpload(upload.id)}
+              onDismiss={() => dismissUpload(upload.id)}
+              onRetry={() => retryUpload(upload.id)}
             />
           ))}
         </div>
       )}
 
+      <button
+        type="button"
+        onClick={() => setFeedbackOpen(true)}
+        className="fixed bottom-4 right-4 z-40 flex h-12 w-12 items-center justify-center bg-[#f0f0e8] border-2 border-[#1a1a1a] shadow-[4px_4px_0px_0px_var(--shadow-color)] text-[#1a1a1a] hover:bg-[#2d5a2d] hover:text-white transition-all active:translate-y-[2px] active:translate-x-[2px] active:shadow-[2px_2px_0px_0px_var(--shadow-color)] cursor-pointer"
+        title={t({message: "Report an issue", comment: "Feedback button tooltip"})}
+        aria-label={t({message: "Report an issue", comment: "Feedback button aria-label"})}
+      >
+        <MessageSquarePlus className="h-5 w-5" />
+      </button>
+
+      <FeedbackDialog open={feedbackOpen} onOpenChange={setFeedbackOpen} />
+
       <Dialog open={projectPickerOpen} onOpenChange={handleProjectPickerOpenChange}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Choose a project</DialogTitle>
+            <DialogTitle><Trans comment="Dialog title for selecting upload target project">Choose a project</Trans></DialogTitle>
             <DialogDescription>
-              {pendingFiles?.length ? `Upload ${pendingFiles.length} video${pendingFiles.length > 1 ? "s" : ""} to:` : "Pick a project to start uploading."}
+              {pendingFiles?.length ? <Plural value={pendingFiles.length} one="Upload # video to:" other="Upload # videos to:" comment="Upload project picker dialog description" /> : <Trans comment="Default project picker description">Pick a project to start uploading.</Trans>}
             </DialogDescription>
           </DialogHeader>
-          {uploadTargets === undefined ? (
-            <p className="text-sm text-[#888]">Loading projects...</p>
-          ) : uploadTargets.length === 0 ? (
+          {uploadTargets.data === undefined ? (
+            <p className="text-sm text-[#888]"><Trans comment="Loading indicator for projects list">Loading projects...</Trans></p>
+          ) : uploadTargets.data.length === 0 ? (
             <p className="text-sm text-[#888]">
-              No uploadable projects found for your account.
+              <Trans comment="Empty state in project picker when no projects available">No uploadable projects found for your account.</Trans>
             </p>
           ) : (
             <div className="max-h-80 overflow-y-auto border-2 border-[#1a1a1a] divide-y-2 divide-[#1a1a1a]">
-              {uploadTargets.map((target) => (
+              {uploadTargets.data.map((target) => (
                 <button
                   key={target.projectId}
                   type="button"

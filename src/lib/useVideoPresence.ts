@@ -1,13 +1,11 @@
 "use client";
 
-import { useConvex, useMutation, useQuery } from "convex/react";
-import { api } from "@convex/_generated/api";
-import { Id } from "@convex/_generated/dataModel";
 import { useEffect, useMemo, useRef, useState } from "react";
+import api from "./api";
+import { useSubscription, usePresenceData } from "./useSubscription";
 
-const STORAGE_KEY_CLIENT_ID = "lawn.presence.client_id";
+const STORAGE_KEY_CLIENT_ID = "pravko.presence.client_id";
 const DEFAULT_HEARTBEAT_INTERVAL_MS = 15_000;
-const DISCONNECT_PATH = "videoPresence:disconnect";
 
 export type VideoWatcher = {
   userId: string;
@@ -17,35 +15,20 @@ export type VideoWatcher = {
   avatarUrl?: string;
 };
 
-function createClientId() {
-  return crypto.randomUUID().replace(/-/g, "");
-}
-
-function getOrCreateClientId() {
+function getOrCreateClientId(): string {
   const existing = window.localStorage.getItem(STORAGE_KEY_CLIENT_ID);
-  if (existing && existing.trim().length > 0) {
-    return existing;
-  }
-
-  const clientId = createClientId();
+  if (existing && existing.trim().length > 0) return existing;
+  const clientId = crypto.randomUUID().replace(/-/g, "");
   window.localStorage.setItem(STORAGE_KEY_CLIENT_ID, clientId);
   return clientId;
 }
 
 export function useVideoPresence(input: {
-  videoId?: Id<"videos">;
+  videoId?: string;
   enabled?: boolean;
   shareToken?: string;
   intervalMs?: number;
 }) {
-  const convex = useConvex();
-  const heartbeat = useMutation(api.videoPresence.heartbeat);
-  const disconnect = useMutation(api.videoPresence.disconnect);
-
-  const [clientId, setClientId] = useState<string | null>(null);
-  const [roomToken, setRoomToken] = useState<string | null>(null);
-  const sessionTokenRef = useRef<string | null>(null);
-
   const {
     videoId,
     enabled = true,
@@ -53,47 +36,67 @@ export function useVideoPresence(input: {
     intervalMs = DEFAULT_HEARTBEAT_INTERVAL_MS,
   } = input;
 
+  const [clientId, setClientId] = useState<string | null>(null);
+  const sessionTokenRef = useRef<string | null>(null);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     setClientId(getOrCreateClientId());
   }, []);
 
+  const channel = enabled && videoId ? `presence:${videoId}` : null;
+
+  // Subscribe to presence channel via the shared authenticated WebSocket
+  useSubscription(channel);
+
+  // Get presence data from the shared store
+  const rawPresence = usePresenceData(channel);
+
+  const watchers = useMemo<VideoWatcher[]>(() => {
+    if (!rawPresence || rawPresence.length === 0) return [];
+    return (rawPresence as { userId: string; name: string; avatarUrl?: string }[]).map(
+      (entry) => ({
+        userId: entry.userId,
+        online: true,
+        kind: entry.userId.startsWith("guest:") ? "guest" : "member",
+        displayName: entry.name,
+        avatarUrl: entry.avatarUrl,
+      }),
+    );
+  }, [rawPresence]);
+
+  // REST heartbeat to keep presence alive on the server
   useEffect(() => {
-    if (!enabled || !videoId || !clientId) {
-      setRoomToken(null);
-      return;
-    }
+    if (!enabled || !videoId || !clientId) return;
 
     let active = true;
     const sessionId = crypto.randomUUID();
 
     const runHeartbeat = async () => {
-      const result = await heartbeat({
-        videoId,
-        sessionId,
-        clientId,
-        interval: intervalMs,
-        shareToken,
-      });
-
-      if (!active) return;
-      sessionTokenRef.current = result.sessionToken;
-      setRoomToken(result.roomToken);
+      try {
+        const result = await api.presence.heartbeat({
+          videoId,
+          sessionId,
+          clientId,
+          interval: intervalMs,
+          shareToken,
+        });
+        if (!active) return;
+        sessionTokenRef.current = result.sessionToken;
+      } catch {
+        // Heartbeat failures should not crash the UI.
+      }
     };
 
     const handleBeforeUnload = () => {
       const sessionToken = sessionTokenRef.current;
       if (!sessionToken) return;
-
-      const payload = {
-        path: DISCONNECT_PATH,
-        args: { sessionToken },
-      };
-
-      const blob = new Blob([JSON.stringify(payload)], {
-        type: "application/json",
-      });
-      navigator.sendBeacon(`${convex.url}/api/mutation`, blob);
+      const apiUrl = import.meta.env.VITE_API_URL ?? "/api";
+      const blob = new Blob(
+        [JSON.stringify({ sessionToken })],
+        { type: "application/json" },
+      );
+      navigator.sendBeacon(`${apiUrl}/presence/disconnect`, blob);
     };
 
     void runHeartbeat();
@@ -110,36 +113,14 @@ export function useVideoPresence(input: {
 
       const sessionToken = sessionTokenRef.current;
       sessionTokenRef.current = null;
-      setRoomToken(null);
       if (sessionToken) {
-        void disconnect({ sessionToken }).catch(() => {
-          // Ignore disconnect failures during teardown.
-        });
+        api.presence.disconnect({ sessionToken }).catch(() => {});
       }
     };
-  }, [clientId, convex.url, disconnect, enabled, heartbeat, intervalMs, shareToken, videoId]);
-
-  const state = useQuery(
-    api.videoPresence.list,
-    roomToken ? { roomToken } : "skip",
-  );
-
-  const watchers = useMemo(() => {
-    if (!state) return [];
-
-    return state
-      .filter((watcher) => watcher.online)
-      .map((watcher) => ({
-        userId: watcher.userId,
-        online: watcher.online,
-        kind: watcher.data?.kind ?? "member",
-        displayName: watcher.data?.displayName ?? "Member",
-        avatarUrl: watcher.data?.avatarUrl,
-      })) satisfies VideoWatcher[];
-  }, [state]);
+  }, [clientId, enabled, intervalMs, shareToken, videoId]);
 
   return {
     watchers,
-    isLoading: roomToken !== null && state === undefined,
+    isLoading: false,
   };
 }

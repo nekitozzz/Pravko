@@ -1,8 +1,10 @@
 "use client";
 
+import { Trans } from "@lingui/react/macro";
+import { t } from "@lingui/core/macro";
 import { Progress } from "@/components/ui/progress";
 import { formatBytes } from "@/lib/utils";
-import { X, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { X, CheckCircle, AlertCircle, Loader2, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export type UploadStatus = "pending" | "uploading" | "processing" | "complete" | "error";
@@ -14,9 +16,9 @@ function formatSpeed(bytesPerSecond: number): string {
 
 function formatTimeRemaining(seconds: number | null): string {
   if (seconds === null || seconds <= 0) return "";
-  if (seconds < 60) return `${seconds}s`;
-  if (seconds < 3600) return `${Math.ceil(seconds / 60)}m`;
-  return `${Math.ceil(seconds / 3600)}h`;
+  if (seconds < 60) return t({message: `${seconds}s`, comment: "Time remaining: N seconds"});
+  if (seconds < 3600) return t({message: `${Math.ceil(seconds / 60)}m`, comment: "Time remaining: N minutes"});
+  return t({message: `${Math.ceil(seconds / 3600)}h`, comment: "Time remaining: N hours"});
 }
 
 interface UploadProgressProps {
@@ -28,6 +30,8 @@ interface UploadProgressProps {
   bytesPerSecond?: number;
   estimatedSecondsRemaining?: number | null;
   onCancel?: () => void;
+  onDismiss?: () => void;
+  onRetry?: () => void;
 }
 
 export function UploadProgress({
@@ -39,6 +43,8 @@ export function UploadProgress({
   bytesPerSecond = 0,
   estimatedSecondsRemaining = null,
   onCancel,
+  onDismiss,
+  onRetry,
 }: UploadProgressProps) {
   return (
     <div className="border-2 border-[#1a1a1a] p-4 bg-[#f0f0e8]">
@@ -51,8 +57,16 @@ export function UploadProgress({
           {status === "complete" && (
             <CheckCircle className="h-5 w-5 text-[#2d5a2d]" />
           )}
-          {status === "error" && (
-            <AlertCircle className="h-5 w-5 text-[#dc2626]" />
+          {status === "error" && onDismiss && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onDismiss}
+              className="h-7 w-7 text-[#888] hover:text-[#1a1a1a]"
+              aria-label={t({message: "Dismiss", comment: "Aria label for dismiss upload error button"})}
+            >
+              <X className="h-4 w-4" />
+            </Button>
           )}
           {status === "processing" && (
             <Loader2 className="h-5 w-5 text-[#2d5a2d] animate-spin" />
@@ -63,6 +77,7 @@ export function UploadProgress({
               size="icon"
               onClick={onCancel}
               className="h-7 w-7 text-[#888] hover:text-[#1a1a1a]"
+              aria-label={t({message: "Cancel upload", comment: "Aria label for cancel upload button"})}
             >
               <X className="h-4 w-4" />
             </Button>
@@ -78,7 +93,7 @@ export function UploadProgress({
             <span>
               {progress}%
               {estimatedSecondsRemaining !== null && estimatedSecondsRemaining > 0 && (
-                <span className="text-[#888]"> · {formatTimeRemaining(estimatedSecondsRemaining)} left</span>
+                <span className="text-[#888]"> · {formatTimeRemaining(estimatedSecondsRemaining)} <Trans comment="Suffix after time remaining">left</Trans></span>
               )}
             </span>
           </div>
@@ -86,11 +101,24 @@ export function UploadProgress({
       )}
 
       {status === "processing" && (
-        <p className="text-xs text-[#888] mt-2">Processing video...</p>
+        <p className="text-xs text-[#888] mt-2"><Trans comment="Upload status: video is being processed">Processing video...</Trans></p>
       )}
 
       {status === "error" && error && (
-        <p className="text-xs text-[#dc2626] mt-2">{error}</p>
+        <div className="flex items-center justify-between gap-2 mt-2">
+          <p className="text-xs text-[#dc2626]">{error}</p>
+          {onRetry && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onRetry}
+              className="h-6 px-2 text-xs font-bold text-[#1a1a1a] hover:text-[#2d5a2d] shrink-0"
+            >
+              <RotateCcw className="mr-1 h-3 w-3" />
+              <Trans comment="Retry failed upload button">Retry</Trans>
+            </Button>
+          )}
+        </div>
       )}
     </div>
   );

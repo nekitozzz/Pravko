@@ -1,79 +1,88 @@
-import { useQuery, type ConvexReactClient } from "convex/react";
-import { api } from "@convex/_generated/api";
-import { Id } from "@convex/_generated/dataModel";
-import {
-  makeRouteQuerySpec,
-  prewarmSpecs,
-} from "@/lib/convexRouteData";
-
-export function getVideoEssentialSpecs(params: {
-  teamSlug: string;
-  projectId: Id<"projects">;
-  videoId: Id<"videos">;
-}) {
-  return [
-    makeRouteQuerySpec(api.workspace.resolveContext, {
-      teamSlug: params.teamSlug,
-      projectId: params.projectId,
-      videoId: params.videoId,
-    }),
-    makeRouteQuerySpec(api.videos.get, {
-      videoId: params.videoId,
-    }),
-    makeRouteQuerySpec(api.comments.list, {
-      videoId: params.videoId,
-    }),
-    makeRouteQuerySpec(api.comments.getThreaded, {
-      videoId: params.videoId,
-    }),
-  ];
-}
+import { useQuery } from "@tanstack/react-query";
+import api from "@/lib/api";
+import { makePrefetchSpec, prewarmSpecs } from "@/lib/convexRouteData";
 
 export function useVideoData(params: {
-  teamSlug: string;
-  projectId: Id<"projects">;
-  videoId: Id<"videos">;
+  teamId: string;
+  projectId: string;
+  videoId: string;
 }) {
-  const context = useQuery(api.workspace.resolveContext, {
-    teamSlug: params.teamSlug,
-    projectId: params.projectId,
-    videoId: params.videoId,
+  const context = useQuery({
+    queryKey: ["workspace", params.teamId, params.projectId, params.videoId],
+    queryFn: () =>
+      api.workspace.resolveContext({
+        teamId: params.teamId,
+        projectId: params.projectId,
+        videoId: params.videoId,
+      }),
   });
-  const resolvedTeamSlug = context?.team.slug ?? params.teamSlug;
-  const resolvedProjectId = context?.project?._id;
-  const resolvedVideoId = context?.video?._id;
 
-  const video = useQuery(
-    api.videos.get,
-    resolvedVideoId ? { videoId: resolvedVideoId } : "skip",
-  );
-  const comments = useQuery(
-    api.comments.list,
-    resolvedVideoId ? { videoId: resolvedVideoId } : "skip",
-  );
-  const commentsThreaded = useQuery(
-    api.comments.getThreaded,
-    resolvedVideoId ? { videoId: resolvedVideoId } : "skip",
-  );
+  const resolvedTeamId = context.data?.team?.id ?? params.teamId;
+  const resolvedProjectId = context.data?.project?.id;
+  const resolvedVideoId = context.data?.video?.id;
+
+  const video = useQuery({
+    queryKey: ["video", resolvedVideoId],
+    queryFn: () => api.videos.get(resolvedVideoId!),
+    enabled: !!resolvedVideoId,
+  });
+
+  const comments = useQuery({
+    queryKey: ["comments", resolvedVideoId],
+    queryFn: () => api.comments.list(resolvedVideoId!),
+    enabled: !!resolvedVideoId,
+  });
+
+  const commentsThreaded = useQuery({
+    queryKey: ["comments-threaded", resolvedVideoId],
+    queryFn: () => api.comments.getThreaded(resolvedVideoId!),
+    enabled: !!resolvedVideoId,
+  });
+
+  const billing = useQuery({
+    queryKey: ["billing", resolvedTeamId],
+    queryFn: () => api.billing.getTeamBilling(resolvedTeamId),
+    enabled: !!resolvedTeamId,
+  });
 
   return {
-    context,
-    resolvedTeamSlug,
+    context: context.data === undefined ? undefined : context.data ?? null,
+    resolvedTeamId,
     resolvedProjectId,
     resolvedVideoId,
-    video,
-    comments,
-    commentsThreaded,
+    video: video.data,
+    comments: comments.data,
+    commentsThreaded: commentsThreaded.data,
+    billing: billing.data,
   };
 }
 
-export async function prewarmVideo(
-  convex: ConvexReactClient,
-  params: {
-    teamSlug: string;
-    projectId: Id<"projects">;
-    videoId: Id<"videos">;
-  },
-) {
-  prewarmSpecs(convex, getVideoEssentialSpecs(params));
+export function prewarmVideo(params: {
+  teamId: string;
+  projectId: string;
+  videoId: string;
+}) {
+  prewarmSpecs([
+    makePrefetchSpec(
+      ["workspace", params.teamId, params.projectId, params.videoId],
+      () =>
+        api.workspace.resolveContext({
+          teamId: params.teamId,
+          projectId: params.projectId,
+          videoId: params.videoId,
+        }),
+    ),
+    makePrefetchSpec(
+      ["video", params.videoId],
+      () => api.videos.get(params.videoId),
+    ),
+    makePrefetchSpec(
+      ["comments", params.videoId],
+      () => api.comments.list(params.videoId),
+    ),
+    makePrefetchSpec(
+      ["comments-threaded", params.videoId],
+      () => api.comments.getThreaded(params.videoId),
+    ),
+  ]);
 }

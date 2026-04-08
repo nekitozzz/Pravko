@@ -13,6 +13,11 @@ import { Route as SignUpRouteImport } from './routes/sign-up'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as MonoRouteImport } from './routes/mono'
+import { Route as R5RouteImport } from './routes/5'
+import { Route as R4RouteImport } from './routes/4'
+import { Route as R3RouteImport } from './routes/3'
+import { Route as R2RouteImport } from './routes/2'
+import { Route as R1RouteImport } from './routes/1'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
@@ -23,14 +28,16 @@ import { Route as ShareTokenRouteImport } from './routes/share.$token'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as ForVideoEditorsRouteImport } from './routes/for.video-editors'
 import { Route as ForAgenciesRouteImport } from './routes/for.agencies'
-import { Route as DashboardTeamSlugRouteImport } from './routes/dashboard/$teamSlug'
+import { Route as DashboardProfileRouteImport } from './routes/dashboard/profile'
+import { Route as DashboardTeamIdRouteImport } from './routes/dashboard/$teamId'
 import { Route as CompareWipsterRouteImport } from './routes/compare.wipster'
 import { Route as CompareFrameioRouteImport } from './routes/compare.frameio'
-import { Route as DashboardTeamSlugIndexRouteImport } from './routes/dashboard/$teamSlug.index'
-import { Route as DashboardTeamSlugSettingsRouteImport } from './routes/dashboard/$teamSlug.settings'
-import { Route as DashboardTeamSlugProjectIdRouteImport } from './routes/dashboard/$teamSlug.$projectId'
-import { Route as DashboardTeamSlugProjectIdIndexRouteImport } from './routes/dashboard/$teamSlug.$projectId.index'
-import { Route as DashboardTeamSlugProjectIdVideoIdRouteImport } from './routes/dashboard/$teamSlug.$projectId.$videoId'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
+import { Route as DashboardTeamIdIndexRouteImport } from './routes/dashboard/$teamId.index'
+import { Route as DashboardTeamIdSettingsRouteImport } from './routes/dashboard/$teamId.settings'
+import { Route as DashboardTeamIdProjectIdRouteImport } from './routes/dashboard/$teamId.$projectId'
+import { Route as DashboardTeamIdProjectIdIndexRouteImport } from './routes/dashboard/$teamId.$projectId.index'
+import { Route as DashboardTeamIdProjectIdVideoIdRouteImport } from './routes/dashboard/$teamId.$projectId.$videoId'
 
 const SignUpRoute = SignUpRouteImport.update({
   id: '/sign-up',
@@ -50,6 +57,31 @@ const PricingRoute = PricingRouteImport.update({
 const MonoRoute = MonoRouteImport.update({
   id: '/mono',
   path: '/mono',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const R5Route = R5RouteImport.update({
+  id: '/5',
+  path: '/5',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const R4Route = R4RouteImport.update({
+  id: '/4',
+  path: '/4',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const R3Route = R3RouteImport.update({
+  id: '/3',
+  path: '/3',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const R2Route = R2RouteImport.update({
+  id: '/2',
+  path: '/2',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const R1Route = R1RouteImport.update({
+  id: '/1',
+  path: '/1',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
@@ -102,9 +134,14 @@ const ForAgenciesRoute = ForAgenciesRouteImport.update({
   path: '/for/agencies',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardTeamSlugRoute = DashboardTeamSlugRouteImport.update({
-  id: '/$teamSlug',
-  path: '/$teamSlug',
+const DashboardProfileRoute = DashboardProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardTeamIdRoute = DashboardTeamIdRouteImport.update({
+  id: '/$teamId',
+  path: '/$teamId',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
 const CompareWipsterRoute = CompareWipsterRouteImport.update({
@@ -117,46 +154,57 @@ const CompareFrameioRoute = CompareFrameioRouteImport.update({
   path: '/compare/frameio',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardTeamSlugIndexRoute = DashboardTeamSlugIndexRouteImport.update({
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardTeamIdIndexRoute = DashboardTeamIdIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => DashboardTeamSlugRoute,
+  getParentRoute: () => DashboardTeamIdRoute,
 } as any)
-const DashboardTeamSlugSettingsRoute =
-  DashboardTeamSlugSettingsRouteImport.update({
-    id: '/settings',
-    path: '/settings',
-    getParentRoute: () => DashboardTeamSlugRoute,
-  } as any)
-const DashboardTeamSlugProjectIdRoute =
-  DashboardTeamSlugProjectIdRouteImport.update({
+const DashboardTeamIdSettingsRoute = DashboardTeamIdSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => DashboardTeamIdRoute,
+} as any)
+const DashboardTeamIdProjectIdRoute =
+  DashboardTeamIdProjectIdRouteImport.update({
     id: '/$projectId',
     path: '/$projectId',
-    getParentRoute: () => DashboardTeamSlugRoute,
+    getParentRoute: () => DashboardTeamIdRoute,
   } as any)
-const DashboardTeamSlugProjectIdIndexRoute =
-  DashboardTeamSlugProjectIdIndexRouteImport.update({
+const DashboardTeamIdProjectIdIndexRoute =
+  DashboardTeamIdProjectIdIndexRouteImport.update({
     id: '/',
     path: '/',
-    getParentRoute: () => DashboardTeamSlugProjectIdRoute,
+    getParentRoute: () => DashboardTeamIdProjectIdRoute,
   } as any)
-const DashboardTeamSlugProjectIdVideoIdRoute =
-  DashboardTeamSlugProjectIdVideoIdRouteImport.update({
+const DashboardTeamIdProjectIdVideoIdRoute =
+  DashboardTeamIdProjectIdVideoIdRouteImport.update({
     id: '/$videoId',
     path: '/$videoId',
-    getParentRoute: () => DashboardTeamSlugProjectIdRoute,
+    getParentRoute: () => DashboardTeamIdProjectIdRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/1': typeof R1Route
+  '/2': typeof R2Route
+  '/3': typeof R3Route
+  '/4': typeof R4Route
+  '/5': typeof R5Route
   '/mono': typeof MonoRoute
   '/pricing': typeof PricingRoute
   '/sign-in': typeof SignInRouteWithChildren
   '/sign-up': typeof SignUpRouteWithChildren
+  '/auth/callback': typeof AuthCallbackRoute
   '/compare/frameio': typeof CompareFrameioRoute
   '/compare/wipster': typeof CompareWipsterRoute
-  '/dashboard/$teamSlug': typeof DashboardTeamSlugRouteWithChildren
+  '/dashboard/$teamId': typeof DashboardTeamIdRouteWithChildren
+  '/dashboard/profile': typeof DashboardProfileRoute
   '/for/agencies': typeof ForAgenciesRoute
   '/for/video-editors': typeof ForVideoEditorsRoute
   '/invite/$token': typeof InviteTokenRoute
@@ -165,20 +213,27 @@ export interface FileRoutesByFullPath {
   '/sign-up/$': typeof SignUpSplatRoute
   '/watch/$publicId': typeof WatchPublicIdRoute
   '/dashboard/': typeof DashboardIndexRoute
-  '/dashboard/$teamSlug/$projectId': typeof DashboardTeamSlugProjectIdRouteWithChildren
-  '/dashboard/$teamSlug/settings': typeof DashboardTeamSlugSettingsRoute
-  '/dashboard/$teamSlug/': typeof DashboardTeamSlugIndexRoute
-  '/dashboard/$teamSlug/$projectId/$videoId': typeof DashboardTeamSlugProjectIdVideoIdRoute
-  '/dashboard/$teamSlug/$projectId/': typeof DashboardTeamSlugProjectIdIndexRoute
+  '/dashboard/$teamId/$projectId': typeof DashboardTeamIdProjectIdRouteWithChildren
+  '/dashboard/$teamId/settings': typeof DashboardTeamIdSettingsRoute
+  '/dashboard/$teamId/': typeof DashboardTeamIdIndexRoute
+  '/dashboard/$teamId/$projectId/$videoId': typeof DashboardTeamIdProjectIdVideoIdRoute
+  '/dashboard/$teamId/$projectId/': typeof DashboardTeamIdProjectIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/1': typeof R1Route
+  '/2': typeof R2Route
+  '/3': typeof R3Route
+  '/4': typeof R4Route
+  '/5': typeof R5Route
   '/mono': typeof MonoRoute
   '/pricing': typeof PricingRoute
   '/sign-in': typeof SignInRouteWithChildren
   '/sign-up': typeof SignUpRouteWithChildren
+  '/auth/callback': typeof AuthCallbackRoute
   '/compare/frameio': typeof CompareFrameioRoute
   '/compare/wipster': typeof CompareWipsterRoute
+  '/dashboard/profile': typeof DashboardProfileRoute
   '/for/agencies': typeof ForAgenciesRoute
   '/for/video-editors': typeof ForVideoEditorsRoute
   '/invite/$token': typeof InviteTokenRoute
@@ -187,22 +242,29 @@ export interface FileRoutesByTo {
   '/sign-up/$': typeof SignUpSplatRoute
   '/watch/$publicId': typeof WatchPublicIdRoute
   '/dashboard': typeof DashboardIndexRoute
-  '/dashboard/$teamSlug/settings': typeof DashboardTeamSlugSettingsRoute
-  '/dashboard/$teamSlug': typeof DashboardTeamSlugIndexRoute
-  '/dashboard/$teamSlug/$projectId/$videoId': typeof DashboardTeamSlugProjectIdVideoIdRoute
-  '/dashboard/$teamSlug/$projectId': typeof DashboardTeamSlugProjectIdIndexRoute
+  '/dashboard/$teamId/settings': typeof DashboardTeamIdSettingsRoute
+  '/dashboard/$teamId': typeof DashboardTeamIdIndexRoute
+  '/dashboard/$teamId/$projectId/$videoId': typeof DashboardTeamIdProjectIdVideoIdRoute
+  '/dashboard/$teamId/$projectId': typeof DashboardTeamIdProjectIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/1': typeof R1Route
+  '/2': typeof R2Route
+  '/3': typeof R3Route
+  '/4': typeof R4Route
+  '/5': typeof R5Route
   '/mono': typeof MonoRoute
   '/pricing': typeof PricingRoute
   '/sign-in': typeof SignInRouteWithChildren
   '/sign-up': typeof SignUpRouteWithChildren
+  '/auth/callback': typeof AuthCallbackRoute
   '/compare/frameio': typeof CompareFrameioRoute
   '/compare/wipster': typeof CompareWipsterRoute
-  '/dashboard/$teamSlug': typeof DashboardTeamSlugRouteWithChildren
+  '/dashboard/$teamId': typeof DashboardTeamIdRouteWithChildren
+  '/dashboard/profile': typeof DashboardProfileRoute
   '/for/agencies': typeof ForAgenciesRoute
   '/for/video-editors': typeof ForVideoEditorsRoute
   '/invite/$token': typeof InviteTokenRoute
@@ -211,24 +273,31 @@ export interface FileRoutesById {
   '/sign-up/$': typeof SignUpSplatRoute
   '/watch/$publicId': typeof WatchPublicIdRoute
   '/dashboard/': typeof DashboardIndexRoute
-  '/dashboard/$teamSlug/$projectId': typeof DashboardTeamSlugProjectIdRouteWithChildren
-  '/dashboard/$teamSlug/settings': typeof DashboardTeamSlugSettingsRoute
-  '/dashboard/$teamSlug/': typeof DashboardTeamSlugIndexRoute
-  '/dashboard/$teamSlug/$projectId/$videoId': typeof DashboardTeamSlugProjectIdVideoIdRoute
-  '/dashboard/$teamSlug/$projectId/': typeof DashboardTeamSlugProjectIdIndexRoute
+  '/dashboard/$teamId/$projectId': typeof DashboardTeamIdProjectIdRouteWithChildren
+  '/dashboard/$teamId/settings': typeof DashboardTeamIdSettingsRoute
+  '/dashboard/$teamId/': typeof DashboardTeamIdIndexRoute
+  '/dashboard/$teamId/$projectId/$videoId': typeof DashboardTeamIdProjectIdVideoIdRoute
+  '/dashboard/$teamId/$projectId/': typeof DashboardTeamIdProjectIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/1'
+    | '/2'
+    | '/3'
+    | '/4'
+    | '/5'
     | '/mono'
     | '/pricing'
     | '/sign-in'
     | '/sign-up'
+    | '/auth/callback'
     | '/compare/frameio'
     | '/compare/wipster'
-    | '/dashboard/$teamSlug'
+    | '/dashboard/$teamId'
+    | '/dashboard/profile'
     | '/for/agencies'
     | '/for/video-editors'
     | '/invite/$token'
@@ -237,20 +306,27 @@ export interface FileRouteTypes {
     | '/sign-up/$'
     | '/watch/$publicId'
     | '/dashboard/'
-    | '/dashboard/$teamSlug/$projectId'
-    | '/dashboard/$teamSlug/settings'
-    | '/dashboard/$teamSlug/'
-    | '/dashboard/$teamSlug/$projectId/$videoId'
-    | '/dashboard/$teamSlug/$projectId/'
+    | '/dashboard/$teamId/$projectId'
+    | '/dashboard/$teamId/settings'
+    | '/dashboard/$teamId/'
+    | '/dashboard/$teamId/$projectId/$videoId'
+    | '/dashboard/$teamId/$projectId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/1'
+    | '/2'
+    | '/3'
+    | '/4'
+    | '/5'
     | '/mono'
     | '/pricing'
     | '/sign-in'
     | '/sign-up'
+    | '/auth/callback'
     | '/compare/frameio'
     | '/compare/wipster'
+    | '/dashboard/profile'
     | '/for/agencies'
     | '/for/video-editors'
     | '/invite/$token'
@@ -259,21 +335,28 @@ export interface FileRouteTypes {
     | '/sign-up/$'
     | '/watch/$publicId'
     | '/dashboard'
-    | '/dashboard/$teamSlug/settings'
-    | '/dashboard/$teamSlug'
-    | '/dashboard/$teamSlug/$projectId/$videoId'
-    | '/dashboard/$teamSlug/$projectId'
+    | '/dashboard/$teamId/settings'
+    | '/dashboard/$teamId'
+    | '/dashboard/$teamId/$projectId/$videoId'
+    | '/dashboard/$teamId/$projectId'
   id:
     | '__root__'
     | '/'
     | '/dashboard'
+    | '/1'
+    | '/2'
+    | '/3'
+    | '/4'
+    | '/5'
     | '/mono'
     | '/pricing'
     | '/sign-in'
     | '/sign-up'
+    | '/auth/callback'
     | '/compare/frameio'
     | '/compare/wipster'
-    | '/dashboard/$teamSlug'
+    | '/dashboard/$teamId'
+    | '/dashboard/profile'
     | '/for/agencies'
     | '/for/video-editors'
     | '/invite/$token'
@@ -282,20 +365,26 @@ export interface FileRouteTypes {
     | '/sign-up/$'
     | '/watch/$publicId'
     | '/dashboard/'
-    | '/dashboard/$teamSlug/$projectId'
-    | '/dashboard/$teamSlug/settings'
-    | '/dashboard/$teamSlug/'
-    | '/dashboard/$teamSlug/$projectId/$videoId'
-    | '/dashboard/$teamSlug/$projectId/'
+    | '/dashboard/$teamId/$projectId'
+    | '/dashboard/$teamId/settings'
+    | '/dashboard/$teamId/'
+    | '/dashboard/$teamId/$projectId/$videoId'
+    | '/dashboard/$teamId/$projectId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
+  R1Route: typeof R1Route
+  R2Route: typeof R2Route
+  R3Route: typeof R3Route
+  R4Route: typeof R4Route
+  R5Route: typeof R5Route
   MonoRoute: typeof MonoRoute
   PricingRoute: typeof PricingRoute
   SignInRoute: typeof SignInRouteWithChildren
   SignUpRoute: typeof SignUpRouteWithChildren
+  AuthCallbackRoute: typeof AuthCallbackRoute
   CompareFrameioRoute: typeof CompareFrameioRoute
   CompareWipsterRoute: typeof CompareWipsterRoute
   ForAgenciesRoute: typeof ForAgenciesRoute
@@ -333,6 +422,41 @@ declare module '@tanstack/react-router' {
       path: '/mono'
       fullPath: '/mono'
       preLoaderRoute: typeof MonoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/5': {
+      id: '/5'
+      path: '/5'
+      fullPath: '/5'
+      preLoaderRoute: typeof R5RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/4': {
+      id: '/4'
+      path: '/4'
+      fullPath: '/4'
+      preLoaderRoute: typeof R4RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/3': {
+      id: '/3'
+      path: '/3'
+      fullPath: '/3'
+      preLoaderRoute: typeof R3RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/2': {
+      id: '/2'
+      path: '/2'
+      fullPath: '/2'
+      preLoaderRoute: typeof R2RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/1': {
+      id: '/1'
+      path: '/1'
+      fullPath: '/1'
+      preLoaderRoute: typeof R1RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -405,11 +529,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ForAgenciesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard/$teamSlug': {
-      id: '/dashboard/$teamSlug'
-      path: '/$teamSlug'
-      fullPath: '/dashboard/$teamSlug'
-      preLoaderRoute: typeof DashboardTeamSlugRouteImport
+    '/dashboard/profile': {
+      id: '/dashboard/profile'
+      path: '/profile'
+      fullPath: '/dashboard/profile'
+      preLoaderRoute: typeof DashboardProfileRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/$teamId': {
+      id: '/dashboard/$teamId'
+      path: '/$teamId'
+      fullPath: '/dashboard/$teamId'
+      preLoaderRoute: typeof DashboardTeamIdRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
     '/compare/wipster': {
@@ -426,83 +557,92 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompareFrameioRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard/$teamSlug/': {
-      id: '/dashboard/$teamSlug/'
-      path: '/'
-      fullPath: '/dashboard/$teamSlug/'
-      preLoaderRoute: typeof DashboardTeamSlugIndexRouteImport
-      parentRoute: typeof DashboardTeamSlugRoute
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/dashboard/$teamSlug/settings': {
-      id: '/dashboard/$teamSlug/settings'
+    '/dashboard/$teamId/': {
+      id: '/dashboard/$teamId/'
+      path: '/'
+      fullPath: '/dashboard/$teamId/'
+      preLoaderRoute: typeof DashboardTeamIdIndexRouteImport
+      parentRoute: typeof DashboardTeamIdRoute
+    }
+    '/dashboard/$teamId/settings': {
+      id: '/dashboard/$teamId/settings'
       path: '/settings'
-      fullPath: '/dashboard/$teamSlug/settings'
-      preLoaderRoute: typeof DashboardTeamSlugSettingsRouteImport
-      parentRoute: typeof DashboardTeamSlugRoute
+      fullPath: '/dashboard/$teamId/settings'
+      preLoaderRoute: typeof DashboardTeamIdSettingsRouteImport
+      parentRoute: typeof DashboardTeamIdRoute
     }
-    '/dashboard/$teamSlug/$projectId': {
-      id: '/dashboard/$teamSlug/$projectId'
+    '/dashboard/$teamId/$projectId': {
+      id: '/dashboard/$teamId/$projectId'
       path: '/$projectId'
-      fullPath: '/dashboard/$teamSlug/$projectId'
-      preLoaderRoute: typeof DashboardTeamSlugProjectIdRouteImport
-      parentRoute: typeof DashboardTeamSlugRoute
+      fullPath: '/dashboard/$teamId/$projectId'
+      preLoaderRoute: typeof DashboardTeamIdProjectIdRouteImport
+      parentRoute: typeof DashboardTeamIdRoute
     }
-    '/dashboard/$teamSlug/$projectId/': {
-      id: '/dashboard/$teamSlug/$projectId/'
+    '/dashboard/$teamId/$projectId/': {
+      id: '/dashboard/$teamId/$projectId/'
       path: '/'
-      fullPath: '/dashboard/$teamSlug/$projectId/'
-      preLoaderRoute: typeof DashboardTeamSlugProjectIdIndexRouteImport
-      parentRoute: typeof DashboardTeamSlugProjectIdRoute
+      fullPath: '/dashboard/$teamId/$projectId/'
+      preLoaderRoute: typeof DashboardTeamIdProjectIdIndexRouteImport
+      parentRoute: typeof DashboardTeamIdProjectIdRoute
     }
-    '/dashboard/$teamSlug/$projectId/$videoId': {
-      id: '/dashboard/$teamSlug/$projectId/$videoId'
+    '/dashboard/$teamId/$projectId/$videoId': {
+      id: '/dashboard/$teamId/$projectId/$videoId'
       path: '/$videoId'
-      fullPath: '/dashboard/$teamSlug/$projectId/$videoId'
-      preLoaderRoute: typeof DashboardTeamSlugProjectIdVideoIdRouteImport
-      parentRoute: typeof DashboardTeamSlugProjectIdRoute
+      fullPath: '/dashboard/$teamId/$projectId/$videoId'
+      preLoaderRoute: typeof DashboardTeamIdProjectIdVideoIdRouteImport
+      parentRoute: typeof DashboardTeamIdProjectIdRoute
     }
   }
 }
 
-interface DashboardTeamSlugProjectIdRouteChildren {
-  DashboardTeamSlugProjectIdVideoIdRoute: typeof DashboardTeamSlugProjectIdVideoIdRoute
-  DashboardTeamSlugProjectIdIndexRoute: typeof DashboardTeamSlugProjectIdIndexRoute
+interface DashboardTeamIdProjectIdRouteChildren {
+  DashboardTeamIdProjectIdVideoIdRoute: typeof DashboardTeamIdProjectIdVideoIdRoute
+  DashboardTeamIdProjectIdIndexRoute: typeof DashboardTeamIdProjectIdIndexRoute
 }
 
-const DashboardTeamSlugProjectIdRouteChildren: DashboardTeamSlugProjectIdRouteChildren =
+const DashboardTeamIdProjectIdRouteChildren: DashboardTeamIdProjectIdRouteChildren =
   {
-    DashboardTeamSlugProjectIdVideoIdRoute:
-      DashboardTeamSlugProjectIdVideoIdRoute,
-    DashboardTeamSlugProjectIdIndexRoute: DashboardTeamSlugProjectIdIndexRoute,
+    DashboardTeamIdProjectIdVideoIdRoute: DashboardTeamIdProjectIdVideoIdRoute,
+    DashboardTeamIdProjectIdIndexRoute: DashboardTeamIdProjectIdIndexRoute,
   }
 
-const DashboardTeamSlugProjectIdRouteWithChildren =
-  DashboardTeamSlugProjectIdRoute._addFileChildren(
-    DashboardTeamSlugProjectIdRouteChildren,
+const DashboardTeamIdProjectIdRouteWithChildren =
+  DashboardTeamIdProjectIdRoute._addFileChildren(
+    DashboardTeamIdProjectIdRouteChildren,
   )
 
-interface DashboardTeamSlugRouteChildren {
-  DashboardTeamSlugProjectIdRoute: typeof DashboardTeamSlugProjectIdRouteWithChildren
-  DashboardTeamSlugSettingsRoute: typeof DashboardTeamSlugSettingsRoute
-  DashboardTeamSlugIndexRoute: typeof DashboardTeamSlugIndexRoute
+interface DashboardTeamIdRouteChildren {
+  DashboardTeamIdProjectIdRoute: typeof DashboardTeamIdProjectIdRouteWithChildren
+  DashboardTeamIdSettingsRoute: typeof DashboardTeamIdSettingsRoute
+  DashboardTeamIdIndexRoute: typeof DashboardTeamIdIndexRoute
 }
 
-const DashboardTeamSlugRouteChildren: DashboardTeamSlugRouteChildren = {
-  DashboardTeamSlugProjectIdRoute: DashboardTeamSlugProjectIdRouteWithChildren,
-  DashboardTeamSlugSettingsRoute: DashboardTeamSlugSettingsRoute,
-  DashboardTeamSlugIndexRoute: DashboardTeamSlugIndexRoute,
+const DashboardTeamIdRouteChildren: DashboardTeamIdRouteChildren = {
+  DashboardTeamIdProjectIdRoute: DashboardTeamIdProjectIdRouteWithChildren,
+  DashboardTeamIdSettingsRoute: DashboardTeamIdSettingsRoute,
+  DashboardTeamIdIndexRoute: DashboardTeamIdIndexRoute,
 }
 
-const DashboardTeamSlugRouteWithChildren =
-  DashboardTeamSlugRoute._addFileChildren(DashboardTeamSlugRouteChildren)
+const DashboardTeamIdRouteWithChildren = DashboardTeamIdRoute._addFileChildren(
+  DashboardTeamIdRouteChildren,
+)
 
 interface DashboardRouteRouteChildren {
-  DashboardTeamSlugRoute: typeof DashboardTeamSlugRouteWithChildren
+  DashboardTeamIdRoute: typeof DashboardTeamIdRouteWithChildren
+  DashboardProfileRoute: typeof DashboardProfileRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
-  DashboardTeamSlugRoute: DashboardTeamSlugRouteWithChildren,
+  DashboardTeamIdRoute: DashboardTeamIdRouteWithChildren,
+  DashboardProfileRoute: DashboardProfileRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 
@@ -535,10 +675,16 @@ const SignUpRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
+  R1Route: R1Route,
+  R2Route: R2Route,
+  R3Route: R3Route,
+  R4Route: R4Route,
+  R5Route: R5Route,
   MonoRoute: MonoRoute,
   PricingRoute: PricingRoute,
   SignInRoute: SignInRouteWithChildren,
   SignUpRoute: SignUpRouteWithChildren,
+  AuthCallbackRoute: AuthCallbackRoute,
   CompareFrameioRoute: CompareFrameioRoute,
   CompareWipsterRoute: CompareWipsterRoute,
   ForAgenciesRoute: ForAgenciesRoute,

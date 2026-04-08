@@ -1,51 +1,46 @@
-import { SignIn } from "@clerk/tanstack-react-start";
+import { useLogto } from "@logto/react";
 import { useRouterState } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { Trans } from "@lingui/react/macro";
+import { LogIn } from "lucide-react";
 
 export default function SignInPage() {
+  const { signIn, isAuthenticated } = useLogto();
   const search = useRouterState({
     select: (state) => state.location.searchStr,
   });
   const redirectUrl = new URLSearchParams(search).get("redirect_url");
+  const callbackUrl = `${window.location.origin}/auth/callback`;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      window.location.replace(redirectUrl || "/dashboard");
+      return;
+    }
+    if (redirectUrl) {
+      sessionStorage.setItem("pravko_post_auth_redirect", redirectUrl);
+    }
+    void signIn(callbackUrl);
+  }, [isAuthenticated, signIn, callbackUrl, redirectUrl]);
 
   return (
-    <SignIn
-      fallbackRedirectUrl={redirectUrl || "/dashboard"}
-      appearance={{
-        elements: {
-          formButtonPrimary:
-            "bg-[#1a1a1a] hover:bg-[#2d5a2d] text-[#f0f0e8] border-2 border-[#1a1a1a] rounded-none shadow-[4px_4px_0px_0px_var(--shadow-color)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_0px_var(--shadow-color)] font-mono font-bold uppercase text-sm transition-all",
-          card: "bg-[#f0f0e8] border-2 border-[#1a1a1a] rounded-none shadow-[8px_8px_0px_0px_var(--shadow-color)]",
-          headerTitle: "text-[#1a1a1a] font-black uppercase tracking-tighter text-2xl font-mono",
-          headerSubtitle: "text-[#888] font-mono",
-          socialButtonsBlockButton:
-            "border-2 border-[#1a1a1a] bg-transparent hover:bg-[#1a1a1a] text-[#1a1a1a] hover:text-[#f0f0e8] rounded-none transition-all hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_0px_var(--shadow-color)] font-mono",
-          socialButtonsBlockButtonText: "!text-current font-bold uppercase font-mono",
-          socialButtonsBlockButtonArrow: "text-current",
-          formFieldLabel: "text-[#1a1a1a] font-bold uppercase font-mono",
-          formFieldInput:
-            "bg-transparent border-2 border-[#1a1a1a] text-[#1a1a1a] focus:border-[#2d5a2d] focus:shadow-[4px_4px_0px_0px_var(--shadow-accent)] focus:ring-0 rounded-none font-mono",
-          footerActionLink: "text-[#2d5a2d] hover:text-[#1a1a1a] font-bold font-mono",
-          footerActionText: "text-[#888] font-mono",
-          dividerLine: "bg-[#1a1a1a]",
-          dividerText: "text-[#888] font-mono font-bold",
-          identityPreviewText: "text-[#1a1a1a] font-mono",
-          identityPreviewEditButton: "text-[#2d5a2d] hover:text-[#1a1a1a]",
-          formFieldInputShowPasswordButton: "text-[#888] hover:text-[#1a1a1a]",
-          footer: "hidden",
-          internal: "text-[#1a1a1a]",
-        },
-        variables: {
-          colorPrimary: "#2d5a2d",
-          colorBackground: "#f0f0e8",
-          colorInputBackground: "transparent",
-          colorInputText: "#1a1a1a",
-          colorText: "#1a1a1a",
-          colorTextSecondary: "#888888",
-          colorTextOnPrimaryBackground: "#f0f0e8",
-          colorNeutral: "#1a1a1a",
-          borderRadius: "0rem",
-        },
-      }}
-    />
+    <div className="flex flex-col items-center text-center gap-6">
+      <div className="w-12 h-12 border-2 border-[#1a1a1a] bg-[#1a1a1a] flex items-center justify-center">
+        <LogIn className="w-5 h-5 text-[#f0f0e8]" />
+      </div>
+      <div>
+        <h2 className="text-lg font-black uppercase tracking-wider text-[#1a1a1a] mb-2">
+          <Trans comment="Sign in page heading">Sign in</Trans>
+        </h2>
+        <p className="text-sm text-[#888] font-mono">
+          <Trans comment="Status while redirecting to sign in provider">Redirecting to sign in...</Trans>
+        </p>
+      </div>
+      <div className="flex gap-1.5 items-center">
+        <span className="w-2 h-2 bg-[#2d5a2d] animate-[dotPulse_1.2s_ease-in-out_infinite]" style={{ animationDelay: "0ms" }} />
+        <span className="w-2 h-2 bg-[#2d5a2d] animate-[dotPulse_1.2s_ease-in-out_infinite]" style={{ animationDelay: "200ms" }} />
+        <span className="w-2 h-2 bg-[#2d5a2d] animate-[dotPulse_1.2s_ease-in-out_infinite]" style={{ animationDelay: "400ms" }} />
+      </div>
+    </div>
   );
 }

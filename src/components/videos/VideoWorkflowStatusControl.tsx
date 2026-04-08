@@ -1,4 +1,5 @@
 import { type MouseEvent } from "react";
+import { t } from "@lingui/core/macro";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,18 +15,20 @@ export type VideoWorkflowStatus =
   | "rework"
   | "done";
 
-export const VIDEO_WORKFLOW_STATUS_OPTIONS: Array<{
+export function getVideoWorkflowStatusOptions(): Array<{
   value: VideoWorkflowStatus;
   label: string;
-}> = [
-  { value: "review", label: "Review" },
-  { value: "rework", label: "Rework" },
-  { value: "done", label: "Done" },
-];
+}> {
+  return [
+    { value: "review", label: t({message: "Review", comment: "Video workflow status: needs review"}) },
+    { value: "rework", label: t({message: "Rework", comment: "Video workflow status: needs rework"}) },
+    { value: "done", label: t({message: "Done", comment: "Video workflow status: completed"}) },
+  ];
+}
 
 function workflowStatusLabel(status: VideoWorkflowStatus) {
-  const option = VIDEO_WORKFLOW_STATUS_OPTIONS.find((item) => item.value === status);
-  return option?.label ?? "Review";
+  const option = getVideoWorkflowStatusOptions().find((item) => item.value === status);
+  return option?.label ?? t({message: "Review", comment: "Default video workflow status label"});
 }
 
 function workflowStatusDotColor(status: VideoWorkflowStatus) {
@@ -66,15 +69,15 @@ export function VideoWorkflowStatusControl({
           type="button"
           disabled={disabled}
           className={cn(
-            "inline-flex items-center gap-1.5 font-bold uppercase tracking-wider transition-colors",
+            "inline-flex items-center gap-1.5 font-bold uppercase tracking-wider transition-colors border border-[#1a1a1a]/20 hover:border-[#1a1a1a]/40 px-2 py-1",
             disabled
               ? "cursor-not-allowed opacity-50"
               : "cursor-pointer hover:text-[#1a1a1a]",
             isLg ? "text-xs text-[#1a1a1a]" : "text-[10px] text-[#888]",
             className,
           )}
-          aria-label="Update review status"
-          title="Update review status"
+          aria-label={t({message: "Update review status", comment: "Aria label for workflow status dropdown"})}
+          title={t({message: "Update review status", comment: "Tooltip for workflow status dropdown"})}
         >
           <span className={cn(
             "rounded-full shrink-0",
@@ -96,7 +99,7 @@ export function VideoWorkflowStatusControl({
             onChange(nextStatus as VideoWorkflowStatus);
           }}
         >
-          {VIDEO_WORKFLOW_STATUS_OPTIONS.map((option) => (
+          {getVideoWorkflowStatusOptions().map((option) => (
             <DropdownMenuRadioItem key={option.value} value={option.value} className="gap-2">
               <span className={cn(
                 "h-2 w-2 rounded-full shrink-0",

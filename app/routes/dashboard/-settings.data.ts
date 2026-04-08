@@ -1,51 +1,57 @@
-import { useQuery, type ConvexReactClient } from "convex/react";
-import { api } from "@convex/_generated/api";
-import {
-  makeRouteQuerySpec,
-  prewarmSpecs,
-} from "@/lib/convexRouteData";
+import { useQuery } from "@tanstack/react-query";
+import api from "@/lib/api";
+import { makePrefetchSpec, prewarmSpecs } from "@/lib/convexRouteData";
 
-export function getSettingsEssentialSpecs(params: { teamSlug: string }) {
-  return [
-    makeRouteQuerySpec(api.workspace.resolveContext, {
-      teamSlug: params.teamSlug,
-    }),
-  ];
-}
-
-export function useSettingsData(params: { teamSlug: string }) {
-  const context = useQuery(api.workspace.resolveContext, {
-    teamSlug: params.teamSlug,
+export function useSettingsData(params: { teamId: string }) {
+  const context = useQuery({
+    queryKey: ["workspace", params.teamId],
+    queryFn: () => api.workspace.resolveContext({ teamId: params.teamId }),
   });
-  const team = context?.team;
-  const members = useQuery(
-    api.teams.getMembers,
-    team ? { teamId: team._id } : "skip",
-  );
-  const billing = useQuery(
-    api.billing.getTeamBilling,
-    team ? { teamId: team._id } : "skip",
-  );
+  const team = context.data?.team;
 
-  return { context, team, members, billing };
+  const members = useQuery({
+    queryKey: ["members", team?.id],
+    queryFn: () => api.teams.getMembers(team!.id),
+    enabled: !!team,
+  });
+
+  const billing = useQuery({
+    queryKey: ["billing", team?.id],
+    queryFn: () => api.billing.getTeamBilling(team!.id),
+    enabled: !!team,
+  });
+
+  return {
+    context: context.data === undefined ? undefined : context.data ?? null,
+    team,
+    members: members.data,
+    billing: billing.data,
+  };
 }
 
-export async function prewarmSettings(
-  convex: ConvexReactClient,
-  params: { teamSlug: string },
-) {
-  prewarmSpecs(convex, getSettingsEssentialSpecs(params));
+export async function prewarmSettings(params: { teamId: string }) {
+  prewarmSpecs([
+    makePrefetchSpec(
+      ["workspace", params.teamId],
+      () => api.workspace.resolveContext({ teamId: params.teamId }),
+    ),
+  ]);
 
   try {
-    const context = await convex.query(api.workspace.resolveContext, {
-      teamSlug: params.teamSlug,
+    const context = await api.workspace.resolveContext({
+      teamId: params.teamId,
     });
+    if (!context?.team?.id) return;
 
-    if (!context?.team?._id) return;
-
-    prewarmSpecs(convex, [
-      makeRouteQuerySpec(api.teams.getMembers, { teamId: context.team._id }),
-      makeRouteQuerySpec(api.billing.getTeamBilling, { teamId: context.team._id }),
+    prewarmSpecs([
+      makePrefetchSpec(
+        ["members", context.team.id],
+        () => api.teams.getMembers(context.team.id),
+      ),
+      makePrefetchSpec(
+        ["billing", context.team.id],
+        () => api.billing.getTeamBilling(context.team.id),
+      ),
     ]);
   } catch (error) {
     console.warn("Settings dependent prewarm failed", error);

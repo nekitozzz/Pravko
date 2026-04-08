@@ -1,8 +1,9 @@
 
-import { useConvex, useMutation } from "convex/react";
-import { api } from "@convex/_generated/api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocation, useNavigate, useParams } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { Trans, Plural } from "@lingui/react/macro";
+import { t } from "@lingui/core/macro";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -30,36 +31,35 @@ import {
 import { MemberInvite } from "@/components/teams/MemberInvite";
 import { cn } from "@/lib/utils";
 import { projectPath, teamSettingsPath } from "@/lib/routes";
-import { Id } from "@convex/_generated/dataModel";
+import api from "@/lib/api";
 import { useRoutePrewarmIntent } from "@/lib/useRoutePrewarmIntent";
 import { prewarmProject } from "./-project.data";
 import { useTeamData } from "./-team.data";
 import { DashboardHeader } from "@/components/DashboardHeader";
 
 type TeamProjectCardProps = {
-  teamSlug: string;
+  teamId: string;
   project: {
-    _id: Id<"projects">;
+    id: string;
     name: string;
-    videoCount: number;
+    videoCount?: number;
   };
   canCreateProject: boolean;
   onOpen: () => void;
-  onDelete: (projectId: Id<"projects">) => void;
+  onDelete: (projectId: string) => void;
 };
 
 function TeamProjectCard({
-  teamSlug,
+  teamId,
   project,
   canCreateProject,
   onOpen,
   onDelete,
 }: TeamProjectCardProps) {
-  const convex = useConvex();
   const prewarmIntentHandlers = useRoutePrewarmIntent(() =>
-    prewarmProject(convex, {
-      teamSlug,
-      projectId: project._id,
+    prewarmProject({
+      teamId,
+      projectId: project.id,
     }),
   );
 
@@ -73,7 +73,7 @@ function TeamProjectCard({
         <div className="flex-1 min-w-0">
           <CardTitle className="text-base truncate">{project.name}</CardTitle>
           <CardDescription className="mt-1">
-            {project.videoCount} video{project.videoCount !== 1 ? "s" : ""}
+            <Plural value={project.videoCount ?? 0} one="# video" other="# videos" comment="Number of videos in a project" />
           </CardDescription>
         </div>
         {canCreateProject && (
@@ -95,11 +95,11 @@ function TeamProjectCard({
                 className="text-[#dc2626] focus:text-[#dc2626]"
                 onClick={(e) => {
                   e.stopPropagation();
-                  onDelete(project._id);
+                  onDelete(project.id);
                 }}
               >
                 <Trash2 className="mr-2 h-4 w-4" />
-                Delete
+                <Trans comment="Menu item to delete a project">Delete</Trans>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -107,7 +107,7 @@ function TeamProjectCard({
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-between text-sm text-[#888] group-hover:text-[#1a1a1a] transition-colors">
-          <span>Open project</span>
+          <span><Trans comment="Link text to open a project">Open project</Trans></span>
           <ArrowRight className="h-4 w-4" />
         </div>
       </CardContent>
@@ -119,16 +119,29 @@ export default function TeamPage() {
   const params = useParams({ strict: false });
   const navigate = useNavigate({});
   const pathname = useLocation().pathname;
-  const teamSlug = typeof params.teamSlug === "string" ? params.teamSlug : "";
+  const queryClient = useQueryClient();
+  const teamId = typeof params.teamId === "string" ? params.teamId : "";
 
-  const { context, team, projects, billing } = useTeamData({ teamSlug });
-  const createProject = useMutation(api.projects.create);
-  const deleteProject = useMutation(api.projects.remove);
+  const { context, team, projects, billing } = useTeamData({ teamId });
+
+  const createProjectMutation = useMutation({
+    mutationFn: (body: { name: string }) =>
+      api.projects.create(team!.id, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["projects", team?.id] });
+    },
+  });
+
+  const deleteProjectMutation = useMutation({
+    mutationFn: (projectId: string) => api.projects.remove(projectId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["projects", team?.id] });
+    },
+  });
 
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [memberDialogOpen, setMemberDialogOpen] = useState(false);
   const [newProjectName, setNewProjectName] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
   const shouldCanonicalize =
     !!context && !context.isCanonical && pathname !== context.canonicalPath;
@@ -145,11 +158,10 @@ export default function TeamPage() {
     projects === undefined ||
     shouldCanonicalize;
 
-  // Not found state
   if (context === null) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-[#888]">Team not found</div>
+        <div className="text-[#888]"><Trans comment="Error message when team is not found">Team not found</Trans></div>
       </div>
     );
   }
@@ -158,26 +170,22 @@ export default function TeamPage() {
     e.preventDefault();
     if (!newProjectName.trim() || !team) return;
 
-    setIsLoading(true);
     try {
-      const projectId = await createProject({
-        teamId: team._id,
+      const result = await createProjectMutation.mutateAsync({
         name: newProjectName.trim(),
       });
       setCreateDialogOpen(false);
       setNewProjectName("");
-      navigate({ to: projectPath(team.slug, projectId) });
+      navigate({ to: projectPath(team.id, result.id) });
     } catch (error) {
       console.error("Failed to create project:", error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
-  const handleDeleteProject = async (projectId: Id<"projects">) => {
-    if (!confirm("Are you sure you want to delete this project?")) return;
+  const handleDeleteProject = async (projectId: string) => {
+    if (!confirm(t({ message: "Are you sure you want to delete this project?", comment: "Confirmation dialog when deleting a project" }))) return;
     try {
-      await deleteProject({ projectId });
+      await deleteProjectMutation.mutateAsync(projectId);
     } catch (error) {
       console.error("Failed to delete project:", error);
     }
@@ -187,19 +195,18 @@ export default function TeamPage() {
   const hasActiveSubscription = billing?.hasActiveSubscription ?? false;
   const canCreateProject = team?.role !== "viewer" && hasActiveSubscription;
   const canAccessBilling = team?.role === "owner";
-  const billingPath = team ? teamSettingsPath(team.slug) : null;
+  const billingPath = team ? teamSettingsPath(team.id) : null;
 
   return (
     <div className="h-full flex flex-col">
-      {/* Header */}
-      <DashboardHeader paths={[{ label: team?.slug ?? "team" }]}>
+      <DashboardHeader paths={[{ label: team?.name ?? "team" }]}>
         {canAccessBilling && team && (
           <Button
             variant="outline"
-            onClick={() => navigate({ to: billingPath ?? teamSettingsPath(team.slug) })}
+            onClick={() => navigate({ to: billingPath ?? teamSettingsPath(team.id) })}
           >
             <CreditCard className="sm:mr-1.5 h-4 w-4" />
-            <span className="hidden sm:inline">Billing</span>
+            <span className="hidden sm:inline"><Trans comment="Button to navigate to billing settings">Billing</Trans></span>
           </Button>
         )}
         {canManageMembers && (
@@ -208,26 +215,24 @@ export default function TeamPage() {
             onClick={() => setMemberDialogOpen(true)}
           >
             <Users className="sm:mr-1.5 h-4 w-4" />
-            <span className="hidden sm:inline">Members</span>
+            <span className="hidden sm:inline"><Trans comment="Button to open team members dialog">Members</Trans></span>
           </Button>
         )}
         {canCreateProject && (
           <Button onClick={() => setCreateDialogOpen(true)}>
             <Plus className="sm:mr-1.5 h-4 w-4" />
-            <span className="hidden sm:inline">New project</span>
+            <span className="hidden sm:inline"><Trans comment="Button to create a new project">New project</Trans></span>
           </Button>
         )}
       </DashboardHeader>
 
-      {/* Content */}
       <div className="flex-1 overflow-auto p-6">
         {!isLoadingData && !hasActiveSubscription && canAccessBilling && (
           <Card className="mb-6 border-[#1a1a1a]">
             <CardHeader>
-              <CardTitle>Set up billing to create projects</CardTitle>
+              <CardTitle><Trans comment="Card title prompting user to set up billing">Set up billing to create projects</Trans></CardTitle>
               <CardDescription>
-                This team has no active subscription. Go to Billing to start Basic or Pro before
-                creating projects.
+                <Trans comment="Description explaining team needs billing setup">This team has no active subscription. Go to Billing to start Basic or Pro before creating projects.</Trans>
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -238,23 +243,23 @@ export default function TeamPage() {
                   navigate({ to: billingPath });
                 }}
               >
-                Go to Billing
+                <Trans comment="Button to navigate to billing page">Go to Billing</Trans>
               </Button>
             </CardContent>
           </Card>
         )}
-        {!isLoadingData && projects.length === 0 ? (
+        {!isLoadingData && projects && projects.length === 0 ? (
           <div className="h-full flex items-center justify-center animate-in fade-in duration-300">
             <Card className="max-w-sm text-center">
               <CardHeader>
                 <div className="mx-auto w-12 h-12 bg-[#e8e8e0] flex items-center justify-center mb-2">
                   <Folder className="h-6 w-6 text-[#888]" />
                 </div>
-                <CardTitle className="text-lg">No projects yet</CardTitle>
+                <CardTitle className="text-lg"><Trans comment="Empty state title when team has no projects">No projects yet</Trans></CardTitle>
                 <CardDescription>
                   {hasActiveSubscription
-                    ? "Create your first project to start uploading videos."
-                    : "Activate billing first, then create your first project."}
+                    ? <Trans comment="Empty state description when billing is active">Create your first project to start uploading videos.</Trans>
+                    : <Trans comment="Empty state description when billing is not active">Activate billing first, then create your first project.</Trans>}
                 </CardDescription>
               </CardHeader>
               {canCreateProject && (
@@ -264,7 +269,7 @@ export default function TeamPage() {
                     onClick={() => setCreateDialogOpen(true)}
                   >
                     <Plus className="mr-1.5 h-4 w-4" />
-                    Create project
+                    <Trans comment="Button to create a new project">Create project</Trans>
                   </Button>
                 </CardContent>
               )}
@@ -278,7 +283,7 @@ export default function TeamPage() {
                       navigate({ to: billingPath });
                     }}
                   >
-                    Go to Billing
+                    <Trans comment="Button to navigate to billing page">Go to Billing</Trans>
                   </Button>
                 </CardContent>
               )}
@@ -291,12 +296,12 @@ export default function TeamPage() {
           )}>
             {projects?.map((project) => (
               <TeamProjectCard
-                key={project._id}
-                teamSlug={team.slug}
+                key={project.id}
+                teamId={team!.id}
                 project={project}
                 canCreateProject={canCreateProject}
                 onOpen={() =>
-                  navigate({ to: projectPath(team.slug, project._id) })
+                  navigate({ to: projectPath(team!.id, project.id) })
                 }
                 onDelete={handleDeleteProject}
               />
@@ -309,14 +314,14 @@ export default function TeamPage() {
         <DialogContent>
           <form onSubmit={handleCreateProject}>
             <DialogHeader>
-              <DialogTitle>Create project</DialogTitle>
+              <DialogTitle><Trans comment="Dialog title for creating a new project">Create project</Trans></DialogTitle>
               <DialogDescription>
-                Projects help you organize related videos together.
+                <Trans comment="Dialog description for project creation">Projects help you organize related videos together.</Trans>
               </DialogDescription>
             </DialogHeader>
             <div className="py-4">
               <Input
-                placeholder="Project name"
+                placeholder={t({ message: "Project name", comment: "Placeholder for project name input" })}
                 value={newProjectName}
                 onChange={(e) => setNewProjectName(e.target.value)}
                 autoFocus
@@ -328,13 +333,13 @@ export default function TeamPage() {
                 variant="outline"
                 onClick={() => setCreateDialogOpen(false)}
               >
-                Cancel
+                <Trans comment="Cancel button in project creation dialog">Cancel</Trans>
               </Button>
               <Button
                 type="submit"
-                disabled={!newProjectName.trim() || isLoading}
+                disabled={!newProjectName.trim() || createProjectMutation.isPending}
               >
-                {isLoading ? "Creating..." : "Create"}
+                {createProjectMutation.isPending ? <Trans comment="Submit button while project is being created">Creating...</Trans> : <Trans comment="Submit button to create a project">Create</Trans>}
               </Button>
             </DialogFooter>
           </form>
@@ -343,7 +348,7 @@ export default function TeamPage() {
 
       {canManageMembers && team && (
         <MemberInvite
-          teamId={team._id}
+          teamId={team.id}
           open={memberDialogOpen}
           onOpenChange={setMemberDialogOpen}
         />

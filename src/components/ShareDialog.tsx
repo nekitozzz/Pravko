@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useQuery, useMutation } from "convex/react";
-import { api } from "../../convex/_generated/api";
-import { Id } from "../../convex/_generated/dataModel";
+import { Trans, Plural } from "@lingui/react/macro";
+import { t } from "@lingui/core/macro";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import api from "@/lib/api";
 import {
   Dialog,
   DialogContent,
@@ -24,6 +25,7 @@ import {
   Lock,
   ExternalLink,
   Globe,
+  Mail,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -34,55 +36,84 @@ import {
 import { formatRelativeTime } from "@/lib/utils";
 
 interface ShareDialogProps {
-  videoId: Id<"videos">;
+  videoId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
 export function ShareDialog({ videoId, open, onOpenChange }: ShareDialogProps) {
-  const video = useQuery(api.videos.get, { videoId });
-  const shareLinks = useQuery(api.shareLinks.list, { videoId });
-  const createShareLink = useMutation(api.shareLinks.create);
-  const deleteShareLink = useMutation(api.shareLinks.remove);
-  const setVisibility = useMutation(api.videos.setVisibility);
+  const queryClient = useQueryClient();
 
-  const [isCreating, setIsCreating] = useState(false);
-  const [isUpdatingVisibility, setIsUpdatingVisibility] = useState(false);
+  const { data: video } = useQuery({
+    queryKey: ["video", videoId],
+    queryFn: () => api.videos.get(videoId),
+    enabled: open,
+  });
+
+  const { data: shareLinks } = useQuery({
+    queryKey: ["share-links", videoId],
+    queryFn: () => api.shareLinks.list(videoId),
+    enabled: open,
+  });
+
+  const createShareLinkMutation = useMutation({
+    mutationFn: (body: {
+      expiresInDays?: number;
+      password?: string;
+      allowDownload?: boolean;
+      email?: string;
+    }) => api.shareLinks.create(videoId, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["share-links", videoId] });
+    },
+  });
+
+  const deleteShareLinkMutation = useMutation({
+    mutationFn: (linkId: string) => api.shareLinks.remove(linkId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["share-links", videoId] });
+    },
+  });
+
+  const setVisibilityMutation = useMutation({
+    mutationFn: (visibility: "public" | "private") =>
+      api.videos.setVisibility(videoId, { visibility }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["video", videoId] });
+    },
+  });
+
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [newLinkOptions, setNewLinkOptions] = useState({
     expiresInDays: undefined as number | undefined,
     password: undefined as string | undefined,
+    email: undefined as string | undefined,
   });
 
   const handleCreateLink = async () => {
-    setIsCreating(true);
     try {
-      await createShareLink({
-        videoId,
+      await createShareLinkMutation.mutateAsync({
         expiresInDays: newLinkOptions.expiresInDays,
         allowDownload: false,
         password: newLinkOptions.password,
+        email: newLinkOptions.email,
       });
       setNewLinkOptions({
         expiresInDays: undefined,
         password: undefined,
+        email: undefined,
       });
     } catch (error) {
       console.error("Failed to create share link:", error);
-    } finally {
-      setIsCreating(false);
     }
   };
 
   const handleSetVisibility = async (visibility: "public" | "private") => {
-    if (!video || isUpdatingVisibility || video.visibility === visibility) return;
-    setIsUpdatingVisibility(true);
+    if (!video || setVisibilityMutation.isPending || video.visibility === visibility) return;
     try {
-      await setVisibility({ videoId, visibility });
+      await setVisibilityMutation.mutateAsync(visibility);
     } catch (error) {
       console.error("Failed to update visibility:", error);
-    } finally {
-      setIsUpdatingVisibility(false);
     }
   };
 
@@ -101,10 +132,10 @@ export function ShareDialog({ videoId, open, onOpenChange }: ShareDialogProps) {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  const handleDeleteLink = async (linkId: Id<"shareLinks">) => {
-    if (!confirm("Are you sure you want to delete this share link?")) return;
+  const handleDeleteLink = async (linkId: string) => {
+    if (!confirm(t({ message: "Are you sure you want to delete this share link?", comment: "Confirmation dialog when deleting a share link" }))) return;
     try {
-      await deleteShareLink({ linkId });
+      await deleteShareLinkMutation.mutateAsync(linkId);
     } catch (error) {
       console.error("Failed to delete share link:", error);
     }
@@ -116,47 +147,47 @@ export function ShareDialog({ videoId, open, onOpenChange }: ShareDialogProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>Share video</DialogTitle>
+          <DialogTitle><Trans comment="Dialog title for sharing a video">Share video</Trans></DialogTitle>
           <DialogDescription>
-            Public videos can be viewed by anyone with the URL. Only signed-in users can comment.
+            <Trans comment="Description for the share video dialog">Public videos can be viewed by anyone with the URL. Share link recipients can watch and comment without signing up.</Trans>
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-3 border-2 border-[#1a1a1a] p-4 bg-[#e8e8e0]">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <h3 className="font-bold text-sm text-[#1a1a1a]">Visibility</h3>
+              <h3 className="font-bold text-sm text-[#1a1a1a]"><Trans comment="Label for video visibility setting">Visibility</Trans></h3>
               <p className="text-xs text-[#666]">
-                Private disables the public URL. Restricted share links can still be used.
+                <Trans comment="Description of video visibility behavior">Private disables the public URL. Restricted share links can still be used.</Trans>
               </p>
             </div>
             <Badge variant={video?.visibility === "public" ? "success" : "secondary"}>
-              {video?.visibility === "public" ? "Public" : "Private"}
+              {video?.visibility === "public" ? <Trans comment="Video visibility: public">Public</Trans> : <Trans comment="Video visibility: private">Private</Trans>}
             </Badge>
           </div>
 
           <div className="grid grid-cols-2 gap-2">
             <Button
               variant={video?.visibility === "public" ? "default" : "outline"}
-              disabled={isUpdatingVisibility || video === undefined}
+              disabled={setVisibilityMutation.isPending || video === undefined}
               onClick={() => void handleSetVisibility("public")}
             >
               <Globe className="mr-2 h-4 w-4" />
-              Public
+              <Trans comment="Video visibility: public">Public</Trans>
             </Button>
             <Button
               variant={video?.visibility === "private" ? "default" : "outline"}
-              disabled={isUpdatingVisibility || video === undefined}
+              disabled={setVisibilityMutation.isPending || video === undefined}
               onClick={() => void handleSetVisibility("private")}
             >
               <Lock className="mr-2 h-4 w-4" />
-              Private
+              <Trans comment="Video visibility: private">Private</Trans>
             </Button>
           </div>
 
           {publicWatchPath ? (
             <div className="p-3 border-2 border-[#1a1a1a] bg-[#f0f0e8] space-y-2">
-              <div className="text-xs text-[#666]">Public URL</div>
+              <div className="text-xs text-[#666]"><Trans comment="Label for the public video URL">Public URL</Trans></div>
               <code className="block text-sm bg-[#e8e8e0] px-2 py-1 font-mono truncate">
                 {publicWatchPath}
               </code>
@@ -168,7 +199,7 @@ export function ShareDialog({ videoId, open, onOpenChange }: ShareDialogProps) {
                   disabled={video?.visibility !== "public"}
                 >
                   {copiedId === "public" ? <Check className="mr-2 h-4 w-4" /> : <Copy className="mr-2 h-4 w-4" />}
-                  Copy URL
+                  <Trans comment="Button to copy URL to clipboard">Copy URL</Trans>
                 </Button>
                 <Button
                   variant="outline"
@@ -177,7 +208,7 @@ export function ShareDialog({ videoId, open, onOpenChange }: ShareDialogProps) {
                   onClick={() => window.open(publicWatchPath, "_blank")}
                 >
                   <ExternalLink className="mr-2 h-4 w-4" />
-                  Open
+                  <Trans comment="Button to open video in new tab">Open</Trans>
                 </Button>
               </div>
             </div>
@@ -185,16 +216,16 @@ export function ShareDialog({ videoId, open, onOpenChange }: ShareDialogProps) {
         </div>
 
         <div className="space-y-4 border-2 border-[#1a1a1a] p-4 bg-[#e8e8e0]">
-          <h3 className="font-bold text-sm text-[#1a1a1a]">Create restricted share link</h3>
+          <h3 className="font-bold text-sm text-[#1a1a1a]"><Trans comment="Heading for creating a restricted share link">Create restricted share link</Trans></h3>
 
           <div>
-            <label className="text-sm text-[#888]">Expiration</label>
+            <label htmlFor="share-link-expiration" className="text-sm text-[#888]"><Trans comment="Label for share link expiration setting">Expiration</Trans></label>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="w-full justify-between mt-1">
+                <Button id="share-link-expiration" variant="outline" className="w-full justify-between mt-1">
                   {newLinkOptions.expiresInDays
-                    ? `${newLinkOptions.expiresInDays} days`
-                    : "Never"}
+                    ? <Plural value={newLinkOptions.expiresInDays} one="# day" other="# days" comment="Share link expiration duration in days" />
+                    : <Trans comment="Share link expiration: never expires">Never</Trans>}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
@@ -203,38 +234,39 @@ export function ShareDialog({ videoId, open, onOpenChange }: ShareDialogProps) {
                     setNewLinkOptions((o) => ({ ...o, expiresInDays: undefined }))
                   }
                 >
-                  Never
+                  <Trans comment="Share link expiration: never expires">Never</Trans>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() =>
                     setNewLinkOptions((o) => ({ ...o, expiresInDays: 1 }))
                   }
                 >
-                  1 day
+                  <Trans comment="Share link expiration: 1 day">1 day</Trans>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() =>
                     setNewLinkOptions((o) => ({ ...o, expiresInDays: 7 }))
                   }
                 >
-                  7 days
+                  <Trans comment="Share link expiration: 7 days">7 days</Trans>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() =>
                     setNewLinkOptions((o) => ({ ...o, expiresInDays: 30 }))
                   }
                 >
-                  30 days
+                  <Trans comment="Share link expiration: 30 days">30 days</Trans>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
 
           <div>
-            <label className="text-sm text-[#888]">Password (optional)</label>
+            <label htmlFor="share-link-password" className="text-sm text-[#888]"><Trans comment="Label for optional password field on share link">Password (optional)</Trans></label>
             <Input
+              id="share-link-password"
               type="password"
-              placeholder="Leave empty for no password"
+              placeholder={t({ message: "Leave empty for no password", comment: "Placeholder for share link password input" })}
               value={newLinkOptions.password || ""}
               onChange={(e) =>
                 setNewLinkOptions((o) => ({
@@ -246,25 +278,42 @@ export function ShareDialog({ videoId, open, onOpenChange }: ShareDialogProps) {
             />
           </div>
 
-          <Button onClick={handleCreateLink} disabled={isCreating} className="w-full">
+          <div>
+            <label htmlFor="share-link-email" className="text-sm text-[#888]"><Trans comment="Label for optional email field to restrict share link access">Restrict to email (optional)</Trans></label>
+            <Input
+              id="share-link-email"
+              type="email"
+              placeholder={t({ message: "recipient@example.com", comment: "Placeholder for share link email restriction input" })}
+              value={newLinkOptions.email || ""}
+              onChange={(e) =>
+                setNewLinkOptions((o) => ({
+                  ...o,
+                  email: e.target.value || undefined,
+                }))
+              }
+              className="mt-1"
+            />
+          </div>
+
+          <Button onClick={handleCreateLink} disabled={createShareLinkMutation.isPending} className="w-full">
             <Plus className="mr-2 h-4 w-4" />
-            {isCreating ? "Creating..." : "Create restricted link"}
+            {createShareLinkMutation.isPending ? <Trans comment="Button text while creating a share link">Creating...</Trans> : <Trans comment="Button to create a restricted share link">Create restricted link</Trans>}
           </Button>
         </div>
 
         <Separator />
 
         <div className="space-y-2">
-          <h3 className="font-bold text-sm text-[#1a1a1a]">Restricted links</h3>
+          <h3 className="font-bold text-sm text-[#1a1a1a]"><Trans comment="Heading for list of restricted share links">Restricted links</Trans></h3>
           {shareLinks === undefined ? (
-            <p className="text-sm text-[#888]">Loading...</p>
+            <p className="text-sm text-[#888]"><Trans comment="Loading indicator for share links">Loading...</Trans></p>
           ) : shareLinks.length === 0 ? (
-            <p className="text-sm text-[#888]">No share links yet</p>
+            <p className="text-sm text-[#888]"><Trans comment="Empty state when no share links exist">No share links yet</Trans></p>
           ) : (
             <div className="space-y-2">
               {shareLinks.map((link) => (
                 <div
-                  key={link._id}
+                  key={link.id}
                   className="flex items-center justify-between p-3 border-2 border-[#1a1a1a]"
                 >
                   <div className="flex-1 min-w-0">
@@ -273,23 +322,29 @@ export function ShareDialog({ videoId, open, onOpenChange }: ShareDialogProps) {
                         /share/{link.token}
                       </code>
                       {link.isExpired ? (
-                        <Badge variant="destructive">Expired</Badge>
+                        <Badge variant="destructive"><Trans comment="Badge for expired share link">Expired</Trans></Badge>
                       ) : null}
                     </div>
                     <div className="flex items-center gap-3 mt-1 text-xs text-[#888]">
                       <span className="flex items-center gap-1">
                         <Eye className="h-3 w-3" />
-                        {link.viewCount} views
+                        <Plural value={link.viewCount} one="# view" other="# views" comment="Number of views on a share link" />
                       </span>
                       {link.hasPassword ? (
                         <span className="flex items-center gap-1">
                           <Lock className="h-3 w-3" />
-                          Protected
+                          <Trans comment="Indicator that share link is password-protected">Protected</Trans>
+                        </span>
+                      ) : null}
+                      {link.restrictedEmail ? (
+                        <span className="flex items-center gap-1">
+                          <Mail className="h-3 w-3" />
+                          {link.restrictedEmail}
                         </span>
                       ) : null}
                       {link.expiresAt ? (
                         <span>
-                          Expires {formatRelativeTime(link.expiresAt)}
+                          <Trans comment="Share link expiration time">Expires {formatRelativeTime(new Date(link.expiresAt).getTime())}</Trans>
                         </span>
                       ) : null}
                     </div>
@@ -299,6 +354,7 @@ export function ShareDialog({ videoId, open, onOpenChange }: ShareDialogProps) {
                       variant="ghost"
                       size="icon"
                       onClick={() => handleCopyLink(link.token)}
+                      aria-label={t({message: "Copy link", comment: "Aria label for copy share link button"})}
                     >
                       {copiedId === link.token ? (
                         <Check className="h-4 w-4 text-[#2d5a2d]" />
@@ -310,6 +366,7 @@ export function ShareDialog({ videoId, open, onOpenChange }: ShareDialogProps) {
                       variant="ghost"
                       size="icon"
                       onClick={() => window.open(`/share/${link.token}`, "_blank")}
+                      aria-label={t({message: "Open link", comment: "Aria label for open share link button"})}
                     >
                       <ExternalLink className="h-4 w-4" />
                     </Button>
@@ -317,7 +374,8 @@ export function ShareDialog({ videoId, open, onOpenChange }: ShareDialogProps) {
                       variant="ghost"
                       size="icon"
                       className="text-[#dc2626] hover:text-[#dc2626]"
-                      onClick={() => handleDeleteLink(link._id)}
+                      onClick={() => handleDeleteLink(link.id)}
+                      aria-label={t({message: "Delete link", comment: "Aria label for delete share link button"})}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>

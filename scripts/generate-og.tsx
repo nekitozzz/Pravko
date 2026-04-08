@@ -6,10 +6,9 @@ import { join } from "path";
 const WIDTH = 1200;
 const HEIGHT = 630;
 
-async function loadFont(url: string): Promise<ArrayBuffer> {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`Failed to fetch font from ${url}: ${res.status}`);
-  return res.arrayBuffer();
+function loadLocalFont(relativePath: string): ArrayBuffer {
+  const buf = readFileSync(join(process.cwd(), "public", "fonts", relativePath));
+  return buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
 }
 
 async function prepareBackground(): Promise<Buffer> {
@@ -105,7 +104,7 @@ const images: { name: string; jsx: ReturnType<typeof TextOverlay> }[] = [
     name: "default",
     jsx: (
       <TextOverlay
-        title="lawn"
+        title="Правко"
         titleSize={200}
         subtitle="Video review that doesn't suck"
       />
@@ -115,7 +114,7 @@ const images: { name: string; jsx: ReturnType<typeof TextOverlay> }[] = [
     name: "home",
     jsx: (
       <TextOverlay
-        title="lawn"
+        title="Правко"
         titleSize={200}
         subtitle="Video review that doesn't suck"
       />
@@ -125,7 +124,7 @@ const images: { name: string; jsx: ReturnType<typeof TextOverlay> }[] = [
     name: "compare-frameio",
     jsx: (
       <TextOverlay
-        title="lawn vs Frame.io"
+        title="Правко vs Frame.io"
         titleSize={96}
         subtitle="$5/mo flat vs $19/user/mo"
       />
@@ -135,7 +134,7 @@ const images: { name: string; jsx: ReturnType<typeof TextOverlay> }[] = [
     name: "compare-wipster",
     jsx: (
       <TextOverlay
-        title="lawn vs Wipster"
+        title="Правко vs Wipster"
         titleSize={96}
         subtitle="Simpler. Cheaper. Open source."
       />
@@ -171,14 +170,9 @@ const images: { name: string; jsx: ReturnType<typeof TextOverlay> }[] = [
 
 async function main() {
   console.log("Loading fonts...");
-  const [fontRegular, fontBold] = await Promise.all([
-    loadFont(
-      "https://fonts.gstatic.com/s/geistmono/v4/or3yQ6H-1_WfwkMZI_qYPLs1a-t7PU0AbeE9KJ5T.ttf",
-    ),
-    loadFont(
-      "https://fonts.gstatic.com/s/geistmono/v4/or3yQ6H-1_WfwkMZI_qYPLs1a-t7PU0AbeHaL55T.ttf",
-    ),
-  ]);
+  // Satori requires TTF/OTF — woff2 is not supported
+  const fontRegular = loadLocalFont("geist-mono/GeistMono-Regular.ttf");
+  const fontBold = loadLocalFont("geist-mono/GeistMono-Bold.ttf");
 
   console.log("Preparing background...");
   const bgPng = await prepareBackground();

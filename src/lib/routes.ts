@@ -2,18 +2,18 @@ export function dashboardHomePath() {
   return "/dashboard";
 }
 
-export function teamHomePath(teamSlug: string) {
-  return `/dashboard/${teamSlug}`;
+export function teamHomePath(teamId: string) {
+  return `/dashboard/${teamId}`;
 }
 
-export function teamSettingsPath(teamSlug: string) {
-  return `/dashboard/${teamSlug}/settings`;
+export function teamSettingsPath(teamId: string) {
+  return `/dashboard/${teamId}/settings`;
 }
 
-export function projectPath(teamSlug: string, projectId: string) {
-  return `/dashboard/${teamSlug}/${projectId}`;
+export function projectPath(teamId: string, projectId: string) {
+  return `/dashboard/${teamId}/${projectId}`;
 }
 
-export function videoPath(teamSlug: string, projectId: string, videoId: string) {
-  return `/dashboard/${teamSlug}/${projectId}/${videoId}`;
+export function videoPath(teamId: string, projectId: string, videoId: string) {
+  return `/dashboard/${teamId}/${projectId}/${videoId}`;
 }

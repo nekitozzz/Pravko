@@ -1,5 +1,5 @@
-const SITE_URL = "https://lawn.video";
-const SITE_NAME = "lawn";
+import { PRODUCT_NAME, PRODUCT_URL } from "./product";
+
 const DEFAULT_OG_IMAGE = "/og/default.png";
 const TWITTER_HANDLE = "@theo";
 
@@ -20,13 +20,13 @@ export function seoHead({
   type = "website",
   noIndex = false,
 }: SeoOptions) {
-  const fullTitle = title.toLowerCase().includes("lawn")
+  const fullTitle = title.toLowerCase().includes(PRODUCT_NAME.toLowerCase())
     ? title
-    : `${title} | lawn`;
-  const url = `${SITE_URL}${path}`;
+    : `${title} | ${PRODUCT_NAME}`;
+  const url = `${PRODUCT_URL}${path}`;
   const imageUrl = ogImage.startsWith("http")
     ? ogImage
-    : `${SITE_URL}${ogImage}`;
+    : `${PRODUCT_URL}${ogImage}`;
 
   const meta: Array<Record<string, string>> = [
     { title: fullTitle },
@@ -37,7 +37,7 @@ export function seoHead({
     { property: "og:image", content: imageUrl },
     { property: "og:url", content: url },
     { property: "og:type", content: type },
-    { property: "og:site_name", content: SITE_NAME },
+    { property: "og:site_name", content: PRODUCT_NAME },
     // Twitter
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: fullTitle },

@@ -1,11 +1,17 @@
-/* Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=block');
+/* Fonts — all self-hosted, no external CDN requests */
 
 @import "tailwindcss";
 
+/* Global: buttons should always show pointer cursor */
+button:not(:disabled),
+[role="button"]:not(:disabled) {
+  cursor: pointer;
+}
+
+/* Geist Sans */
 @font-face {
   font-family: 'Geist';
-  src: url('https://cdn.jsdelivr.net/npm/geist@1.2.0/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2');
+  src: url('/fonts/geist-sans/Geist-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: block;
@@ -13,7 +19,7 @@
 
 @font-face {
   font-family: 'Geist';
-  src: url('https://cdn.jsdelivr.net/npm/geist@1.2.0/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2');
+  src: url('/fonts/geist-sans/Geist-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: block;
@@ -21,7 +27,7 @@
 
 @font-face {
   font-family: 'Geist';
-  src: url('https://cdn.jsdelivr.net/npm/geist@1.2.0/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2');
+  src: url('/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2');
   font-weight: 600;
   font-style: normal;
   font-display: block;
@@ -29,7 +35,7 @@
 
 @font-face {
   font-family: 'Geist';
-  src: url('https://cdn.jsdelivr.net/npm/geist@1.2.0/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2');
+  src: url('/fonts/geist-sans/Geist-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: block;
@@ -37,15 +43,16 @@
 
 @font-face {
   font-family: 'Geist';
-  src: url('https://cdn.jsdelivr.net/npm/geist@1.2.0/dist/fonts/geist-sans/Geist-Black.woff2') format('woff2');
+  src: url('/fonts/geist-sans/Geist-Black.woff2') format('woff2');
   font-weight: 900;
   font-style: normal;
   font-display: block;
 }
 
+/* Geist Mono */
 @font-face {
   font-family: 'Geist Mono';
-  src: url('https://cdn.jsdelivr.net/npm/geist@1.2.0/dist/fonts/geist-mono/GeistMono-Regular.woff2') format('woff2');
+  src: url('/fonts/geist-mono/GeistMono-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: block;
@@ -53,10 +60,68 @@
 
 @font-face {
   font-family: 'Geist Mono';
-  src: url('https://cdn.jsdelivr.net/npm/geist@1.2.0/dist/fonts/geist-mono/GeistMono-Medium.woff2') format('woff2');
+  src: url('/fonts/geist-mono/GeistMono-Medium.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
   font-display: block;
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/geist-mono/GeistMono-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: block;
+}
+
+/* Instrument Serif */
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('/fonts/instrument-serif/InstrumentSerif-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('/fonts/instrument-serif/InstrumentSerif-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: block;
+}
+
+/* PT Sans — Cyrillic fallback (OFL license, by Paratype) */
+@font-face {
+  font-family: 'PT Sans';
+  src: url('/fonts/pt-sans/PTSans-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PT Sans';
+  src: url('/fonts/pt-sans/PTSans-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PT Sans';
+  src: url('/fonts/pt-sans/PTSans-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PT Sans';
+  src: url('/fonts/pt-sans/PTSans-BoldItalic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
 }
 
 :root {
@@ -177,7 +242,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: 'Geist', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Geist', 'PT Sans', system-ui, -apple-system, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, monospace;
   --font-serif: 'Instrument Serif', Georgia, serif;
 }
@@ -323,6 +388,11 @@ body {
 @keyframes slide-in-from-right {
   from { transform: translateX(8px); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes dotPulse {
+  0%, 80%, 100% { opacity: 0.2; }
+  40% { opacity: 1; }
 }
 
 .animate-in {

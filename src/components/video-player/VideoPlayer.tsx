@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef, useEffect, useState, useCallback, useMemo, forwardRef, useImperativeHandle } from "react";
+import { Trans } from "@lingui/react/macro";
+import { t } from "@lingui/core/macro";
 import type Hls from "hls.js";
 import {
   Play,
@@ -21,7 +23,7 @@ import { cn, formatDuration, formatTimestamp } from "@/lib/utils";
 import { triggerDownload } from "@/lib/download";
 
 interface Comment {
-  _id: string;
+  id: string;
   timestampSeconds: number;
   resolved: boolean;
 }
@@ -691,11 +693,11 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
   const hasExternalQualityOptions = Boolean(qualityOptionsConfig && qualityOptionsConfig.length > 0);
   const qualityLabel = useMemo(() => {
     if (hasExternalQualityOptions) {
-      return qualityOptionsConfig?.find((option) => option.id === selectedQualityId)?.label ?? "Quality";
+      return qualityOptionsConfig?.find((option) => option.id === selectedQualityId)?.label ?? t({ message: "Quality", comment: "Video quality settings label" });
     }
-    if (!isHls) return "Original";
-    if (selectedQualityLevel === AUTO_QUALITY_LEVEL) return "Auto";
-    return qualityOptions.find((option) => option.level === selectedQualityLevel)?.label ?? "Auto";
+    if (!isHls) return t({ message: "Original", comment: "Video quality: original source" });
+    if (selectedQualityLevel === AUTO_QUALITY_LEVEL) return t({ message: "Auto", comment: "Video quality: automatic selection" });
+    return qualityOptions.find((option) => option.level === selectedQualityLevel)?.label ?? t({ message: "Auto", comment: "Video quality: automatic selection" });
   }, [hasExternalQualityOptions, isHls, qualityOptions, qualityOptionsConfig, selectedQualityId, selectedQualityLevel]);
   const hasManualQualityOptions = isHls && qualityOptions.length > 0;
   const isExternalControls = controlsBelow && !isFullscreen;
@@ -729,7 +731,7 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
           const isActive = Math.abs(displayTime - marker.comment.timestampSeconds) < 1.5;
           return (
             <button
-              key={marker.comment._id}
+              key={marker.comment.id}
               type="button"
               className={cn(
                 "absolute top-1/2 z-10 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border border-black/40 shadow",
@@ -744,8 +746,8 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
                 onMarkerClick?.(marker.comment);
                 showControls();
               }}
-              aria-label={`Jump to comment at ${formatTimestamp(marker.comment.timestampSeconds)}`}
-              title={`Comment at ${formatTimestamp(marker.comment.timestampSeconds)}`}
+              aria-label={t({ message: `Jump to comment at ${formatTimestamp(marker.comment.timestampSeconds)}`, comment: "Aria label for comment marker on video timeline" })}
+              title={t({ message: `Comment at ${formatTimestamp(marker.comment.timestampSeconds)}`, comment: "Tooltip for comment marker on video timeline" })}
             />
           );
         })}
@@ -763,7 +765,8 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
           type="button"
           onClick={(e) => { e.stopPropagation(); togglePlay(); }}
           className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/10 transition hover:border-white/25 hover:bg-white/20"
-          aria-label={isPlaying ? "Pause" : "Play"}
+          aria-label={isPlaying ? t({ message: "Pause", comment: "Video player: pause button" }) : t({ message: "Play", comment: "Video player: play button" })}
+          title={isPlaying ? t({ message: "Pause", comment: "Video player: pause tooltip" }) : t({ message: "Play", comment: "Video player: play tooltip" })}
         >
           {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="ml-0.5 h-4 w-4" />}
         </button>
@@ -773,12 +776,13 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
             type="button"
             onClick={(e) => { e.stopPropagation(); toggleMute(); }}
             className="inline-flex h-7 w-7 items-center justify-center rounded-full text-white/90 transition hover:bg-white/10"
-            aria-label={isMuted ? "Unmute" : "Mute"}
+            aria-label={isMuted ? t({ message: "Unmute", comment: "Video player: unmute button" }) : t({ message: "Mute", comment: "Video player: mute button" })}
+            title={isMuted ? t({ message: "Unmute", comment: "Video player: unmute tooltip" }) : t({ message: "Mute", comment: "Video player: mute tooltip" })}
           >
             {isMuted || volume === 0 ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
           </button>
           <input
-            aria-label="Volume"
+            aria-label={t({ message: "Volume", comment: "Video player: volume slider" })}
             type="range"
             min={0}
             max={1}
@@ -799,29 +803,31 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); handleSeekBy(-10); }}
-            className="hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 transition hover:border-white/25 hover:bg-white/15"
-            aria-label="Rewind 10 seconds"
-            title="Rewind 10 seconds"
+            className="hidden sm:inline-flex h-9 items-center justify-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 text-xs font-medium text-white/95 transition hover:border-white/25 hover:bg-white/15"
+            aria-label={t({ message: "Rewind 10 seconds", comment: "Video player: rewind button" })}
+            title={t({ message: "Rewind 10 seconds (←)", comment: "Video player: rewind button tooltip with hotkey" })}
           >
-            <RotateCcw className="h-4 w-4" />
+            <RotateCcw className="h-3.5 w-3.5" />
+            -10s
           </button>
 
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); handleSeekBy(10); }}
-            className="hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 transition hover:border-white/25 hover:bg-white/15"
-            aria-label="Forward 10 seconds"
-            title="Forward 10 seconds"
+            className="hidden sm:inline-flex h-9 items-center justify-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 text-xs font-medium text-white/95 transition hover:border-white/25 hover:bg-white/15"
+            aria-label={t({ message: "Forward 10 seconds", comment: "Video player: forward button" })}
+            title={t({ message: "Forward 10 seconds (→)", comment: "Video player: forward button tooltip with hotkey" })}
           >
-            <RotateCw className="h-4 w-4" />
+            +10s
+            <RotateCw className="h-3.5 w-3.5" />
           </button>
 
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); cyclePlaybackRate(); }}
             className="inline-flex h-9 min-w-[56px] items-center justify-center rounded-full border border-white/10 bg-white/5 px-3 text-xs font-medium text-white/95 transition hover:border-white/25 hover:bg-white/15"
-            aria-label={`Playback speed ${playbackRate}x`}
-            title="Change playback speed"
+            aria-label={t({ message: `Playback speed ${playbackRate}x`, comment: "Video player: current playback speed" })}
+            title={t({ message: "Change playback speed", comment: "Video player: playback speed button tooltip" })}
           >
             {playbackRate}x
           </button>
@@ -831,8 +837,8 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
               type="button"
               onClick={(e) => { e.stopPropagation(); showControls(); setQualityMenuOpen((c) => !c); }}
               className="inline-flex h-9 min-w-[108px] items-center justify-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 text-xs font-medium text-white/95 transition hover:border-white/25 hover:bg-white/15"
-              aria-label={`Quality ${qualityLabel}`}
-              title="Quality settings"
+              aria-label={t({ message: `Quality ${qualityLabel}`, comment: "Video player: current quality level" })}
+              title={t({ message: "Quality settings", comment: "Video player: quality settings button tooltip" })}
             >
               <Settings2 className="h-3.5 w-3.5" />
               {qualityLabel}
@@ -866,7 +872,7 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
                       onClick={() => applyQualityLevel(AUTO_QUALITY_LEVEL)}
                       className="flex w-full items-center justify-between gap-2 rounded-md px-2.5 py-2 text-left text-white/95 transition hover:bg-white/10"
                     >
-                      <span>Auto</span>
+                      <span>{t({ message: "Auto", comment: "Video quality: automatic selection" })}</span>
                       {selectedQualityLevel === AUTO_QUALITY_LEVEL && <Check className="h-4 w-4" />}
                     </button>
                     {qualityOptions.map((option) => (
@@ -883,7 +889,7 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
                   </>
                 ) : (
                   <div className="flex w-full items-center justify-between gap-2 rounded-md px-2.5 py-2 text-left text-white/85">
-                    <span>{isHls ? "Auto (browser)" : "Original source"}</span>
+                    <span>{isHls ? t({ message: "Auto (browser)", comment: "Video quality: auto-selected by browser" }) : t({ message: "Original source", comment: "Video quality: original source file" })}</span>
                     <Check className="h-4 w-4" />
                   </div>
                 )}
@@ -897,11 +903,11 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
               onClick={(e) => { e.stopPropagation(); void handleDownload(); }}
               disabled={isDownloading}
               className="inline-flex h-9 items-center justify-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 sm:px-3 text-xs font-medium text-white transition hover:border-white/25 hover:bg-white/20 disabled:opacity-60"
-              aria-label="Download video"
-              title="Download video"
+              aria-label={t({ message: "Download original", comment: "Video player: download button" })}
+              title={t({ message: "Download original", comment: "Video player: download button tooltip" })}
             >
               <Download className="h-3.5 w-3.5 flex-shrink-0" />
-              <span className="hidden sm:inline">{isDownloading ? "Preparing..." : "Download"}</span>
+              <span className="hidden sm:inline">{isDownloading ? <Trans comment="Video player: download in progress">Preparing...</Trans> : <Trans comment="Video player: download original button text">Download original</Trans>}</span>
             </button>
           )}
 
@@ -909,8 +915,8 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
             type="button"
             onClick={(e) => { e.stopPropagation(); toggleFullscreen(); }}
             className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/10 transition hover:border-white/25 hover:bg-white/20"
-            aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
-            title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
+            aria-label={isFullscreen ? t({ message: "Exit fullscreen", comment: "Video player: exit fullscreen button" }) : t({ message: "Enter fullscreen", comment: "Video player: enter fullscreen button" })}
+            title={isFullscreen ? t({ message: "Exit fullscreen", comment: "Video player: exit fullscreen tooltip" }) : t({ message: "Fullscreen", comment: "Video player: fullscreen button tooltip" })}
           >
             {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
           </button>
@@ -1014,7 +1020,7 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
             <div className="absolute inset-0 bg-black/40" />
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-white">
               <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-white/80" />
-              <p className="text-sm font-medium text-white/85">Loading stream...</p>
+              <p className="text-sm font-medium text-white/85"><Trans comment="Loading indicator while video stream initializes">Loading stream...</Trans></p>
             </div>
           </div>
         )}
@@ -1029,7 +1035,7 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
                 togglePlay();
               }}
               className="pointer-events-auto inline-flex h-20 w-20 items-center justify-center rounded-full border border-white/15 bg-black/60 text-white shadow-lg transition hover:scale-[1.03] hover:border-white/30 hover:bg-black/75"
-              aria-label="Play video"
+              aria-label={t({ message: "Play video", comment: "Video player: big play button overlay" })}
             >
               <Play className="ml-1 h-9 w-9" />
             </button>
@@ -1071,7 +1077,7 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
                 className="flex w-full items-center gap-2 rounded-md px-2.5 py-2 text-left text-white/95 transition hover:bg-white/10 disabled:opacity-60"
               >
                 <Download className="h-4 w-4" />
-                {isDownloading ? "Preparing download..." : "Download video"}
+                {isDownloading ? t({ message: "Preparing download...", comment: "Video player context menu: download in progress" }) : t({ message: "Download original", comment: "Video player context menu: download option" })}
               </button>
             )}
             <button
@@ -1080,7 +1086,7 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
               className="flex w-full items-center gap-2 rounded-md px-2.5 py-2 text-left text-white/95 transition hover:bg-white/10"
             >
               <Timer className="h-4 w-4" />
-              Copy timestamp ({formatTimestamp(displayTime)})
+              {t({ message: `Copy timestamp (${formatTimestamp(displayTime)})`, comment: "Video player context menu: copy current timestamp" })}
             </button>
             <button
               type="button"
@@ -1088,7 +1094,7 @@ export const VideoPlayer = forwardRef<VideoPlayerHandle, VideoPlayerProps>(funct
               className="flex w-full items-center gap-2 rounded-md px-2.5 py-2 text-left text-white/95 transition hover:bg-white/10"
             >
               {loopEnabled ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-              {loopEnabled ? "Disable loop" : "Loop video"}
+              {loopEnabled ? t({ message: "Disable loop", comment: "Video player context menu: disable video looping" }) : t({ message: "Loop video", comment: "Video player context menu: enable video looping" })}
             </button>
           </div>
         )}

@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
+import { t } from "@lingui/core/macro";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -44,18 +45,19 @@ export function formatRelativeTime(date: Date | number): string {
     return d.toLocaleDateString();
   }
   if (days > 0) {
-    return `${days}d ago`;
+    return t({message: `${days}d ago`, comment: "Relative time: N days ago"});
   }
   if (hours > 0) {
-    return `${hours}h ago`;
+    return t({message: `${hours}h ago`, comment: "Relative time: N hours ago"});
   }
   if (minutes > 0) {
-    return `${minutes}m ago`;
+    return t({message: `${minutes}m ago`, comment: "Relative time: N minutes ago"});
   }
-  return "Just now";
+  return t({message: "Just now", comment: "Relative time: less than a minute ago"});
 }
 
-export function getInitials(name: string): string {
+export function getInitials(name: string | null | undefined): string {
+  if (!name) return "?";
   return name
     .split(" ")
     .map((n) => n[0])

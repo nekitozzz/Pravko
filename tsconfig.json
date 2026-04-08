@@ -23,9 +23,6 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ],
-      "@convex/*": [
-        "./convex/*"
       ]
     },
     "allowJs": true,
@@ -41,6 +38,8 @@
   "exclude": [
     "node_modules",
     "build",
-    "dist"
+    "dist",
+    "convex",
+    "server"
   ]
 }

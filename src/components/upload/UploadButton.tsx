@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { Trans } from "@lingui/react/macro";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 
@@ -43,7 +44,7 @@ export function UploadButton({
         {children || (
           <>
             <Plus className="mr-1.5 h-4 w-4" />
-            Upload
+            <Trans comment="Upload button label">Upload</Trans>
           </>
         )}
       </Button>

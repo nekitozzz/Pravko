@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useMutation, useQuery } from "convex/react";
-import { api } from "../../../convex/_generated/api";
-import { Id } from "../../../convex/_generated/dataModel";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import api from "@/lib/api";
+import { Trans } from "@lingui/react/macro";
+import { t } from "@lingui/core/macro";
 import {
   Dialog,
   DialogContent,
@@ -25,18 +26,22 @@ import { Badge } from "@/components/ui/badge";
 import { getInitials } from "@/lib/utils";
 
 interface MemberInviteProps {
-  teamId: Id<"teams">;
+  teamId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
 type Role = "admin" | "member" | "viewer";
 
-const roleLabels: Record<Role, string> = {
-  admin: "Admin",
-  member: "Member",
-  viewer: "Viewer",
-};
+export function getRoleLabel(role: Role | string): string {
+  const labels: Record<string, string> = {
+    owner: t({message: "Owner", comment: "Team role: team owner"}),
+    admin: t({message: "Admin", comment: "Team role: administrator"}),
+    member: t({message: "Member", comment: "Team role: regular member"}),
+    viewer: t({message: "Viewer", comment: "Team role: read-only viewer"}),
+  };
+  return labels[role] ?? role;
+}
 
 export function MemberInvite({ teamId, open, onOpenChange }: MemberInviteProps) {
   const [email, setEmail] = useState("");
@@ -44,12 +49,19 @@ export function MemberInvite({ teamId, open, onOpenChange }: MemberInviteProps) 
   const [isLoading, setIsLoading] = useState(false);
   const [inviteLink, setInviteLink] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const queryClient = useQueryClient();
 
-  const members = useQuery(api.teams.getMembers, { teamId });
-  const invites = useQuery(api.teams.getInvites, { teamId });
-  const inviteMember = useMutation(api.teams.inviteMember);
-  const removeMember = useMutation(api.teams.removeMember);
-  const updateRole = useMutation(api.teams.updateMemberRole);
+  const { data: members } = useQuery({
+    queryKey: ["team-members", teamId],
+    queryFn: () => api.teams.getMembers(teamId),
+    enabled: open,
+  });
+
+  const { data: invites } = useQuery({
+    queryKey: ["team-invites", teamId],
+    queryFn: () => api.teams.getInvites(teamId),
+    enabled: open,
+  });
 
   const handleInvite = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,14 +69,14 @@ export function MemberInvite({ teamId, open, onOpenChange }: MemberInviteProps) 
 
     setIsLoading(true);
     try {
-      const token = await inviteMember({
-        teamId,
+      const result = await api.teams.inviteMember(teamId, {
         email: email.trim(),
         role,
       });
       const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
-      setInviteLink(`${baseUrl}/invite/${token}`);
+      setInviteLink(`${baseUrl}/invite/${result.token}`);
       setEmail("");
+      queryClient.invalidateQueries({ queryKey: ["team-invites", teamId] });
     } catch (error) {
       console.error("Failed to invite member:", error);
     } finally {
@@ -80,20 +92,28 @@ export function MemberInvite({ teamId, open, onOpenChange }: MemberInviteProps) 
     }
   };
 
-  const handleRemoveMember = async (memberId: Id<"teamMembers">) => {
+  const handleRevokeInvite = async (inviteId: string) => {
     try {
-      await removeMember({ teamId, membershipId: memberId });
+      await api.teams.revokeInvite(teamId, inviteId);
+      queryClient.invalidateQueries({ queryKey: ["team-invites", teamId] });
+    } catch (error) {
+      console.error("Failed to revoke invite:", error);
+    }
+  };
+
+  const handleRemoveMember = async (userId: string) => {
+    try {
+      await api.teams.removeMember(teamId, userId);
+      queryClient.invalidateQueries({ queryKey: ["team-members", teamId] });
     } catch (error) {
       console.error("Failed to remove member:", error);
     }
   };
 
-  const handleUpdateRole = async (
-    memberId: Id<"teamMembers">,
-    newRole: Role,
-  ) => {
+  const handleUpdateRole = async (userId: string, newRole: Role) => {
     try {
-      await updateRole({ teamId, membershipId: memberId, role: newRole });
+      await api.teams.updateMemberRole(teamId, userId, { role: newRole });
+      queryClient.invalidateQueries({ queryKey: ["team-members", teamId] });
     } catch (error) {
       console.error("Failed to update role:", error);
     }
@@ -103,16 +123,16 @@ export function MemberInvite({ teamId, open, onOpenChange }: MemberInviteProps) 
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle>Team members</DialogTitle>
+          <DialogTitle><Trans comment="Dialog title for team member management">Team members</Trans></DialogTitle>
           <DialogDescription>
-            Invite new members or manage existing ones.
+            <Trans comment="Description in team members dialog">Invite new members or manage existing ones.</Trans>
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleInvite} className="space-y-4">
           <div className="flex gap-2">
             <Input
-              placeholder="Email address"
+              placeholder={t({message: "Email address", comment: "Placeholder for email input in team invite"})}
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -120,34 +140,34 @@ export function MemberInvite({ teamId, open, onOpenChange }: MemberInviteProps) 
             />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="w-28">
-                  {roleLabels[role]}
+                <Button variant="outline" className="w-auto min-w-28">
+                  {getRoleLabel(role)}
                   <ChevronDown className="ml-2 h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem onClick={() => setRole("admin")}>
-                  Admin
+                  <Trans comment="Admin role option in dropdown">Admin</Trans>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setRole("member")}>
-                  Member
+                  <Trans comment="Member role option in dropdown">Member</Trans>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setRole("viewer")}>
-                  Viewer
+                  <Trans comment="Viewer role option in dropdown">Viewer</Trans>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
           <Button type="submit" disabled={!email.trim() || isLoading} className="w-full">
             <UserPlus className="mr-2 h-4 w-4" />
-            {isLoading ? "Sending..." : "Send invite"}
+            {isLoading ? <Trans comment="Loading state for send invite button">Sending...</Trans> : <Trans comment="Submit button to send team invite">Send invite</Trans>}
           </Button>
         </form>
 
         {inviteLink && (
           <div className="border-2 border-[#1a1a1a] bg-[#e8e8e0] p-3">
             <p className="text-sm text-[#888] mb-2">
-              Share this link with the invitee:
+              <Trans comment="Instruction to share invite link">Share this link with the invitee:</Trans>
             </p>
             <div className="flex gap-2">
               <Input value={inviteLink} readOnly className="text-sm" />
@@ -155,6 +175,7 @@ export function MemberInvite({ teamId, open, onOpenChange }: MemberInviteProps) 
                 variant="outline"
                 size="icon"
                 onClick={handleCopyLink}
+                aria-label={t({message: "Copy invite link", comment: "Aria label for copy invite link button"})}
               >
                 {copied ? (
                   <Check className="h-4 w-4" />
@@ -167,11 +188,11 @@ export function MemberInvite({ teamId, open, onOpenChange }: MemberInviteProps) 
         )}
 
         <div className="space-y-2">
-          <h4 className="text-sm font-bold text-[#1a1a1a]">Current members</h4>
+          <h4 className="text-sm font-bold text-[#1a1a1a]"><Trans comment="Heading for current team members list">Current members</Trans></h4>
           <div className="space-y-2">
             {members?.map((member) => (
               <div
-                key={member._id}
+                key={member.id}
                 className="flex items-center justify-between p-2 border-2 border-[#1a1a1a]"
               >
                 <div className="flex items-center gap-3">
@@ -188,31 +209,31 @@ export function MemberInvite({ teamId, open, onOpenChange }: MemberInviteProps) 
                 </div>
                 <div className="flex items-center gap-2">
                   {member.role === "owner" ? (
-                    <Badge variant="secondary">Owner</Badge>
+                    <Badge variant="secondary"><Trans comment="Badge for team owner role">Owner</Trans></Badge>
                   ) : (
                     <>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="ghost" size="sm">
-                            {roleLabels[member.role as Role]}
+                            {getRoleLabel(member.role)}
                             <ChevronDown className="ml-1 h-3 w-3" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                           <DropdownMenuItem
-                            onClick={() => handleUpdateRole(member._id, "admin")}
+                            onClick={() => handleUpdateRole(member.userId, "admin")}
                           >
-                            Admin
+                            <Trans comment="Admin role option in member role dropdown">Admin</Trans>
                           </DropdownMenuItem>
                           <DropdownMenuItem
-                            onClick={() => handleUpdateRole(member._id, "member")}
+                            onClick={() => handleUpdateRole(member.userId, "member")}
                           >
-                            Member
+                            <Trans comment="Member role option in member role dropdown">Member</Trans>
                           </DropdownMenuItem>
                           <DropdownMenuItem
-                            onClick={() => handleUpdateRole(member._id, "viewer")}
+                            onClick={() => handleUpdateRole(member.userId, "viewer")}
                           >
-                            Viewer
+                            <Trans comment="Viewer role option in member role dropdown">Viewer</Trans>
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -220,7 +241,8 @@ export function MemberInvite({ teamId, open, onOpenChange }: MemberInviteProps) 
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8 text-[#dc2626] hover:text-[#dc2626] hover:bg-[#dc2626]/10"
-                        onClick={() => handleRemoveMember(member._id)}
+                        onClick={() => handleRemoveMember(member.userId)}
+                        aria-label={t({message: "Remove member", comment: "Aria label for remove team member button"})}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -234,20 +256,31 @@ export function MemberInvite({ teamId, open, onOpenChange }: MemberInviteProps) 
 
         {invites && invites.length > 0 && (
           <div className="space-y-2">
-            <h4 className="text-sm font-bold text-[#1a1a1a]">Pending invites</h4>
+            <h4 className="text-sm font-bold text-[#1a1a1a]"><Trans comment="Heading for pending team invites list">Pending invites</Trans></h4>
             <div className="space-y-2">
               {invites.map((invite) => (
                 <div
-                  key={invite._id}
+                  key={invite.id}
                   className="flex items-center justify-between p-2 border-2 border-[#1a1a1a] bg-[#e8e8e0]"
                 >
                   <div>
                     <p className="text-sm text-[#1a1a1a]">{invite.email}</p>
                     <p className="text-xs text-[#888]">
-                      Invited as {roleLabels[invite.role]}
+                      <Trans comment="Shows what role was assigned in invite">Invited as {getRoleLabel(invite.role)}</Trans>
                     </p>
                   </div>
-                  <Badge variant="outline">Pending</Badge>
+                  <div className="flex items-center gap-2">
+                    <Badge variant="outline"><Trans comment="Badge showing invite is pending">Pending</Trans></Badge>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 text-[#dc2626] hover:text-[#dc2626] hover:bg-[#dc2626]/10"
+                      onClick={() => handleRevokeInvite(invite.id)}
+                      aria-label={t({message: "Revoke invite", comment: "Aria label for revoke team invite button"})}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               ))}
             </div>

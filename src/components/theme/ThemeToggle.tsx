@@ -10,19 +10,20 @@ import {
   useState,
 } from "react";
 
-const THEME_STORAGE_KEY = "lawn-theme";
+const THEME_STORAGE_KEY = "pravko-theme";
 
 type Theme = "light" | "dark";
 
 function getSystemTheme(): Theme {
-  if (typeof window === "undefined") return "light";
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
+  if (typeof window === "undefined") return "dark";
+  const mqLight = window.matchMedia("(prefers-color-scheme: light)");
+  if (mqLight.matches) return "light";
+  // If OS explicitly prefers dark, or has no preference → dark
+  return "dark";
 }
 
 function getInitialTheme(): Theme {
-  if (typeof document === "undefined") return "light";
+  if (typeof document === "undefined") return "dark";
 
   const attributeTheme = document.documentElement.getAttribute("data-theme");
   if (attributeTheme === "dark" || attributeTheme === "light") {

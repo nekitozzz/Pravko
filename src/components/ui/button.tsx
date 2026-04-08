@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-bold uppercase tracking-wider transition-all disabled:pointer-events-none disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 active:translate-y-[2px] active:translate-x-[2px]",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-bold uppercase tracking-wider transition-all cursor-pointer disabled:pointer-events-none disabled:opacity-40 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 active:translate-y-[2px] active:translate-x-[2px]",
   {
     variants: {
       variant: {
@@ -19,7 +19,7 @@ const buttonVariants = cva(
         secondary:
           "bg-[#e8e8e0] text-[#1a1a1a] hover:bg-[#d8d8d0] border-2 border-[#1a1a1a] shadow-[4px_4px_0px_0px_var(--shadow-color)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0px_0px_var(--shadow-color)]",
         ghost:
-          "text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-[#f0f0e8] border-2 border-transparent hover:border-[#1a1a1a] hover:shadow-[4px_4px_0px_0px_var(--shadow-color)] hover:-translate-y-[2px] hover:-translate-x-[2px]",
+          "text-[#1a1a1a] bg-[#1a1a1a]/5 hover:bg-[#1a1a1a] hover:text-[#f0f0e8] border-2 border-transparent hover:border-[#1a1a1a] hover:shadow-[4px_4px_0px_0px_var(--shadow-color)] hover:-translate-y-[2px] hover:-translate-x-[2px]",
         link:
           "text-[#1a1a1a] underline underline-offset-4 hover:text-[#2d5a2d]",
       },

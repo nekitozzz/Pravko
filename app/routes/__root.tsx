@@ -4,46 +4,43 @@ import {
   Scripts,
   createRootRoute,
 } from "@tanstack/react-router";
-import { ClerkProvider } from "@clerk/tanstack-react-start";
 import type { ReactNode } from "react";
 
-import { ConvexClientProvider } from "@/lib/convex";
+import { t } from "@lingui/core/macro";
+import { I18nProvider } from "@lingui/react";
+import { i18n } from "@/lib/i18n";
+import { PRODUCT_NAME } from "@/lib/product";
+import { AppProviders } from "@/lib/providers";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme/ThemeToggle";
 import { NotFound } from "@/components/ui/NotFound";
-import appCss from "../app.css?url";
+import "../app.css";
 
 export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "lawn — video review for creative teams" },
+      { title: `${PRODUCT_NAME} — ${t({ message: "video review for creative teams", comment: "SEO: root page title tagline" })}` },
       {
         name: "description",
-        content:
-          "Video review and collaboration for creative teams. Frame-accurate comments, unlimited seats, $5/month flat. The open source Frame.io alternative.",
+        content: t({ message: "Video review and collaboration for creative teams. Frame-accurate comments, unlimited seats, $5/month flat. The simpler Frame.io alternative.", comment: "SEO: root page meta description. Frame.io is a competitor product name" }),
       },
-      { property: "og:site_name", content: "lawn" },
+      { property: "og:site_name", content: PRODUCT_NAME },
       { name: "twitter:site", content: "@theo" },
     ],
     links: [
-      { rel: "stylesheet", href: appCss },
       { rel: "icon", type: "image/svg+xml", href: "/grass-logo.svg?v=4" },
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico?v=4" },
       { rel: "shortcut icon", href: "/favicon.ico?v=4" },
-      { rel: "preconnect", href: "https://stream.mux.com", crossOrigin: "anonymous" },
-      { rel: "preconnect", href: "https://image.mux.com", crossOrigin: "anonymous" },
-      { rel: "dns-prefetch", href: "//stream.mux.com" },
-      { rel: "dns-prefetch", href: "//image.mux.com" },
     ],
   }),
   component: RootComponent,
   errorComponent: ({ error }) => {
     return (
       <main className="pt-16 p-4 container mx-auto">
-        <h1>Error</h1>
-        <p>{error instanceof Error ? error.message : "An unexpected error occurred."}</p>
+        <h1>{t({ message: "Error", comment: "Error boundary heading" })}</h1>
+        <p>{error instanceof Error ? error.message : t({ message: "An unexpected error occurred.", comment: "Generic error boundary fallback message" })}</p>
         {import.meta.env.DEV && error instanceof Error && error.stack ? (
           <pre className="w-full p-4 overflow-x-auto">
             <code>{error.stack}</code>
@@ -57,23 +54,9 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <AppShell>
+    <RootDocument>
       <Outlet />
-    </AppShell>
-  );
-}
-
-function AppShell({ children }: { children: ReactNode }) {
-  const publishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-
-  if (!publishableKey) {
-    throw new Error("Missing VITE_CLERK_PUBLISHABLE_KEY");
-  }
-
-  return (
-    <ClerkProvider publishableKey={publishableKey}>
-      <RootDocument>{children}</RootDocument>
-    </ClerkProvider>
+    </RootDocument>
   );
 }
 
@@ -81,31 +64,31 @@ function RootDocument({ children }: { children: ReactNode }) {
   const themeInitScript = `
     (() => {
       try {
-        const stored = localStorage.getItem("lawn-theme");
+        const stored = localStorage.getItem("pravko-theme");
         if (stored === "light" || stored === "dark") {
           document.documentElement.setAttribute("data-theme", stored);
           return;
         }
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        if (prefersDark) {
-          document.documentElement.setAttribute("data-theme", "dark");
-        }
+        const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+        document.documentElement.setAttribute("data-theme", prefersLight ? "light" : "dark");
       } catch {}
     })();
   `;
 
   return (
-    <html lang="en" className="h-full" suppressHydrationWarning>
+    <html lang="ru" className="h-full" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       <body className="h-full antialiased" suppressHydrationWarning>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-        <ConvexClientProvider>
-          <ThemeProvider>
-            <TooltipProvider>{children}</TooltipProvider>
-          </ThemeProvider>
-        </ConvexClientProvider>
+        <I18nProvider i18n={i18n}>
+          <AppProviders>
+            <ThemeProvider>
+              <TooltipProvider>{children}</TooltipProvider>
+            </ThemeProvider>
+          </AppProviders>
+        </I18nProvider>
         <Scripts />
       </body>
     </html>

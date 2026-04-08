@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
+import { Trans } from "@lingui/react/macro";
+import { PRODUCT_NAME } from "@/lib/product";
 
 export function MarketingNav() {
   const [scrolled, setScrolled] = useState(false);
@@ -18,7 +20,7 @@ export function MarketingNav() {
     >
       <div className="flex items-center gap-4">
         <Link to="/" className="text-xl font-black tracking-tighter">
-          lawn.
+          {PRODUCT_NAME}
         </Link>
       </div>
       <div className="flex gap-6 items-center text-sm font-bold uppercase tracking-wide">
@@ -26,22 +28,22 @@ export function MarketingNav() {
           to="/pricing"
           className="hover:underline underline-offset-4 hidden sm:block"
         >
-          Pricing
+          <Trans comment="Navigation link to pricing page">Pricing</Trans>
         </Link>
         <Link
           to="/compare/frameio"
           className="hover:underline underline-offset-4 hidden sm:block"
         >
-          Compare
+          <Trans comment="Navigation link to comparison page">Compare</Trans>
         </Link>
         <Link to="/sign-in" className="hover:underline underline-offset-4">
-          Log in
+          <Trans comment="Navigation link to sign in">Log in</Trans>
         </Link>
         <Link
           to="/sign-up"
           className="px-4 py-2 border-2 border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-[#f0f0e8] transition-colors"
         >
-          Start
+          <Trans comment="Navigation CTA button to start free trial">Start</Trans>
         </Link>
       </div>
     </nav>

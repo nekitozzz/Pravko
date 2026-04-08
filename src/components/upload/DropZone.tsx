@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { Trans } from "@lingui/react/macro";
+import { t } from "@lingui/core/macro";
 import { cn } from "@/lib/utils";
 import { Upload } from "lucide-react";
 
@@ -31,8 +33,9 @@ export function DropZone({ onFilesSelected, disabled, className }: DropZoneProps
 
       if (disabled) return;
 
+      const VIDEO_EXTENSIONS = /\.(mp4|mov|m4v|webm|mkv|avi)$/i;
       const files = Array.from(e.dataTransfer.files).filter((file) =>
-        file.type.startsWith("video/")
+        file.type.startsWith("video/") || VIDEO_EXTENSIONS.test(file.name)
       );
 
       if (files.length > 0) {
@@ -75,6 +78,7 @@ export function DropZone({ onFilesSelected, disabled, className }: DropZoneProps
         multiple
         onChange={handleChange}
         disabled={disabled}
+        title={t({message: "Select video files", comment: "File input tooltip for upload drop zone"})}
         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
       />
       <div className="flex flex-col items-center gap-4">
@@ -90,10 +94,10 @@ export function DropZone({ onFilesSelected, disabled, className }: DropZoneProps
         </div>
         <div>
           <p className="font-bold text-[#1a1a1a]">
-            {isDragActive ? "Drop to upload" : "Drop videos or click to upload"}
+            {isDragActive ? <Trans comment="Drag-and-drop active state">Drop to upload</Trans> : <Trans comment="Drag-and-drop idle state">Drop videos or click to upload</Trans>}
           </p>
           <p className="text-sm text-[#888] mt-1">
-            MP4, MOV, WebM supported
+            <Trans comment="Supported video formats hint">MP4, MOV, WebM, MKV supported</Trans>
           </p>
         </div>
       </div>

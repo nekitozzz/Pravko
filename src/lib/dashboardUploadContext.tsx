@@ -1,12 +1,11 @@
 import { createContext, useContext, type ReactNode } from "react";
-import type { Id } from "@convex/_generated/dataModel";
 import type { UploadStatus } from "@/components/upload/UploadProgress";
 
 export type DashboardUploadContextValue = {
-  requestUpload: (files: File[], preferredProjectId?: Id<"projects">) => void;
+  requestUpload: (files: File[], preferredProjectId?: string) => void;
   uploads: {
     id: string;
-    projectId: Id<"projects">;
+    projectId: string;
     file: File;
     progress: number;
     status: UploadStatus;

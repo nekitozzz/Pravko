@@ -1,36 +1,30 @@
-import { useQuery, type ConvexReactClient } from "convex/react";
-import { api } from "@convex/_generated/api";
-import {
-  makeRouteQuerySpec,
-  prewarmSpecs,
-} from "@/lib/convexRouteData";
-
-export function getWatchEssentialSpecs(params: { publicId: string }) {
-  return [
-    makeRouteQuerySpec(api.videos.getByPublicId, {
-      publicId: params.publicId,
-    }),
-    makeRouteQuerySpec(api.comments.getThreadedForPublic, {
-      publicId: params.publicId,
-    }),
-  ];
-}
+import { useQuery } from "@tanstack/react-query";
+import api from "@/lib/api";
+import { makePrefetchSpec, prewarmSpecs } from "@/lib/convexRouteData";
 
 export function useWatchData(params: { publicId: string }) {
-  const videoData = useQuery(api.videos.getByPublicId, {
-    publicId: params.publicId,
+  const video = useQuery({
+    queryKey: ["video-public", params.publicId],
+    queryFn: () => api.videos.getByPublicId(params.publicId),
   });
 
-  const comments = useQuery(api.comments.getThreadedForPublic, {
-    publicId: params.publicId,
+  const comments = useQuery({
+    queryKey: ["comments-public", params.publicId],
+    queryFn: () => api.comments.getThreadedForPublic(params.publicId),
   });
 
-  return { videoData, comments };
+  return { video: video.data, comments: comments.data };
 }
 
-export async function prewarmWatch(
-  convex: ConvexReactClient,
-  params: { publicId: string },
-) {
-  prewarmSpecs(convex, getWatchEssentialSpecs(params));
+export function prewarmWatch(params: { publicId: string }) {
+  prewarmSpecs([
+    makePrefetchSpec(
+      ["video-public", params.publicId],
+      () => api.videos.getByPublicId(params.publicId),
+    ),
+    makePrefetchSpec(
+      ["comments-public", params.publicId],
+      () => api.comments.getThreadedForPublic(params.publicId),
+    ),
+  ]);
 }

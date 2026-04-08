@@ -1,15 +1,15 @@
 
-import { useAction, useConvex, useMutation, useQuery } from "convex/react";
-import { api } from "@convex/_generated/api";
-import { Link, useLocation, useNavigate } from "@tanstack/react-router";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 import { useState, useCallback, useEffect, useRef, type ReactNode } from "react";
+import { Trans } from "@lingui/react/macro";
+import { t } from "@lingui/core/macro";
 import { DropZone } from "@/components/upload/DropZone";
-import { UploadProgress } from "@/components/upload/UploadProgress";
 import { UploadButton } from "@/components/upload/UploadButton";
+import { Button } from "@/components/ui/button";
 import { formatDuration, formatRelativeTime } from "@/lib/utils";
 import { triggerDownload } from "@/lib/download";
 import {
-  ArrowLeft,
   Play,
   MoreVertical,
   Trash2,
@@ -19,6 +19,7 @@ import {
   Download,
   MessageSquare,
   Eye,
+  Plus,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -26,10 +27,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Id } from "@convex/_generated/dataModel";
+import api from "@/lib/api";
 import { cn } from "@/lib/utils";
-import { teamHomePath, videoPath } from "@/lib/routes";
-import { prefetchHlsRuntime, prefetchMuxPlaybackManifest } from "@/lib/muxPlayback";
+import { teamHomePath, teamSettingsPath, videoPath } from "@/lib/routes";
+import { prefetchHlsRuntime, prefetchHlsManifest } from "@/lib/playback";
 import { useRoutePrewarmIntent } from "@/lib/useRoutePrewarmIntent";
 import {
   VideoWorkflowStatusControl,
@@ -40,6 +41,65 @@ import { prewarmTeam } from "./-team.data";
 import { prewarmVideo } from "./-video.data";
 import { useDashboardUploadContext } from "@/lib/dashboardUploadContext";
 import { DashboardHeader } from "@/components/DashboardHeader";
+import { useSubscription, useTranscodeProgress, type TranscodeProgress } from "@/lib/useSubscription";
+
+function AnimatedDots() {
+  return (
+    <span className="inline-flex w-[1.5em]">
+      <span className="animate-[dotPulse_1.4s_ease-in-out_infinite]">.</span>
+      <span className="animate-[dotPulse_1.4s_ease-in-out_0.2s_infinite]">.</span>
+      <span className="animate-[dotPulse_1.4s_ease-in-out_0.4s_infinite]">.</span>
+    </span>
+  );
+}
+
+function formatEta(seconds: number): string {
+  if (seconds < 60) return "< 1 min";
+  const minutes = Math.round(seconds / 60);
+  if (minutes < 60) return `~${minutes} min`;
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  return mins > 0 ? `~${hours}h ${mins}min` : `~${hours}h`;
+}
+
+function EtaLabel({ seconds }: { seconds: number | null }) {
+  if (seconds == null) return null;
+  return <span className="opacity-60"> · {formatEta(seconds)}</span>;
+}
+
+function FormatStageLabel({ progress }: { progress: TranscodeProgress }) {
+  switch (progress.stage) {
+    case "downloading":
+      return <><Trans comment="Transcode stage: downloading from storage">Downloading</Trans><EtaLabel seconds={progress.etaSeconds} /><AnimatedDots /></>;
+    case "transcoding":
+      return <><Trans comment="Transcode stage: encoding video with percent">Transcoding {progress.percent}%</Trans><EtaLabel seconds={progress.etaSeconds} /><AnimatedDots /></>;
+    case "uploading":
+      return <><Trans comment="Transcode stage: uploading segments">Saving</Trans><EtaLabel seconds={progress.etaSeconds} /><AnimatedDots /></>;
+    case "generating_thumbnail":
+      return <><Trans comment="Transcode stage: generating thumbnail">Generating thumbnail</Trans><EtaLabel seconds={progress.etaSeconds} /><AnimatedDots /></>;
+    default:
+      return <>{progress.stage}<AnimatedDots /></>;
+  }
+}
+
+function ProcessingOverlay({ videoId, textSize = "xs" }: { videoId: string; textSize?: "xs" | "10" }) {
+  const progress = useTranscodeProgress(videoId);
+  return (
+    <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+      <span className={cn("text-white font-bold uppercase tracking-wider", textSize === "10" ? "text-[10px]" : "text-xs")}>
+        {progress ? <FormatStageLabel progress={progress} /> : <Trans comment="Video status overlay while processing">Processing...</Trans>}
+      </span>
+      {progress && (
+        <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-white/20">
+          <div
+            className="h-full bg-[#7cb87c] transition-all duration-500 ease-out"
+            style={{ width: `${progress.percent}%` }}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
 
 type ViewMode = "grid" | "list";
 type ShareToastState = {
@@ -78,34 +138,28 @@ async function copyTextToClipboard(text: string) {
 
 type VideoIntentTargetProps = {
   className: string;
-  teamSlug: string;
-  projectId: Id<"projects">;
-  videoId: Id<"videos">;
-  muxPlaybackId?: string;
+  teamId: string;
+  projectId: string;
+  videoId: string;
   onOpen: () => void;
   children: ReactNode;
 };
 
 function VideoIntentTarget({
   className,
-  teamSlug,
+  teamId,
   projectId,
   videoId,
-  muxPlaybackId,
   onOpen,
   children,
 }: VideoIntentTargetProps) {
-  const convex = useConvex();
   const prewarmIntentHandlers = useRoutePrewarmIntent(() => {
-    prewarmVideo(convex, {
-      teamSlug,
+    prewarmVideo({
+      teamId,
       projectId,
       videoId,
     });
     prefetchHlsRuntime();
-    if (muxPlaybackId) {
-      prefetchMuxPlaybackManifest(muxPlaybackId);
-    }
   });
 
   return (
@@ -120,27 +174,41 @@ function VideoIntentTarget({
 }
 
 export default function ProjectPage({
-  teamSlug,
+  teamId,
   projectId,
 }: {
-  teamSlug: string;
-  projectId: Id<"projects">;
+  teamId: string;
+  projectId: string;
 }) {
   const navigate = useNavigate({});
   const pathname = useLocation().pathname;
-  const convex = useConvex();
+  const queryClient = useQueryClient();
 
-  const { context, resolvedProjectId, resolvedTeamSlug, project, videos } =
-    useProjectData({ teamSlug, projectId });
-  const projectPresenceCounts = useQuery(
-    api.videoPresence.listProjectOnlineCounts,
-    resolvedProjectId ? { projectId: resolvedProjectId } : "skip",
+  const { context, resolvedProjectId, resolvedTeamId, project, videos, billing } =
+    useProjectData({ teamId, projectId });
+
+  // Real-time: subscribe to video list updates
+  useSubscription(
+    resolvedProjectId ? `videos:list:${resolvedProjectId}` : null,
+    resolvedProjectId ? [["videos", resolvedProjectId]] : undefined,
   );
-  const { requestUpload, uploads } =
-    useDashboardUploadContext();
-  const deleteVideo = useMutation(api.videos.remove);
-  const updateVideoWorkflowStatus = useMutation(api.videos.updateWorkflowStatus);
-  const getDownloadUrl = useAction(api.videoActions.getDownloadUrl);
+
+  const { requestUpload } = useDashboardUploadContext();
+
+  const deleteVideoMutation = useMutation({
+    mutationFn: (videoId: string) => api.videos.remove(videoId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["videos", resolvedProjectId] });
+    },
+  });
+
+  const updateWorkflowMutation = useMutation({
+    mutationFn: (args: { videoId: string; workflowStatus: VideoWorkflowStatus }) =>
+      api.videos.updateWorkflowStatus(args.videoId, { workflowStatus: args.workflowStatus }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["videos", resolvedProjectId] });
+    },
+  });
 
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [shareToast, setShareToast] = useState<ShareToastState | null>(null);
@@ -149,7 +217,7 @@ export default function ProjectPage({
   const shouldCanonicalize =
     !!context && !context.isCanonical && pathname !== context.canonicalPath;
   const prewarmTeamIntentHandlers = useRoutePrewarmIntent(() =>
-    prewarmTeam(convex, { teamSlug: resolvedTeamSlug }),
+    prewarmTeam({ teamId: resolvedTeamId }),
   );
 
   useEffect(() => {
@@ -181,19 +249,19 @@ export default function ProjectPage({
     [requestUpload, resolvedProjectId],
   );
 
-  const handleDeleteVideo = async (videoId: Id<"videos">) => {
-    if (!confirm("Are you sure you want to delete this video?")) return;
+  const handleDeleteVideo = async (videoId: string) => {
+    if (!confirm(t({ message: "Are you sure you want to delete this video?", comment: "Confirmation dialog when deleting a video" }))) return;
     try {
-      await deleteVideo({ videoId });
+      await deleteVideoMutation.mutateAsync(videoId);
     } catch (error) {
       console.error("Failed to delete video:", error);
     }
   };
 
   const handleDownloadVideo = useCallback(
-    async (videoId: Id<"videos">, title: string) => {
+    async (videoId: string, title: string) => {
       try {
-        const result = await getDownloadUrl({ videoId });
+        const result = await api.videos.getDownloadUrl(videoId);
         if (result?.url) {
           triggerDownload(result.url, result.filename ?? `${title}.mp4`);
         }
@@ -201,18 +269,18 @@ export default function ProjectPage({
         console.error("Failed to download video:", error);
       }
     },
-    [getDownloadUrl],
+    [],
   );
 
   const handleUpdateWorkflowStatus = useCallback(
-    async (videoId: Id<"videos">, workflowStatus: VideoWorkflowStatus) => {
+    async (videoId: string, workflowStatus: VideoWorkflowStatus) => {
       try {
-        await updateVideoWorkflowStatus({ videoId, workflowStatus });
+        await updateWorkflowMutation.mutateAsync({ videoId, workflowStatus });
       } catch (error) {
         console.error("Failed to update video workflow status:", error);
       }
     },
-    [updateVideoWorkflowStatus],
+    [updateWorkflowMutation],
   );
 
   const showShareToast = useCallback((tone: ShareToastState["tone"], message: string) => {
@@ -228,7 +296,7 @@ export default function ProjectPage({
 
   const handleShareVideo = useCallback(
     async (video: {
-      _id: Id<"videos">;
+      id: string;
       publicId?: string;
       status: string;
       visibility: "public" | "private";
@@ -239,47 +307,47 @@ export default function ProjectPage({
         video.visibility === "public";
       const path = canSharePublicly
         ? `/watch/${video.publicId}`
-        : videoPath(resolvedTeamSlug, projectId, video._id);
+        : videoPath(resolvedTeamId, projectId, video.id);
       const origin = typeof window !== "undefined" ? window.location.origin : "";
       const url = `${origin}${path}`;
 
       try {
         const copied = await copyTextToClipboard(url);
         if (!copied) {
-          showShareToast("error", "Could not copy link");
+          showShareToast("error", t({ message: "Could not copy link", comment: "Error toast when clipboard copy fails" }));
           return;
         }
         showShareToast(
           "success",
           canSharePublicly
-            ? "Share link copied"
-            : "Video link copied (public watch link not available yet)",
+            ? t({ message: "Share link copied", comment: "Success toast when public share link is copied" })
+            : t({ message: "Video link copied (public watch link not available yet)", comment: "Success toast when private video link is copied" }),
         );
       } catch {
-        showShareToast("error", "Could not copy link");
+        showShareToast("error", t({ message: "Could not copy link", comment: "Error toast when clipboard copy fails" }));
       }
     },
-    [projectId, resolvedTeamSlug, showShareToast],
+    [projectId, resolvedTeamId, showShareToast],
   );
 
-  // Not found state
   if (context === null || project === null) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-[#888]">Project not found</div>
+        <div className="text-[#888]"><Trans comment="Error message when project is not found">Project not found</Trans></div>
       </div>
     );
   }
 
-  const canUpload = project?.role !== "viewer";
+  const hasActiveSubscription = billing?.hasActiveSubscription ?? true;
+  const canEdit = project?.role !== "viewer";
+  const canUpload = canEdit && hasActiveSubscription;
 
   return (
     <div className="h-full flex flex-col">
-      {/* Header */}
       <DashboardHeader paths={[
         {
-          label: resolvedTeamSlug,
-          href: teamHomePath(resolvedTeamSlug),
+          label: context?.team?.name ?? "team",
+          href: teamHomePath(resolvedTeamId),
           prewarmIntentHandlers: prewarmTeamIntentHandlers,
         },
         { label: project?.name ?? "\u00A0" }
@@ -288,7 +356,6 @@ export default function ProjectPage({
           "flex items-center gap-2 transition-opacity duration-300 flex-shrink-0",
           isLoadingData ? "opacity-0" : "opacity-100"
         )}>
-          {/* View toggle */}
           <div className="flex items-center border-2 border-[#1a1a1a] p-0.5">
             <button
               onClick={() => setViewMode("grid")}
@@ -298,6 +365,8 @@ export default function ProjectPage({
                   ? "bg-[#1a1a1a] text-[#f0f0e8]"
                   : "text-[#888] hover:text-[#1a1a1a]",
               )}
+              title={t({message: "Grid view", comment: "Tooltip for grid view toggle button"})}
+              aria-label={t({message: "Grid view", comment: "Aria label for grid view toggle"})}
             >
               <Grid3X3 className="h-4 w-4" />
             </button>
@@ -309,19 +378,43 @@ export default function ProjectPage({
                   ? "bg-[#1a1a1a] text-[#f0f0e8]"
                   : "text-[#888] hover:text-[#1a1a1a]",
               )}
+              title={t({message: "List view", comment: "Tooltip for list view toggle button"})}
+              aria-label={t({message: "List view", comment: "Aria label for list view toggle"})}
             >
               <LayoutList className="h-4 w-4" />
             </button>
           </div>
-          {canUpload && (
-            <UploadButton onFilesSelected={handleFilesSelected} />
+          {canEdit && (
+            canUpload ? (
+              <UploadButton onFilesSelected={handleFilesSelected} />
+            ) : (
+              <Button onClick={() => navigate({ to: teamSettingsPath(resolvedTeamId) })}>
+                <Plus className="mr-1.5 h-4 w-4" />
+                <Trans comment="Upload button label">Upload</Trans>
+              </Button>
+            )
           )}
         </div>
       </DashboardHeader>
 
-      {/* Content */}
+      {!hasActiveSubscription && (
+        <div className="mx-6 mt-4 border-2 border-[#1a1a1a] bg-[#f0f0e8] px-5 py-4 flex items-center justify-between shadow-[4px_4px_0px_0px_var(--shadow-color)]">
+          <p className="text-sm font-black text-[#1a1a1a]">
+            <Trans comment="Banner when subscription is inactive on project page">An active subscription is required to upload videos.</Trans>
+          </p>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => navigate({ to: teamSettingsPath(resolvedTeamId) })}
+            className="shrink-0 ml-4"
+          >
+            <Trans comment="Link to billing settings from subscription banner">Manage billing</Trans>
+          </Button>
+        </div>
+      )}
+
       <div className="flex-1 overflow-auto">
-        {!isLoadingData && videos.length === 0 ? (
+        {!isLoadingData && videos && videos.length === 0 ? (
           <div className="h-full flex items-center justify-center p-6 animate-in fade-in duration-300">
             <DropZone
               onFilesSelected={handleFilesSelected}
@@ -330,7 +423,6 @@ export default function ProjectPage({
             />
           </div>
         ) : viewMode === "grid" ? (
-          /* Grid View - Responsive tiles */
           <div className={cn(
             "p-6 transition-opacity duration-300",
             isLoadingData ? "opacity-0" : "opacity-100"
@@ -341,20 +433,17 @@ export default function ProjectPage({
                   ? video.thumbnailUrl
                   : undefined;
                 const canDownload = Boolean(video.s3Key) && video.status !== "failed" && video.status !== "uploading";
-                const watchingCount =
-                  projectPresenceCounts?.counts?.[video._id] ?? 0;
 
                 return (
                   <VideoIntentTarget
-                    key={video._id}
+                    key={video.id}
                     className="group cursor-pointer flex flex-col"
-                    teamSlug={resolvedTeamSlug}
-                    projectId={project._id}
-                    videoId={video._id}
-                    muxPlaybackId={video.muxPlaybackId}
+                    teamId={resolvedTeamId}
+                    projectId={project!.id}
+                    videoId={video.id}
                     onOpen={() =>
                       navigate({
-                        to: videoPath(resolvedTeamSlug, project._id, video._id),
+                        to: videoPath(resolvedTeamId, project!.id, video.id),
                       })
                     }
                   >
@@ -375,16 +464,17 @@ export default function ProjectPage({
                         {formatDuration(video.duration)}
                       </div>
                     )}
-                    {video.status !== "ready" && (
+                    {video.status === "processing" && (
+                      <ProcessingOverlay videoId={video.id} />
+                    )}
+                    {video.status !== "ready" && video.status !== "processing" && (
                       <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
                         <span className="text-white text-xs font-bold uppercase tracking-wider">
-                          {video.status === "uploading" && "Uploading..."}
-                          {video.status === "processing" && "Processing..."}
-                          {video.status === "failed" && "Failed"}
+                          {video.status === "uploading" && <Trans comment="Video status overlay while uploading">Uploading...</Trans>}
+                          {video.status === "failed" && <Trans comment="Video status overlay when failed">Failed</Trans>}
                         </span>
                       </div>
                     )}
-                    {/* Hover menu */}
                     <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                       <DropdownMenu>
                         <DropdownMenuTrigger
@@ -393,7 +483,9 @@ export default function ProjectPage({
                         >
                           <button
                             type="button"
-                            className="inline-flex h-8 w-8 cursor-pointer items-center justify-center bg-black/60 hover:bg-black/80 text-white"
+                            className="inline-flex h-8 w-8 items-center justify-center bg-black/60 hover:bg-black/80 text-white"
+                            title={t({message: "More actions", comment: "Tooltip for video actions menu"})}
+                            aria-label={t({message: "More actions", comment: "Aria label for video actions menu"})}
                           >
                             <MoreVertical className="h-4 w-4" />
                           </button>
@@ -403,14 +495,11 @@ export default function ProjectPage({
                             <DropdownMenuItem
                               onClick={(e) => {
                                 e.stopPropagation();
-                                void handleDownloadVideo(
-                                  video._id,
-                                  video.title,
-                                );
+                                void handleDownloadVideo(video.id, video.title);
                               }}
                             >
                               <Download className="mr-2 h-4 w-4" />
-                              Download
+                              <Trans comment="Menu item to download original video file">Download original</Trans>
                             </DropdownMenuItem>
                           )}
                           <DropdownMenuItem
@@ -420,18 +509,18 @@ export default function ProjectPage({
                             }}
                           >
                             <LinkIcon className="mr-2 h-4 w-4" />
-                            Share
+                            <Trans comment="Menu item to share a video">Share</Trans>
                           </DropdownMenuItem>
                           {canUpload && (
                             <DropdownMenuItem
                               className="text-[#dc2626] focus:text-[#dc2626]"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                handleDeleteVideo(video._id);
+                                handleDeleteVideo(video.id);
                               }}
                             >
                               <Trash2 className="mr-2 h-4 w-4" />
-                              Delete
+                              <Trans comment="Menu item to delete a video">Delete</Trans>
                             </DropdownMenuItem>
                           )}
                         </DropdownMenuContent>
@@ -448,23 +537,17 @@ export default function ProjectPage({
                         stopPropagation
                         disabled={!canUpload}
                         onChange={(workflowStatus) =>
-                          void handleUpdateWorkflowStatus(video._id, workflowStatus)
+                          void handleUpdateWorkflowStatus(video.id, workflowStatus)
                         }
                       />
-                      {video.commentCount > 0 && (
+                      {(video.commentCount ?? 0) > 0 && (
                         <span className="inline-flex items-center gap-1 text-[11px] text-[#888]">
                           <MessageSquare className="h-3 w-3" />
                           {video.commentCount}
                         </span>
                       )}
-                      {watchingCount > 0 && (
-                        <span className="inline-flex items-center gap-1 text-[11px] text-[#1a1a1a]">
-                          <Eye className="h-3 w-3" />
-                          {watchingCount}
-                        </span>
-                      )}
                       <span className="text-[11px] text-[#888] ml-auto font-mono">
-                        {formatRelativeTime(video._creationTime)}
+                        {formatRelativeTime(new Date(video.createdAt).getTime())}
                       </span>
                     </div>
                   </div>
@@ -474,7 +557,6 @@ export default function ProjectPage({
             </div>
           </div>
         ) : (
-          /* List View - Horizontal rows */
           <div className={cn(
             "divide-y-2 divide-[#1a1a1a] transition-opacity duration-300",
             isLoadingData ? "opacity-0" : "opacity-100"
@@ -484,24 +566,20 @@ export default function ProjectPage({
                 ? video.thumbnailUrl
                 : undefined;
               const canDownload = Boolean(video.s3Key) && video.status !== "failed" && video.status !== "uploading";
-              const watchingCount =
-                projectPresenceCounts?.counts?.[video._id] ?? 0;
 
               return (
                 <VideoIntentTarget
-                  key={video._id}
+                  key={video.id}
                   className="group flex items-center gap-5 px-6 py-3 hover:bg-[#e8e8e0] cursor-pointer transition-colors"
-                  teamSlug={resolvedTeamSlug}
-                  projectId={project._id}
-                  videoId={video._id}
-                  muxPlaybackId={video.muxPlaybackId}
+                  teamId={resolvedTeamId}
+                  projectId={project!.id}
+                  videoId={video.id}
                   onOpen={() =>
                     navigate({
-                      to: videoPath(resolvedTeamSlug, project._id, video._id),
+                      to: videoPath(resolvedTeamId, project!.id, video.id),
                     })
                   }
                 >
-                  {/* Thumbnail */}
                   <div className="relative w-44 aspect-video bg-[#e8e8e0] overflow-hidden border-2 border-[#1a1a1a] shrink-0 shadow-[4px_4px_0px_0px_var(--shadow-color)] group-hover:translate-y-[2px] group-hover:translate-x-[2px] group-hover:shadow-[2px_2px_0px_0px_var(--shadow-color)] transition-all">
                     {thumbnailSrc ? (
                       <img
@@ -514,12 +592,14 @@ export default function ProjectPage({
                         <Play className="h-6 w-6 text-[#888]" />
                       </div>
                     )}
-                    {video.status !== "ready" && (
+                    {video.status === "processing" && (
+                      <ProcessingOverlay videoId={video.id} textSize="10" />
+                    )}
+                    {video.status !== "ready" && video.status !== "processing" && (
                       <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
                         <span className="text-white text-[10px] font-bold uppercase tracking-wider">
-                          {video.status === "uploading" && "Uploading..."}
-                          {video.status === "processing" && "Processing..."}
-                          {video.status === "failed" && "Failed"}
+                          {video.status === "uploading" && <Trans comment="Video status overlay while uploading">Uploading...</Trans>}
+                          {video.status === "failed" && <Trans comment="Video status overlay when failed">Failed</Trans>}
                         </span>
                       </div>
                     )}
@@ -530,7 +610,6 @@ export default function ProjectPage({
                     )}
                   </div>
 
-                {/* Info */}
                 <div className="flex-1 min-w-0">
                   <p className="font-black text-[#1a1a1a] truncate">
                     {video.title}
@@ -541,23 +620,17 @@ export default function ProjectPage({
                       stopPropagation
                       disabled={!canUpload}
                       onChange={(workflowStatus) =>
-                        void handleUpdateWorkflowStatus(video._id, workflowStatus)
+                        void handleUpdateWorkflowStatus(video.id, workflowStatus)
                       }
                     />
-                    {video.commentCount > 0 && (
+                    {(video.commentCount ?? 0) > 0 && (
                       <span className="inline-flex items-center gap-1 text-xs text-[#888]">
                         <MessageSquare className="h-3.5 w-3.5" />
                         {video.commentCount}
                       </span>
                     )}
-                    {watchingCount > 0 && (
-                      <span className="inline-flex items-center gap-1 text-xs text-[#1a1a1a]">
-                        <Eye className="h-3.5 w-3.5" />
-                        {watchingCount}
-                      </span>
-                    )}
                     <span className="text-xs text-[#888] font-mono">
-                      {formatRelativeTime(video._creationTime)}
+                      {formatRelativeTime(new Date(video.createdAt).getTime())}
                     </span>
                     {video.uploaderName && (
                       <span className="text-xs text-[#888]">
@@ -567,7 +640,6 @@ export default function ProjectPage({
                   </div>
                 </div>
 
-                {/* Actions */}
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity">
                   <DropdownMenu>
                     <DropdownMenuTrigger
@@ -576,7 +648,9 @@ export default function ProjectPage({
                     >
                       <button
                         type="button"
-                        className="inline-flex h-8 w-8 cursor-pointer items-center justify-center text-[#888] hover:text-[#1a1a1a]"
+                        className="inline-flex h-8 w-8 items-center justify-center text-[#888] hover:text-[#1a1a1a]"
+                        title={t({message: "More actions", comment: "Tooltip for video actions menu"})}
+                        aria-label={t({message: "More actions", comment: "Aria label for video actions menu"})}
                       >
                         <MoreVertical className="h-4 w-4" />
                       </button>
@@ -586,11 +660,11 @@ export default function ProjectPage({
                         <DropdownMenuItem
                           onClick={(e) => {
                             e.stopPropagation();
-                            void handleDownloadVideo(video._id, video.title);
+                            void handleDownloadVideo(video.id, video.title);
                           }}
                         >
                           <Download className="mr-2 h-4 w-4" />
-                          Download
+                          <Trans comment="Menu item to download original video file">Download original</Trans>
                         </DropdownMenuItem>
                       )}
                       <DropdownMenuItem
@@ -600,18 +674,18 @@ export default function ProjectPage({
                         }}
                       >
                         <LinkIcon className="mr-2 h-4 w-4" />
-                        Share
+                        <Trans comment="Menu item to share a video">Share</Trans>
                       </DropdownMenuItem>
                       {canUpload && (
                         <DropdownMenuItem
                           className="text-[#dc2626] focus:text-[#dc2626]"
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleDeleteVideo(video._id);
+                            handleDeleteVideo(video.id);
                           }}
                         >
                           <Trash2 className="mr-2 h-4 w-4" />
-                          Delete
+                          <Trans comment="Menu item to delete a video">Delete</Trans>
                         </DropdownMenuItem>
                       )}
                     </DropdownMenuContent>
