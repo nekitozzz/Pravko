@@ -382,6 +382,28 @@ export default async function videoRoutes(fastify: FastifyInstance) {
     return { url, filename };
   });
 
+  // GET /api/videos/public/:publicId/download — public download
+  fastify.get<{ Params: { publicId: string } }>("/api/videos/public/:publicId/download", async (request, reply) => {
+    const [video] = await fastify.db
+      .select()
+      .from(videos)
+      .where(eq(videos.publicId, request.params.publicId))
+      .limit(1);
+
+    if (!video || video.visibility !== "public" || video.status !== "ready" || !video.s3Key) {
+      return reply.code(404).send({ error: "Video not found or not ready" });
+    }
+
+    const filename = buildDownloadFilename(video.title, video.s3Key);
+    const url = await generatePresignedGetUrl(fastify.s3, fastify.s3Bucket, video.s3Key, {
+      expiresIn: 600,
+      filename,
+      contentType: video.contentType || "video/mp4",
+    });
+
+    return { url, filename };
+  });
+
   // GET /api/videos/public/:publicId/playback — public playback session
   fastify.get<{ Params: { publicId: string } }>("/api/videos/public/:publicId/playback", async (request) => {
     const [video] = await fastify.db

@@ -235,6 +235,10 @@ export const videos = {
     get<{ url: string; posterUrl?: string }>(
       `/videos/public/${publicId}/playback`,
     ),
+  getPublicDownloadUrl: (publicId: string) =>
+    get<{ url: string; filename: string }>(
+      `/videos/public/${publicId}/download`,
+    ),
   getPublicIdByVideoId: (videoId: string) =>
     get<{ publicId: string | null }>(`/videos/${videoId}/public-id`),
   initiateMultipartUpload: (
@@ -349,6 +353,10 @@ export const shareLinks = {
   getSharedPlaybackSession: (token: string, grantToken: string) =>
     get<{ url: string; posterUrl?: string }>(
       `/share/${token}/playback?grant=${grantToken}`,
+    ),
+  getSharedDownloadUrl: (grantToken: string) =>
+    get<{ url: string; filename: string }>(
+      `/share/${grantToken}/download`,
     ),
   getSharedVideo: (token: string, grantToken: string) =>
     get<Video>(`/share/${token}/video?grant=${grantToken}`),

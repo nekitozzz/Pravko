@@ -1,7 +1,7 @@
 import { useLogto } from "@logto/react";
 import api from "@/lib/api";
 import { Link, useParams } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Trans, Plural } from "@lingui/react/macro";
 import { t } from "@lingui/core/macro";
 import { PRODUCT_NAME } from "@/lib/product";
@@ -10,7 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { formatDuration, formatTimestamp, formatRelativeTime } from "@/lib/utils";
-import { AlertCircle, MessageSquare, Clock, X } from "lucide-react";
+import { triggerDownload } from "@/lib/download";
+import { AlertCircle, MessageSquare, Clock, Download, X } from "lucide-react";
 import { useWatchData } from "./-watch.data";
 
 export default function WatchPage() {
@@ -31,6 +32,8 @@ export default function WatchPage() {
   const [commentText, setCommentText] = useState("");
   const [isSubmittingComment, setIsSubmittingComment] = useState(false);
   const [commentError, setCommentError] = useState<string | null>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
   const [mobileCommentsOpen, setMobileCommentsOpen] = useState(false);
   const playerRef = useRef<VideoPlayerHandle | null>(null);
 
@@ -63,6 +66,31 @@ export default function WatchPage() {
       cancelled = true;
     };
   }, [publicId, video?.s3HlsPrefix]);
+
+  useEffect(() => {
+    setIsDownloading(false);
+    setDownloadError(null);
+  }, [publicId]);
+
+  const handleDownload = useCallback(async () => {
+    if (isDownloading) return;
+
+    setDownloadError(null);
+    setIsDownloading(true);
+    try {
+      const result = await api.videos.getPublicDownloadUrl(publicId);
+      triggerDownload(result.url, result.filename);
+    } catch (error) {
+      console.error("Failed to prepare public download:", error);
+      setDownloadError(
+        error instanceof Error
+          ? error.message
+          : t({message: "Unable to prepare this download right now.", comment: "Error when public video download fails"}),
+      );
+    } finally {
+      setIsDownloading(false);
+    }
+  }, [isDownloading, publicId]);
 
   const flattenedComments = useMemo(() => {
     if (!comments) return [] as Array<{ id: string; timestampSeconds: number; resolved: boolean }>;
@@ -160,6 +188,17 @@ export default function WatchPage() {
           <Button
             variant="outline"
             size="sm"
+            className="h-8"
+            onClick={() => void handleDownload()}
+            disabled={isDownloading}
+            aria-label={isDownloading ? t({message: "Preparing download", comment: "Aria label while download is being prepared"}) : t({message: "Download video", comment: "Aria label for download button"})}
+          >
+            <Download className="h-4 w-4" />
+            <span className="hidden sm:inline">{isDownloading ? <Trans comment="Button state while download is being prepared">Preparing...</Trans> : <Trans comment="Button to download video">Download</Trans>}</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
             className="lg:hidden h-8"
             onClick={() => setMobileCommentsOpen(true)}
           >
@@ -175,6 +214,17 @@ export default function WatchPage() {
       <div className="flex-1 flex overflow-hidden">
         {/* Video player area */}
         <div className="flex-1 flex flex-col min-w-0 overflow-hidden bg-black">
+          {downloadError ? (
+            <div
+              role="alert"
+              aria-live="assertive"
+              aria-atomic="true"
+              className="border-b border-[#dc2626]/40 bg-[#f8d7d7] px-5 py-3 text-sm text-[#7f1d1d]"
+            >
+              {downloadError}
+            </div>
+          ) : null}
+
           {playbackSession?.url ? (
             <VideoPlayer
               ref={playerRef}

@@ -4,7 +4,7 @@ import { shareLinks, shareAccessGrants, videos } from "../db/schema.js";
 import { requireUser, ensureDbUser, requireVideoAccess } from "../lib/auth.js";
 import { generateOpaqueToken, generateUniqueToken, hashPassword, verifyPassword } from "../services/security.js";
 import { checkRateLimit } from "../lib/rateLimit.js";
-import { buildHlsUrl, buildThumbnailUrl } from "../services/storage.js";
+import { buildHlsUrl, buildThumbnailUrl, buildDownloadFilename, generatePresignedGetUrl } from "../services/storage.js";
 
 const MAX_PASSWORD_LENGTH = 256;
 const MAX_FAILED_ATTEMPTS = 5;
@@ -314,5 +314,47 @@ export default async function shareRoutes(fastify: FastifyInstance) {
       grantExpiresAt: grant.expiresAt,
       allowDownload: link.allowDownload,
     };
+  });
+
+  // GET /api/share/:grantToken/download — download via share grant
+  fastify.get<{ Params: { grantToken: string } }>("/api/share/:grantToken/download", async (request, reply) => {
+    const [grant] = await fastify.db
+      .select()
+      .from(shareAccessGrants)
+      .where(eq(shareAccessGrants.token, request.params.grantToken))
+      .limit(1);
+
+    if (!grant || grant.expiresAt <= new Date()) {
+      return reply.code(403).send({ error: "Invalid or expired grant" });
+    }
+
+    const [link] = await fastify.db
+      .select()
+      .from(shareLinks)
+      .where(eq(shareLinks.id, grant.shareLinkId))
+      .limit(1);
+
+    if (!link || !link.allowDownload) {
+      return reply.code(403).send({ error: "Download not allowed" });
+    }
+
+    const [video] = await fastify.db
+      .select()
+      .from(videos)
+      .where(eq(videos.id, link.videoId))
+      .limit(1);
+
+    if (!video || video.status !== "ready" || !video.s3Key) {
+      return reply.code(404).send({ error: "Video not found or not ready" });
+    }
+
+    const filename = buildDownloadFilename(video.title, video.s3Key);
+    const url = await generatePresignedGetUrl(fastify.s3, fastify.s3Bucket, video.s3Key, {
+      expiresIn: 600,
+      filename,
+      contentType: video.contentType || "video/mp4",
+    });
+
+    return { url, filename };
   });
 }

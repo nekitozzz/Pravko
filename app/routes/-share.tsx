@@ -12,7 +12,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { formatDuration, formatTimestamp, formatRelativeTime } from "@/lib/utils";
 import { useVideoPresence } from "@/lib/useVideoPresence";
 import { VideoWatchers } from "@/components/presence/VideoWatchers";
-import { Lock, Video, AlertCircle, MessageSquare, Clock, Mail, User } from "lucide-react";
+import { triggerDownload } from "@/lib/download";
+import { Lock, Video, AlertCircle, MessageSquare, Clock, Mail, User, Download } from "lucide-react";
 import { useShareData, useInvalidateShareComments } from "./-share.data";
 
 export default function SharePage() {
@@ -40,6 +41,9 @@ export default function SharePage() {
   const [commentError, setCommentError] = useState<string | null>(null);
   const [emailAccessError, setEmailAccessError] = useState<string | null>(null);
   const [hasAttemptedEmailGrant, setHasAttemptedEmailGrant] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
+  const [allowDownload, setAllowDownload] = useState(false);
   const playerRef = useRef<VideoPlayerHandle | null>(null);
   const invalidateComments = useInvalidateShareComments(token, grantToken);
 
@@ -54,6 +58,9 @@ export default function SharePage() {
   useEffect(() => {
     setGrantToken(null);
     setHasAttemptedAutoGrant(false);
+    setIsDownloading(false);
+    setDownloadError(null);
+    setAllowDownload(false);
   }, [token]);
 
   const acquireGrant = useCallback(
@@ -132,9 +139,10 @@ export default function SharePage() {
 
     void api.shareLinks
       .getSharedPlaybackSession(token, grantToken)
-      .then((session) => {
+      .then((session: any) => {
         if (cancelled) return;
         setPlaybackSession(session);
+        if (session.allowDownload) setAllowDownload(true);
       })
       .catch(() => {
         if (cancelled) return;
@@ -194,6 +202,26 @@ export default function SharePage() {
       setIsSubmittingComment(false);
     }
   };
+
+  const handleDownload = useCallback(async () => {
+    if (!grantToken || isDownloading) return;
+
+    setDownloadError(null);
+    setIsDownloading(true);
+    try {
+      const result = await api.shareLinks.getSharedDownloadUrl(grantToken);
+      triggerDownload(result.url, result.filename);
+    } catch (error) {
+      console.error("Failed to prepare shared download:", error);
+      setDownloadError(
+        error instanceof Error
+          ? error.message
+          : t({message: "Unable to prepare this download right now.", comment: "Error when shared video download fails"}),
+      );
+    } finally {
+      setIsDownloading(false);
+    }
+  }, [grantToken, isDownloading]);
 
   const isBootstrappingShare =
     shareInfo === undefined ||
@@ -359,10 +387,30 @@ export default function SharePage() {
           >
             {PRODUCT_NAME}
           </Link>
+          {allowDownload && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => void handleDownload()}
+              disabled={!grantToken || isDownloading}
+            >
+              <Download className="h-4 w-4" />
+              {isDownloading ? <Trans comment="Button state while download is being prepared">Preparing...</Trans> : <Trans comment="Button to download video">Download</Trans>}
+            </Button>
+          )}
         </div>
       </header>
 
       <main className="max-w-6xl mx-auto p-6 space-y-6">
+        {downloadError ? (
+          <div
+            role="alert"
+            className="border-2 border-[#dc2626] bg-[#dc2626]/10 px-4 py-3 text-sm text-[#7f1d1d]"
+          >
+            {downloadError}
+          </div>
+        ) : null}
+
         <div>
           <h1 className="text-2xl font-black text-[#1a1a1a]">{video.title}</h1>
           {video.description && (
